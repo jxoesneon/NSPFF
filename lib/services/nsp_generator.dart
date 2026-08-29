@@ -203,13 +203,25 @@ class NspGenerator {
   static Uint8List _buildMetaNca(String titleId, Uint8List controlNca, Uint8List programNca) {
     final BytesBuilder builder = BytesBuilder();
     final ByteData cnmt = ByteData(0x200);
-    cnmt.setUint64(0x00, BigInt.parse(titleId, radix: 16).toInt(), Endian.little);
+    final cleanHex = titleId.replaceAll('0x', '').replaceAll(' ', '').toUpperCase().padLeft(16, '0');
+    try {
+      final BigInt val = BigInt.parse(cleanHex, radix: 16);
+      BigInt temp = val;
+      for (int i = 0; i < 8; i++) {
+        cnmt.setUint8(0x00 + i, (temp & BigInt.from(0xFF)).toInt());
+        temp = temp >> 8;
+      }
+    } catch (_) {
+      cnmt.setUint8(0x00, 0x01);
+      cnmt.setUint8(0x07, 0x05);
+    }
     cnmt.setUint32(0x08, 0x00010000, Endian.little); // Version 1.0.0
     cnmt.setUint8(0x0C, 0x80); // Application type
 
     builder.add(cnmt.buffer.asUint8List());
     return builder.toBytes();
   }
+
 
   /// Generate a sleek 256x256 placeholder icon JPEG for the forwarder.
   static Uint8List _generatePlaceholderIcon(String title) {

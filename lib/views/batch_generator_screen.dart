@@ -31,6 +31,13 @@ class _BatchGeneratorScreenState extends State<BatchGeneratorScreen> {
   int _generatedCount = 0;
   int _totalCount = 0;
 
+  @override
+  void dispose() {
+    _romListController.dispose();
+    _baseTitleIdController.dispose();
+    super.dispose();
+  }
+
   Future<void> _runBatchGeneration() async {
     final rawLines = _romListController.text.split('\n');
     final romPaths = rawLines.map((l) => l.trim()).where((l) => l.isNotEmpty).toList();

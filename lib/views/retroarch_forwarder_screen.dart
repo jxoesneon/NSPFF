@@ -48,6 +48,17 @@ class _RetroArchForwarderScreenState extends State<RetroArchForwarderScreen> {
     _corePathController = TextEditingController(text: _selectedCore?.defaultPath ?? '');
   }
 
+  @override
+  void dispose() {
+    _corePathController.dispose();
+    _romPathController.dispose();
+    _titleController.dispose();
+    _publisherController.dispose();
+    _versionController.dispose();
+    _idController.dispose();
+    super.dispose();
+  }
+
   void _onCoreChanged(RetroArchCore? newCore) {
     if (newCore != null) {
       setState(() {

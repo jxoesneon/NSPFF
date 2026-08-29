@@ -24,6 +24,12 @@ class _KeysManagerScreenState extends State<KeysManagerScreen> {
     _loadSavedKeys();
   }
 
+  @override
+  void dispose() {
+    _keysTextController.dispose();
+    super.dispose();
+  }
+
   Future<void> _loadSavedKeys() async {
     setState(() => _isLoading = true);
     final keys = await KeysService.loadKeys();

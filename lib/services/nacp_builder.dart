@@ -40,13 +40,8 @@ class NacpBuilder {
     }
 
     // 3. Title ID at 0x3038 (8-byte unsigned integer)
-    try {
-      final BigInt parsedId = BigInt.parse(config.id, radix: 16);
-      view.setUint64(0x3038, parsedId.toInt(), Endian.little);
-    } catch (_) {
-      // Default Title ID if invalid
-      view.setUint64(0x3038, 0x0500000000000001, Endian.little);
-    }
+    _writeHexTitleId(buffer, 0x3038, config.id);
+
 
     // 4. Flags & Control Properties
     // Startup User Account: 0x3025 (0 = None/Disabled, 1 = Required)
@@ -69,4 +64,21 @@ class NacpBuilder {
 
     return buffer;
   }
+
+  static void _writeHexTitleId(Uint8List buffer, int offset, String hexId) {
+    final cleanHex = hexId.replaceAll('0x', '').replaceAll(' ', '').toUpperCase().padLeft(16, '0');
+    try {
+      final BigInt val = BigInt.parse(cleanHex, radix: 16);
+      BigInt temp = val;
+      for (int i = 0; i < 8; i++) {
+        buffer[offset + i] = (temp & BigInt.from(0xFF)).toInt();
+        temp = temp >> 8;
+      }
+    } catch (_) {
+      // Fallback default ID 0x0500000000000001
+      buffer[offset] = 0x01;
+      buffer[offset + 7] = 0x05;
+    }
+  }
 }
+

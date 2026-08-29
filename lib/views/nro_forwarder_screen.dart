@@ -42,6 +42,16 @@ class _NroForwarderScreenState extends State<NroForwarderScreen> {
   bool _showAdvanced = false;
   bool _isGenerating = false;
 
+  @override
+  void dispose() {
+    _nroPathController.dispose();
+    _titleController.dispose();
+    _publisherController.dispose();
+    _versionController.dispose();
+    _idController.dispose();
+    super.dispose();
+  }
+
   Future<void> _extractNroMetadata() async {
     final result = await FilePicker.platform.pickFiles(
       type: FileType.any,
