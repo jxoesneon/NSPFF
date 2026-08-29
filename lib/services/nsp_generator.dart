@@ -1,3 +1,6 @@
+// Copyright (c) 2026 NSPFF Project Contributors.
+// SPDX-License-Identifier: MIT
+
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:image/image.dart' as img;

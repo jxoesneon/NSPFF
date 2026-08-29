@@ -1,3 +1,6 @@
+// Copyright (c) 2026 NSPFF Project Contributors.
+// SPDX-License-Identifier: MIT
+
 import 'package:flutter/material.dart';
 import 'theme/switch_theme.dart';
 import 'views/main_navigation_screen.dart';
