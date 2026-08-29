@@ -1,0 +1,158 @@
+import 'package:flutter/material.dart';
+import '../theme/switch_theme.dart';
+import '../widgets/switch_card.dart';
+
+class GuideScreen extends StatelessWidget {
+  const GuideScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        children: [
+          const SwitchCard(
+            title: 'Installation & Ban Safety Guide',
+            subtitle: 'Best practices for installing NSP forwarders safely on Nintendo Switch',
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _GuideStep(
+                  stepNumber: '1',
+                  title: 'Required Sigpatches',
+                  description:
+                      'Ensure your modded Switch has up-to-date Atmosphere sigpatches (ES/FS patches) installed, otherwise custom NSPs will fail to launch with Error 2016-1263.',
+                ),
+                _GuideStep(
+                  stepNumber: '2',
+                  title: 'NRO & Core Paths Must Match Exactly',
+                  description:
+                      'Forwarders act as shortcuts pointing to hardcoded SD card paths. Do not move or rename your target .nro or ROM files after generating the NSP.',
+                ),
+                _GuideStep(
+                  stepNumber: '3',
+                  title: 'Installation via DBI / Awoo',
+                  description:
+                      'Copy the generated .nsp file to your SD card or install directly over USB/MTP using DBI Installer, Awoo, or Goldleaf.',
+                ),
+                _GuideStep(
+                  stepNumber: '4',
+                  title: 'Console Ban Prevention',
+                  description:
+                      'Installing custom forwarder NSPs modifies system ticket databases. Always use DNS MITM or Exosphere on an offline emuMMC to prevent console bans from Nintendo servers.',
+                ),
+              ],
+            ),
+          ),
+          const SwitchCard(
+            title: 'Parity & Feature Comparison',
+            child: Column(
+              children: [
+                _ParityRow(feature: 'NRO Forwarder Generation', web: 'Yes', app: 'Yes 1:1'),
+                _ParityRow(feature: 'RetroArch Core & ROM Forwarding', web: 'Yes', app: 'Yes 1:1'),
+                _ParityRow(feature: 'Advanced Startup & Capture Flags', web: 'Yes', app: 'Yes 1:1'),
+                _ParityRow(feature: 'Auto NACP Metadata Extraction', web: 'Yes', app: 'Yes 1:1'),
+                _ParityRow(feature: 'Custom Boxart & Icon 256x256 Crop', web: 'Yes', app: 'Yes 1:1+'),
+                _ParityRow(feature: 'Batch Multi-ROM Forwarders', web: 'No', app: 'Exceeds (+ Batch)'),
+                _ParityRow(feature: 'Saved Preset History & Key Manager', web: 'No', app: 'Exceeds (+ Saved)'),
+                _ParityRow(feature: 'Offline Android Client Generation', web: 'No', app: 'Exceeds (+ Native)'),
+              ],
+            ),
+          ),
+          const SizedBox(height: 24),
+        ],
+      ),
+    );
+  }
+}
+
+class _GuideStep extends StatelessWidget {
+  final String stepNumber;
+  final String title;
+  final String description;
+
+  const _GuideStep({
+    required this.stepNumber,
+    required this.title,
+    required this.description,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CircleAvatar(
+            radius: 14,
+            backgroundColor: SwitchTheme.switchCyan,
+            child: Text(
+              stepNumber,
+              style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 12),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(color: SwitchTheme.textPrimary, fontWeight: FontWeight.bold, fontSize: 14),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  description,
+                  style: const TextStyle(color: SwitchTheme.textSecondary, fontSize: 13),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ParityRow extends StatelessWidget {
+  final String feature;
+  final String web;
+  final String app;
+
+  const _ParityRow({
+    required this.feature,
+    required this.web,
+    required this.app,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 4,
+            child: Text(feature, style: const TextStyle(color: SwitchTheme.textPrimary, fontSize: 12)),
+          ),
+          Expanded(
+            flex: 2,
+            child: Text(web, style: const TextStyle(color: SwitchTheme.textMuted, fontSize: 11)),
+          ),
+          Expanded(
+            flex: 3,
+            child: Text(
+              app,
+              style: TextStyle(
+                color: app.contains('Exceeds') ? SwitchTheme.switchGreen : SwitchTheme.switchCyan,
+                fontWeight: FontWeight.bold,
+                fontSize: 11,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

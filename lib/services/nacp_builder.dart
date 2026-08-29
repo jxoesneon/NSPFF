@@ -1,0 +1,72 @@
+import 'dart:convert';
+import 'dart:typed_data';
+import '../models/forwarder_config.dart';
+
+class NacpBuilder {
+  static const int nacpSize = 0x4000;
+
+  /// Builds a 0x4000 (16,384 byte) NACP binary buffer from [ForwarderConfig].
+  static Uint8List buildNacp(ForwarderConfig config) {
+    final Uint8List buffer = Uint8List(nacpSize);
+    final ByteData view = ByteData.sublistView(buffer);
+
+    // 1. Language Entries: 16 supported languages, each 0x300 bytes (Title: 0x200, Publisher: 0x100)
+    final utf8Encoder = const Utf8Encoder();
+    final titleBytes = utf8Encoder.convert(config.title);
+    final pubBytes = utf8Encoder.convert(config.publisher);
+
+    for (int lang = 0; lang < 16; lang++) {
+      final int offset = lang * 0x300;
+      
+      // Copy Title (max 0x1FE bytes to leave null terminator)
+      final int titleLen = titleBytes.length > 0x1FE ? 0x1FE : titleBytes.length;
+      for (int i = 0; i < titleLen; i++) {
+        buffer[offset + i] = titleBytes[i];
+      }
+
+      // Copy Publisher (max 0xFE bytes)
+      final int pubOffset = offset + 0x200;
+      final int pubLen = pubBytes.length > 0xFE ? 0xFE : pubBytes.length;
+      for (int i = 0; i < pubLen; i++) {
+        buffer[pubOffset + i] = pubBytes[i];
+      }
+    }
+
+    // 2. Version String at 0x3060 (16 bytes max)
+    final versionBytes = utf8Encoder.convert(config.version);
+    final int versionLen = versionBytes.length > 15 ? 15 : versionBytes.length;
+    for (int i = 0; i < versionLen; i++) {
+      buffer[0x3060 + i] = versionBytes[i];
+    }
+
+    // 3. Title ID at 0x3038 (8-byte unsigned integer)
+    try {
+      final BigInt parsedId = BigInt.parse(config.id, radix: 16);
+      view.setUint64(0x3038, parsedId.toInt(), Endian.little);
+    } catch (_) {
+      // Default Title ID if invalid
+      view.setUint64(0x3038, 0x0500000000000001, Endian.little);
+    }
+
+    // 4. Flags & Control Properties
+    // Startup User Account: 0x3025 (0 = None/Disabled, 1 = Required)
+    buffer[0x3025] = config.startupUserAccount ? 0x01 : 0x00;
+
+    // Screenshot: 0x3034 (0 = Enabled, 1 = Disabled)
+    buffer[0x3034] = config.screenshot ? 0x00 : 0x01;
+
+    // Video Capture: 0x3035 (0 = Disabled, 1 = Enabled, 2 = Automatic)
+    buffer[0x3035] = config.videoCapture ? 0x01 : 0x00;
+
+    // Enable SVC Debug: 0x3036 (0 = Disabled, 1 = Enabled)
+    buffer[0x3036] = config.enableSvcDebug ? 0x01 : 0x00;
+
+    // Logo Type: 0x30F0 (0 = Nintendo, 1 = Licensed by Nintendo, 2 = Distributed by Nintendo)
+    buffer[0x30F0] = config.logoType.value & 0xFF;
+
+    // Logo Handling: 0x30F1 (0 = Auto)
+    buffer[0x30F1] = 0x00;
+
+    return buffer;
+  }
+}
