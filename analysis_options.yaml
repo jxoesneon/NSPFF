@@ -35,6 +35,9 @@ linter:
     - valid_regexps
 
 analyzer:
+  exclude:
+    - build/**
+    - android/**
   language:
     strict-casts: true
     strict-inference: true

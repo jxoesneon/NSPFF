@@ -69,7 +69,7 @@ class _NroForwarderScreenState extends State<NroForwarderScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('⚡ Auto-detected app title and SD path!'),
-          backgroundColor: SwitchTheme.switchGreen,
+          backgroundColor: AppTheme.switchGreen,
           duration: Duration(seconds: 2),
         ),
       );
@@ -97,7 +97,7 @@ class _NroForwarderScreenState extends State<NroForwarderScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Auto-extracted NACP metadata from .nro!'),
-              backgroundColor: SwitchTheme.switchGreen,
+              backgroundColor: AppTheme.switchGreen,
             ),
           );
         }
@@ -151,29 +151,29 @@ class _NroForwarderScreenState extends State<NroForwarderScreen> {
         showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
-            backgroundColor: SwitchTheme.cardBackground,
-            title: const Row(
+            backgroundColor: AppTheme.cardBackground,
+            title: Row(
               children: [
-                Icon(Icons.check_circle, color: SwitchTheme.switchGreen, size: 28),
+                Icon(Icons.check_circle, color: AppTheme.switchGreen, size: 28),
                 SizedBox(width: 10),
-                Text('NSP Generated!', style: TextStyle(color: SwitchTheme.textPrimary)),
+                Text('NSP Generated!', style: TextStyle(color: AppTheme.textPrimary)),
               ],
             ),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Filename: ${result.filename}', style: const TextStyle(color: SwitchTheme.textSecondary, fontSize: 13)),
+                Text('Filename: ${result.filename}', style: TextStyle(color: AppTheme.textSecondary, fontSize: 13)),
                 const SizedBox(height: 6),
-                Text('Title ID: ${result.titleId}', style: const TextStyle(color: SwitchTheme.switchCyan, fontFamily: 'Monospace', fontSize: 13)),
+                Text('Title ID: ${result.titleId}', style: TextStyle(color: AppTheme.switchCyan, fontFamily: 'Monospace', fontSize: 13)),
                 const SizedBox(height: 6),
-                Text('Size: ${(result.totalSize / 1024).toStringAsFixed(1)} KB', style: const TextStyle(color: SwitchTheme.textMuted, fontSize: 12)),
+                Text('Size: ${(result.totalSize / 1024).toStringAsFixed(1)} KB', style: TextStyle(color: AppTheme.textMuted, fontSize: 12)),
               ],
             ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(ctx),
-                child: const Text('OK', style: TextStyle(color: SwitchTheme.switchCyan)),
+                child: Text('OK', style: TextStyle(color: AppTheme.switchCyan)),
               ),
             ],
           ),
@@ -190,7 +190,7 @@ class _NroForwarderScreenState extends State<NroForwarderScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        backgroundColor: SwitchTheme.switchRed,
+        backgroundColor: AppTheme.switchRed,
       ),
     );
   }
@@ -210,8 +210,8 @@ class _NroForwarderScreenState extends State<NroForwarderScreen> {
                 Expanded(
                   child: OutlinedButton.icon(
                     style: OutlinedButton.styleFrom(
-                      foregroundColor: SwitchTheme.switchCyan,
-                      side: const BorderSide(color: SwitchTheme.switchCyan),
+                      foregroundColor: AppTheme.switchCyan,
+                      side: const BorderSide(color: AppTheme.switchCyan),
                     ),
                     icon: const Icon(Icons.auto_fix_high, size: 16),
                     label: const Text('Extract .NRO'),
@@ -222,7 +222,7 @@ class _NroForwarderScreenState extends State<NroForwarderScreen> {
                 Expanded(
                   child: ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: SwitchTheme.switchCyan,
+                      backgroundColor: AppTheme.switchCyan,
                       foregroundColor: Colors.black,
                     ),
                     icon: const Icon(Icons.bolt, size: 18),
@@ -282,7 +282,7 @@ class _NroForwarderScreenState extends State<NroForwarderScreen> {
             trailing: IconButton(
               icon: Icon(
                 _showAdvanced ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-                color: SwitchTheme.switchCyan,
+                color: AppTheme.switchCyan,
               ),
               onPressed: () => setState(() => _showAdvanced = !_showAdvanced),
             ),
@@ -320,9 +320,9 @@ class _NroForwarderScreenState extends State<NroForwarderScreen> {
                       ),
                     ],
                   )
-                : const Text(
+                : Text(
                     'Tap arrow to view startup account, capture, debug, & logo options',
-                    style: TextStyle(color: SwitchTheme.textMuted, fontSize: 12),
+                    style: TextStyle(color: AppTheme.textMuted, fontSize: 12),
                   ),
           ),
 

@@ -18,10 +18,10 @@ class RetroArchCoreDropdown extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'RetroArch Core Preset',
           style: TextStyle(
-            color: SwitchTheme.textSecondary,
+            color: AppTheme.textSecondary,
             fontSize: 13,
             fontWeight: FontWeight.w600,
           ),
@@ -30,18 +30,18 @@ class RetroArchCoreDropdown extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 14),
           decoration: BoxDecoration(
-            color: SwitchTheme.inputBackground,
+            color: AppTheme.inputBackground,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: SwitchTheme.cardBorder),
+            border: Border.all(color: AppTheme.cardBorder),
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<RetroArchCore>(
               value: selectedCore,
               isExpanded: true,
-              dropdownColor: SwitchTheme.cardBackground,
-              hint: const Text(
+              dropdownColor: AppTheme.cardBackground,
+              hint: Text(
                 'Select RetroArch Core...',
-                style: TextStyle(color: SwitchTheme.textMuted, fontSize: 14),
+                style: TextStyle(color: AppTheme.textMuted, fontSize: 14),
               ),
               items: RetroArchCore.builtInCores.map((core) {
                 return DropdownMenuItem<RetroArchCore>(
@@ -51,13 +51,13 @@ class RetroArchCoreDropdown extends StatelessWidget {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                         decoration: BoxDecoration(
-                          color: SwitchTheme.switchCyan.withOpacity(0.15),
+                          color: AppTheme.switchCyan.withOpacity(0.15),
                           borderRadius: BorderRadius.circular(4),
                         ),
                         child: Text(
                           core.category,
-                          style: const TextStyle(
-                            color: SwitchTheme.switchCyan,
+                          style: TextStyle(
+                            color: AppTheme.switchCyan,
                             fontSize: 10,
                             fontWeight: FontWeight.bold,
                           ),
@@ -67,8 +67,8 @@ class RetroArchCoreDropdown extends StatelessWidget {
                       Expanded(
                         child: Text(
                           core.displayName,
-                          style: const TextStyle(
-                            color: SwitchTheme.textPrimary,
+                          style: TextStyle(
+                            color: AppTheme.textPrimary,
                             fontSize: 13,
                           ),
                           overflow: TextOverflow.ellipsis,
@@ -103,10 +103,10 @@ class LogoTypeDropdown extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'Startup Logo Type',
           style: TextStyle(
-            color: SwitchTheme.textSecondary,
+            color: AppTheme.textSecondary,
             fontSize: 13,
             fontWeight: FontWeight.w600,
           ),
@@ -115,22 +115,22 @@ class LogoTypeDropdown extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 14),
           decoration: BoxDecoration(
-            color: SwitchTheme.inputBackground,
+            color: AppTheme.inputBackground,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: SwitchTheme.cardBorder),
+            border: Border.all(color: AppTheme.cardBorder),
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<LogoType>(
               value: selectedLogo,
               isExpanded: true,
-              dropdownColor: SwitchTheme.cardBackground,
+              dropdownColor: AppTheme.cardBackground,
               items: LogoType.values.map((logo) {
                 return DropdownMenuItem<LogoType>(
                   value: logo,
                   child: Text(
                     logo.label,
-                    style: const TextStyle(
-                      color: SwitchTheme.textPrimary,
+                    style: TextStyle(
+                      color: AppTheme.textPrimary,
                       fontSize: 13,
                     ),
                   ),

@@ -104,7 +104,7 @@ class _RetroArchForwarderScreenState extends State<RetroArchForwarderScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('⚡ Auto-detected core, title, paths & fetched HD boxart!'),
-          backgroundColor: SwitchTheme.switchGreen,
+          backgroundColor: AppTheme.switchGreen,
           duration: Duration(seconds: 2),
         ),
       );
@@ -176,29 +176,29 @@ class _RetroArchForwarderScreenState extends State<RetroArchForwarderScreen> {
         showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
-            backgroundColor: SwitchTheme.cardBackground,
-            title: const Row(
+            backgroundColor: AppTheme.cardBackground,
+            title: Row(
               children: [
-                Icon(Icons.sports_esports, color: SwitchTheme.switchCyan, size: 28),
+                Icon(Icons.sports_esports, color: AppTheme.switchCyan, size: 28),
                 SizedBox(width: 10),
-                Text('RetroArch NSP Ready!', style: TextStyle(color: SwitchTheme.textPrimary)),
+                Text('RetroArch NSP Ready!', style: TextStyle(color: AppTheme.textPrimary)),
               ],
             ),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Filename: ${result.filename}', style: const TextStyle(color: SwitchTheme.textSecondary, fontSize: 13)),
+                Text('Filename: ${result.filename}', style: TextStyle(color: AppTheme.textSecondary, fontSize: 13)),
                 const SizedBox(height: 6),
-                Text('Title ID: ${result.titleId}', style: const TextStyle(color: SwitchTheme.switchCyan, fontFamily: 'Monospace', fontSize: 13)),
+                Text('Title ID: ${result.titleId}', style: TextStyle(color: AppTheme.switchCyan, fontFamily: 'Monospace', fontSize: 13)),
                 const SizedBox(height: 6),
-                Text('Core: ${_selectedCore?.displayName}', style: const TextStyle(color: SwitchTheme.textMuted, fontSize: 12)),
+                Text('Core: ${_selectedCore?.displayName}', style: TextStyle(color: AppTheme.textMuted, fontSize: 12)),
               ],
             ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(ctx),
-                child: const Text('OK', style: TextStyle(color: SwitchTheme.switchCyan)),
+                child: Text('OK', style: TextStyle(color: AppTheme.switchCyan)),
               ),
             ],
           ),
@@ -215,7 +215,7 @@ class _RetroArchForwarderScreenState extends State<RetroArchForwarderScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        backgroundColor: SwitchTheme.switchRed,
+        backgroundColor: AppTheme.switchRed,
       ),
     );
   }
@@ -246,8 +246,8 @@ class _RetroArchForwarderScreenState extends State<RetroArchForwarderScreen> {
                     Expanded(
                       child: OutlinedButton.icon(
                         style: OutlinedButton.styleFrom(
-                          foregroundColor: SwitchTheme.switchCyan,
-                          side: const BorderSide(color: SwitchTheme.switchCyan),
+                          foregroundColor: AppTheme.switchCyan,
+                          side: const BorderSide(color: AppTheme.switchCyan),
                         ),
                         icon: const Icon(Icons.file_open, size: 16),
                         label: const Text('Browse ROM File'),
@@ -258,7 +258,7 @@ class _RetroArchForwarderScreenState extends State<RetroArchForwarderScreen> {
                     Expanded(
                       child: ElevatedButton.icon(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: SwitchTheme.switchCyan,
+                          backgroundColor: AppTheme.switchCyan,
                           foregroundColor: Colors.black,
                         ),
                         icon: const Icon(Icons.bolt, size: 18),
@@ -330,7 +330,7 @@ class _RetroArchForwarderScreenState extends State<RetroArchForwarderScreen> {
             trailing: IconButton(
               icon: Icon(
                 _showAdvanced ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-                color: SwitchTheme.switchCyan,
+                color: AppTheme.switchCyan,
               ),
               onPressed: () => setState(() => _showAdvanced = !_showAdvanced),
             ),
@@ -368,9 +368,9 @@ class _RetroArchForwarderScreenState extends State<RetroArchForwarderScreen> {
                       ),
                     ],
                   )
-                : const Text(
+                : Text(
                     'Tap arrow to configure user prompt, captures & startup logos',
-                    style: TextStyle(color: SwitchTheme.textMuted, fontSize: 12),
+                    style: TextStyle(color: AppTheme.textMuted, fontSize: 12),
                   ),
           ),
 

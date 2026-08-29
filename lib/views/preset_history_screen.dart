@@ -38,7 +38,7 @@ class _PresetHistoryScreenState extends State<PresetHistoryScreen> {
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return const Center(child: CircularProgressIndicator(color: SwitchTheme.switchCyan));
+      return const Center(child: CircularProgressIndicator(color: AppTheme.switchCyan));
     }
 
     return Scaffold(
@@ -51,7 +51,7 @@ class _PresetHistoryScreenState extends State<PresetHistoryScreen> {
               subtitle: '${_history.length} previously created NSP forwarders',
               trailing: _history.isNotEmpty
                   ? IconButton(
-                      icon: const Icon(Icons.delete_sweep, color: SwitchTheme.switchRed),
+                      icon: Icon(Icons.delete_sweep, color: AppTheme.switchRed),
                       onPressed: _clearHistory,
                       tooltip: 'Clear History',
                     )
@@ -62,7 +62,7 @@ class _PresetHistoryScreenState extends State<PresetHistoryScreen> {
                       child: Center(
                         child: Text(
                           'No generated forwarders in history yet.',
-                          style: TextStyle(color: SwitchTheme.textMuted),
+                          style: TextStyle(color: AppTheme.textMuted),
                         ),
                       ),
                     )
@@ -70,35 +70,35 @@ class _PresetHistoryScreenState extends State<PresetHistoryScreen> {
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: _history.length,
-                      separatorBuilder: (_, __) => const Divider(color: SwitchTheme.cardBorder),
+                      separatorBuilder: (_, __) => const Divider(color: AppTheme.cardBorder),
                       itemBuilder: (ctx, i) {
                         final item = _history[i];
                         return ListTile(
                           contentPadding: EdgeInsets.zero,
                           leading: CircleAvatar(
                             backgroundColor: item.isRetroArch
-                                ? SwitchTheme.switchCyan.withOpacity(0.2)
-                                : SwitchTheme.switchRed.withOpacity(0.2),
+                                ? AppTheme.switchCyan.withOpacity(0.2)
+                                : AppTheme.switchRed.withOpacity(0.2),
                             child: Icon(
                               item.isRetroArch ? Icons.sports_esports : Icons.apps,
-                              color: item.isRetroArch ? SwitchTheme.switchCyan : SwitchTheme.switchRed,
+                              color: item.isRetroArch ? AppTheme.switchCyan : AppTheme.switchRed,
                               size: 20,
                             ),
                           ),
                           title: Text(
                             item.title,
-                            style: const TextStyle(color: SwitchTheme.textPrimary, fontWeight: FontWeight.bold),
+                            style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold),
                           ),
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 'ID: ${item.id}',
-                                style: const TextStyle(color: SwitchTheme.switchCyan, fontFamily: 'Monospace', fontSize: 11),
+                                style: TextStyle(color: AppTheme.switchCyan, fontFamily: 'Monospace', fontSize: 11),
                               ),
                               Text(
                                 item.isRetroArch ? 'ROM: ${item.romPath}' : 'NRO: ${item.nroPath}',
-                                style: const TextStyle(color: SwitchTheme.textMuted, fontSize: 11),
+                                style: TextStyle(color: AppTheme.textMuted, fontSize: 11),
                               ),
                             ],
                           ),

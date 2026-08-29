@@ -24,10 +24,10 @@ class SwitchCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
-        color: SwitchTheme.cardBackground,
+        color: AppTheme.cardBackground,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: borderColor ?? SwitchTheme.cardBorder,
+          color: borderColor ?? AppTheme.cardBorder,
           width: 1,
         ),
         boxShadow: const [
@@ -53,8 +53,8 @@ class SwitchCard extends StatelessWidget {
                       children: [
                         Text(
                           title!,
-                          style: const TextStyle(
-                            color: SwitchTheme.textPrimary,
+                          style: TextStyle(
+                            color: AppTheme.textPrimary,
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
@@ -63,8 +63,8 @@ class SwitchCard extends StatelessWidget {
                           const SizedBox(height: 4),
                           Text(
                             subtitle!,
-                            style: const TextStyle(
-                              color: SwitchTheme.textSecondary,
+                            style: TextStyle(
+                              color: AppTheme.textSecondary,
                               fontSize: 13,
                             ),
                           ),
@@ -76,7 +76,7 @@ class SwitchCard extends StatelessWidget {
                 ],
               ),
             ),
-            const Divider(color: SwitchTheme.cardBorder, height: 1),
+            const Divider(color: AppTheme.cardBorder, height: 1),
           ],
           Padding(
             padding: padding ?? const EdgeInsets.all(16.0),

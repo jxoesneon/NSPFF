@@ -59,7 +59,7 @@ class _KeysManagerScreenState extends State<KeysManagerScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('prod.keys file imported successfully!'),
-            backgroundColor: SwitchTheme.switchGreen,
+            backgroundColor: AppTheme.switchGreen,
           ),
         );
       }
@@ -75,7 +75,7 @@ class _KeysManagerScreenState extends State<KeysManagerScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('prod.keys updated!'),
-          backgroundColor: SwitchTheme.switchGreen,
+          backgroundColor: AppTheme.switchGreen,
         ),
       );
     }
@@ -91,7 +91,7 @@ class _KeysManagerScreenState extends State<KeysManagerScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Keys cleared.'),
-          backgroundColor: SwitchTheme.switchRed,
+          backgroundColor: AppTheme.switchRed,
         ),
       );
     }
@@ -103,19 +103,19 @@ class _KeysManagerScreenState extends State<KeysManagerScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: const TextStyle(color: SwitchTheme.textSecondary, fontSize: 13)),
+          Text(label, style: TextStyle(color: AppTheme.textSecondary, fontSize: 13)),
           Row(
             children: [
               Icon(
                 isPresent ? Icons.check_circle : Icons.cancel,
-                color: isPresent ? SwitchTheme.switchGreen : SwitchTheme.switchRed,
+                color: isPresent ? AppTheme.switchGreen : AppTheme.switchRed,
                 size: 16,
               ),
               const SizedBox(width: 6),
               Text(
                 isPresent ? 'PRESENT' : 'MISSING',
                 style: TextStyle(
-                  color: isPresent ? SwitchTheme.switchGreen : SwitchTheme.switchRed,
+                  color: isPresent ? AppTheme.switchGreen : AppTheme.switchRed,
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
                 ),
@@ -131,7 +131,7 @@ class _KeysManagerScreenState extends State<KeysManagerScreen> {
   Widget build(BuildContext context) {
     if (_isLoading) {
       return const Center(
-        child: CircularProgressIndicator(color: SwitchTheme.switchCyan),
+        child: CircularProgressIndicator(color: AppTheme.switchCyan),
       );
     }
 
@@ -144,7 +144,7 @@ class _KeysManagerScreenState extends State<KeysManagerScreen> {
           // Status Overview Card
           SwitchCard(
             title: 'Key Diagnostics & Status',
-            borderColor: hasKeys ? SwitchTheme.switchGreen : SwitchTheme.switchRed,
+            borderColor: hasKeys ? AppTheme.switchGreen : AppTheme.switchRed,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -152,7 +152,7 @@ class _KeysManagerScreenState extends State<KeysManagerScreen> {
                   children: [
                     Icon(
                       hasKeys ? Icons.verified : Icons.error_outline,
-                      color: hasKeys ? SwitchTheme.switchGreen : SwitchTheme.switchRed,
+                      color: hasKeys ? AppTheme.switchGreen : AppTheme.switchRed,
                       size: 28,
                     ),
                     const SizedBox(width: 12),
@@ -163,7 +163,7 @@ class _KeysManagerScreenState extends State<KeysManagerScreen> {
                           Text(
                             hasKeys ? 'Keys Configured & Ready' : 'Keys Missing or Incomplete',
                             style: TextStyle(
-                              color: hasKeys ? SwitchTheme.switchGreen : SwitchTheme.switchRed,
+                              color: hasKeys ? AppTheme.switchGreen : AppTheme.switchRed,
                               fontWeight: FontWeight.bold,
                               fontSize: 15,
                             ),
@@ -172,7 +172,7 @@ class _KeysManagerScreenState extends State<KeysManagerScreen> {
                             hasKeys
                                 ? '${_parsedKeys!.keysMap.length} cryptographic keys loaded'
                                 : 'Import prod.keys to enable NSP building & NCA signing',
-                            style: const TextStyle(color: SwitchTheme.textMuted, fontSize: 12),
+                            style: TextStyle(color: AppTheme.textMuted, fontSize: 12),
                           ),
                         ],
                       ),
@@ -180,7 +180,7 @@ class _KeysManagerScreenState extends State<KeysManagerScreen> {
                   ],
                 ),
                 const SizedBox(height: 14),
-                const Divider(color: SwitchTheme.cardBorder),
+                const Divider(color: AppTheme.cardBorder),
                 const SizedBox(height: 8),
                 _buildKeyStatusRow('header_key', _parsedKeys?.hasHeaderKey ?? false),
                 _buildKeyStatusRow('sd_seed', _parsedKeys?.hasSdSeed ?? false),
@@ -198,23 +198,23 @@ class _KeysManagerScreenState extends State<KeysManagerScreen> {
               children: [
                 OutlinedButton.icon(
                   style: OutlinedButton.styleFrom(
-                    foregroundColor: SwitchTheme.switchCyan,
-                    side: const BorderSide(color: SwitchTheme.switchCyan),
+                    foregroundColor: AppTheme.switchCyan,
+                    side: const BorderSide(color: AppTheme.switchCyan),
                   ),
                   icon: const Icon(Icons.file_open, size: 18),
                   label: const Text('Browse & Import prod.keys File'),
                   onPressed: _pickKeysFile,
                 ),
                 const SizedBox(height: 16),
-                const Text(
+                Text(
                   'Raw Keys File Editor',
-                  style: TextStyle(color: SwitchTheme.textSecondary, fontSize: 13, fontWeight: FontWeight.w600),
+                  style: TextStyle(color: AppTheme.textSecondary, fontSize: 13, fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(height: 6),
                 TextField(
                   controller: _keysTextController,
                   maxLines: 8,
-                  style: const TextStyle(color: SwitchTheme.textPrimary, fontSize: 12, fontFamily: 'Monospace'),
+                  style: TextStyle(color: AppTheme.textPrimary, fontSize: 12, fontFamily: 'Monospace'),
                   decoration: const InputDecoration(
                     hintText: 'header_key = ...\nsd_seed = ...\ntitlekdk_00 = ...',
                   ),

@@ -28,8 +28,8 @@ class SwitchToggle extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
-                    color: SwitchTheme.textPrimary,
+                  style: TextStyle(
+                    color: AppTheme.textPrimary,
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                   ),
@@ -38,8 +38,8 @@ class SwitchToggle extends StatelessWidget {
                   const SizedBox(height: 2),
                   Text(
                     subtitle!,
-                    style: const TextStyle(
-                      color: SwitchTheme.textMuted,
+                    style: TextStyle(
+                      color: AppTheme.textMuted,
                       fontSize: 12,
                     ),
                   ),
@@ -49,10 +49,10 @@ class SwitchToggle extends StatelessWidget {
           ),
           Switch(
             value: value,
-            activeColor: SwitchTheme.switchCyan,
-            activeTrackColor: SwitchTheme.switchCyan.withOpacity(0.3),
-            inactiveThumbColor: SwitchTheme.textMuted,
-            inactiveTrackColor: SwitchTheme.inputBackground,
+            activeColor: AppTheme.switchCyan,
+            activeTrackColor: AppTheme.switchCyan.withOpacity(0.3),
+            inactiveThumbColor: AppTheme.textMuted,
+            inactiveTrackColor: AppTheme.inputBackground,
             onChanged: onChanged,
           ),
         ],

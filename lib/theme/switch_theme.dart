@@ -1,7 +1,10 @@
+// Copyright (c) 2026 NSPFF Project Contributors.
+// SPDX-License-Identifier: MIT
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SwitchTheme {
+class AppTheme {
   // Brand Colors
   static const Color darkBackground = Color(0xFF121216);
   static const Color cardBackground = Color(0xFF1B1D26);
@@ -10,13 +13,13 @@ class SwitchTheme {
   static const Color switchRed = Color(0xFFFF3655);
   static const Color switchGreen = Color(0xFF00E676);
   static const Color switchYellow = Color(0xFFFFC107);
-  
+
   // Neutral Tones
   static const Color textPrimary = Color(0xFFF3F4F6);
   static const Color textSecondary = Color(0xFF9CA3AF);
   static const Color textMuted = Color(0xFF94A3B8); // Lightened to pass WCAG AA contrast (6.12:1)
   static const Color inputBackground = Color(0xFF161820);
-  
+
   /// Monospace font style helper for Title IDs, Hex strings, and paths
   static TextStyle monoStyle({
     Color color = textPrimary,
@@ -45,7 +48,7 @@ class SwitchTheme {
         background: darkBackground,
         error: switchRed,
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: cardBackground,
         elevation: 4,
         shape: RoundedRectangleBorder(

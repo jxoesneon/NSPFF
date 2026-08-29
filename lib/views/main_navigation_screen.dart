@@ -51,7 +51,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> with Single
               width: 4,
               height: 20,
               decoration: BoxDecoration(
-                color: SwitchTheme.switchRed,
+                color: AppTheme.switchRed,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -61,7 +61,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> with Single
               width: 4,
               height: 20,
               decoration: BoxDecoration(
-                color: SwitchTheme.switchCyan,
+                color: AppTheme.switchCyan,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -77,7 +77,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> with Single
             const SizedBox(width: 8),
             const SwitchPillBadge(
               label: 'FAST FORWARD',
-              color: SwitchTheme.switchCyan,
+              color: AppTheme.switchCyan,
             ),
           ],
         ),
@@ -87,7 +87,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> with Single
             padding: const EdgeInsets.only(right: 16),
             child: SwitchPillBadge(
               label: _hasValidKeys ? 'KEYS READY' : 'KEYS NEEDED',
-              color: _hasValidKeys ? SwitchTheme.switchGreen : SwitchTheme.switchRed,
+              color: _hasValidKeys ? AppTheme.switchGreen : AppTheme.switchRed,
               icon: _hasValidKeys ? Icons.vpn_key : Icons.vpn_key_off,
               onTap: () => _tabController.animateTo(3),
             ),
@@ -96,10 +96,10 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> with Single
         bottom: TabBar(
           controller: _tabController,
           isScrollable: true,
-          indicatorColor: SwitchTheme.switchCyan,
+          indicatorColor: AppTheme.switchCyan,
           indicatorWeight: 3,
-          labelColor: SwitchTheme.switchCyan,
-          unselectedLabelColor: SwitchTheme.textSecondary,
+          labelColor: AppTheme.switchCyan,
+          unselectedLabelColor: AppTheme.textSecondary,
           labelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
           tabs: const [
             Tab(icon: Icon(Icons.apps, size: 20), text: 'NRO Apps'),
@@ -124,30 +124,30 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> with Single
       ),
       bottomNavigationBar: Container(
         height: 36,
-        color: SwitchTheme.cardBackground,
+        color: AppTheme.cardBackground,
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: const Row(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
               children: [
-                Icon(Icons.circle, size: 8, color: SwitchTheme.switchCyan),
+                Icon(Icons.circle, size: 8, color: AppTheme.switchCyan),
                 SizedBox(width: 6),
-                Text('Ⓐ Select / Autodetect', style: TextStyle(color: SwitchTheme.textMuted, fontSize: 11, fontWeight: FontWeight.w600)),
+                Text('Ⓐ Select / Autodetect', style: TextStyle(color: AppTheme.textMuted, fontSize: 11, fontWeight: FontWeight.w600)),
               ],
             ),
             Row(
               children: [
-                Icon(Icons.change_circle_outlined, size: 12, color: SwitchTheme.switchRed),
+                Icon(Icons.change_circle_outlined, size: 12, color: AppTheme.switchRed),
                 SizedBox(width: 4),
-                Text('Ⓑ Back / Clear', style: TextStyle(color: SwitchTheme.textMuted, fontSize: 11, fontWeight: FontWeight.w600)),
+                Text('Ⓑ Back / Clear', style: TextStyle(color: AppTheme.textMuted, fontSize: 11, fontWeight: FontWeight.w600)),
               ],
             ),
             Row(
               children: [
-                Icon(Icons.add_circle_outline, size: 12, color: SwitchTheme.switchGreen),
+                Icon(Icons.add_circle_outline, size: 12, color: AppTheme.switchGreen),
                 SizedBox(width: 4),
-                Text('⊕ Build NSP', style: TextStyle(color: SwitchTheme.textMuted, fontSize: 11, fontWeight: FontWeight.w600)),
+                Text('⊕ Build NSP', style: TextStyle(color: AppTheme.textMuted, fontSize: 11, fontWeight: FontWeight.w600)),
               ],
             ),
           ],

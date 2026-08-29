@@ -51,7 +51,7 @@ class _BatchGeneratorScreenState extends State<BatchGeneratorScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('⚡ Auto-formatted batch ROM paths & cleaned titles!'),
-            backgroundColor: SwitchTheme.switchGreen,
+            backgroundColor: AppTheme.switchGreen,
             duration: Duration(seconds: 2),
           ),
         );
@@ -124,22 +124,22 @@ class _BatchGeneratorScreenState extends State<BatchGeneratorScreen> {
         showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
-            backgroundColor: SwitchTheme.cardBackground,
-            title: const Row(
+            backgroundColor: AppTheme.cardBackground,
+            title: Row(
               children: [
-                Icon(Icons.checklist_sharp, color: SwitchTheme.switchGreen, size: 28),
+                Icon(Icons.checklist_sharp, color: AppTheme.switchGreen, size: 28),
                 SizedBox(width: 10),
-                Text('Batch Complete!', style: TextStyle(color: SwitchTheme.textPrimary)),
+                Text('Batch Complete!', style: TextStyle(color: AppTheme.textPrimary)),
               ],
             ),
             content: Text(
               'Successfully generated $_generatedCount NSP forwarders!',
-              style: const TextStyle(color: SwitchTheme.textSecondary),
+              style: TextStyle(color: AppTheme.textSecondary),
             ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(ctx),
-                child: const Text('OK', style: TextStyle(color: SwitchTheme.switchCyan)),
+                child: Text('OK', style: TextStyle(color: AppTheme.switchCyan)),
               ),
             ],
           ),
@@ -156,7 +156,7 @@ class _BatchGeneratorScreenState extends State<BatchGeneratorScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        backgroundColor: SwitchTheme.switchRed,
+        backgroundColor: AppTheme.switchRed,
       ),
     );
   }
@@ -181,7 +181,7 @@ class _BatchGeneratorScreenState extends State<BatchGeneratorScreen> {
                   alignment: Alignment.centerRight,
                   child: ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: SwitchTheme.switchCyan,
+                      backgroundColor: AppTheme.switchCyan,
                       foregroundColor: Colors.black,
                     ),
                     icon: const Icon(Icons.bolt, size: 16),
@@ -193,7 +193,7 @@ class _BatchGeneratorScreenState extends State<BatchGeneratorScreen> {
                 const Text(
                   'ROM Paths List (One per line)',
                   style: TextStyle(
-                    color: SwitchTheme.textSecondary,
+                    color: AppTheme.textSecondary,
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
                   ),
@@ -202,7 +202,7 @@ class _BatchGeneratorScreenState extends State<BatchGeneratorScreen> {
                 TextField(
                   controller: _romListController,
                   maxLines: 6,
-                  style: const TextStyle(color: SwitchTheme.textPrimary, fontSize: 13, fontFamily: 'Monospace'),
+                  style: TextStyle(color: AppTheme.textPrimary, fontSize: 13, fontFamily: 'Monospace'),
                   decoration: const InputDecoration(
                     hintText: '/roms/snes/Game1.sfc\n/roms/snes/Game2.sfc',
                   ),
@@ -222,13 +222,13 @@ class _BatchGeneratorScreenState extends State<BatchGeneratorScreen> {
                 children: [
                   LinearProgressIndicator(
                     value: _totalCount > 0 ? _generatedCount / _totalCount : 0,
-                    backgroundColor: SwitchTheme.inputBackground,
-                    valueColor: const AlwaysStoppedAnimation<Color>(SwitchTheme.switchCyan),
+                    backgroundColor: AppTheme.inputBackground,
+                    valueColor: const AlwaysStoppedAnimation<Color>(AppTheme.switchCyan),
                   ),
                   const SizedBox(height: 12),
                   Text(
                     '$_generatedCount / $_totalCount NSPs created',
-                    style: const TextStyle(color: SwitchTheme.textPrimary, fontWeight: FontWeight.bold),
+                    style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),

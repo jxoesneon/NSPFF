@@ -29,23 +29,23 @@ class SwitchButton extends StatelessWidget {
 
     switch (variant) {
       case SwitchButtonVariant.primary:
-        bg = SwitchTheme.switchCyan;
+        bg = AppTheme.switchCyan;
         fg = Colors.black;
         break;
       case SwitchButtonVariant.secondary:
-        bg = SwitchTheme.switchRed;
+        bg = AppTheme.switchRed;
         fg = Colors.black; // AAA Contrast (7.05:1) on Switch Red
         break;
       case SwitchButtonVariant.outline:
         bg = Colors.transparent;
-        fg = SwitchTheme.switchCyan;
-        border = const BorderSide(color: SwitchTheme.switchCyan, width: 1.5);
+        fg = AppTheme.switchCyan;
+        border = const BorderSide(color: AppTheme.switchCyan, width: 1.5);
         break;
     }
 
     Widget content = Row(
       mainAxisSize: MainAxisSize.min,
-      main: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         if (isLoading)
           SizedBox(

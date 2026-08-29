@@ -25,8 +25,8 @@ class SdCardPathSelector extends StatelessWidget {
       children: [
         Text(
           label,
-          style: const TextStyle(
-            color: SwitchTheme.textSecondary,
+          style: TextStyle(
+            color: AppTheme.textSecondary,
             fontSize: 13,
             fontWeight: FontWeight.w600,
           ),
@@ -40,14 +40,14 @@ class SdCardPathSelector extends StatelessWidget {
               return Padding(
                 padding: const EdgeInsets.only(right: 8.0),
                 child: ActionChip(
-                  backgroundColor: isSelected ? SwitchTheme.switchCyan.withOpacity(0.25) : SwitchTheme.inputBackground,
+                  backgroundColor: isSelected ? AppTheme.switchCyan.withOpacity(0.25) : AppTheme.inputBackground,
                   side: BorderSide(
-                    color: isSelected ? SwitchTheme.switchCyan : SwitchTheme.cardBorder,
+                    color: isSelected ? AppTheme.switchCyan : AppTheme.cardBorder,
                   ),
                   label: Text(
                     path,
-                    style: SwitchTheme.monoStyle(
-                      color: isSelected ? SwitchTheme.switchCyan : SwitchTheme.textSecondary,
+                    style: AppTheme.monoStyle(
+                      color: isSelected ? AppTheme.switchCyan : AppTheme.textSecondary,
                       fontSize: 11,
                     ),
                   ),

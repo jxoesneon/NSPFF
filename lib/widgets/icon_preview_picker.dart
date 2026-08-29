@@ -33,7 +33,7 @@ class IconPreviewPicker extends StatelessWidget {
         const Text(
           'Icon Image (256x256)',
           style: TextStyle(
-            color: SwitchTheme.textSecondary,
+            color: AppTheme.textSecondary,
             fontSize: 13,
             fontWeight: FontWeight.w600,
           ),
@@ -47,16 +47,16 @@ class IconPreviewPicker extends StatelessWidget {
               width: 100,
               height: 100,
               decoration: BoxDecoration(
-                color: SwitchTheme.inputBackground,
+                color: AppTheme.inputBackground,
                 borderRadius: BorderRadius.circular(20), // Switch home menu rounded square
                 border: Border.all(
-                  color: imageBytes != null ? SwitchTheme.switchCyan : SwitchTheme.cardBorder,
+                  color: imageBytes != null ? AppTheme.switchCyan : AppTheme.cardBorder,
                   width: 2,
                 ),
                 boxShadow: [
                   if (imageBytes != null)
                     BoxShadow(
-                      color: SwitchTheme.switchCyan.withOpacity(0.3),
+                      color: AppTheme.switchCyan.withOpacity(0.3),
                       blurRadius: 12,
                       spreadRadius: 1,
                     ),
@@ -74,14 +74,14 @@ class IconPreviewPicker extends StatelessWidget {
                         children: [
                           Icon(
                             Icons.image_outlined,
-                            color: SwitchTheme.textMuted,
+                            color: AppTheme.textMuted,
                             size: 32,
                           ),
                           SizedBox(height: 4),
                           Text(
                             '256 x 256',
                             style: TextStyle(
-                              color: SwitchTheme.textMuted,
+                              color: AppTheme.textMuted,
                               fontSize: 10,
                             ),
                           ),
@@ -96,8 +96,8 @@ class IconPreviewPicker extends StatelessWidget {
                 children: [
                   OutlinedButton.icon(
                     style: OutlinedButton.styleFrom(
-                      foregroundColor: SwitchTheme.switchCyan,
-                      side: const BorderSide(color: SwitchTheme.switchCyan),
+                      foregroundColor: AppTheme.switchCyan,
+                      side: const BorderSide(color: AppTheme.switchCyan),
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                     ),
                     icon: const Icon(Icons.upload_file, size: 18),
@@ -108,7 +108,7 @@ class IconPreviewPicker extends StatelessWidget {
                     const SizedBox(height: 8),
                     TextButton.icon(
                       style: TextButton.styleFrom(
-                        foregroundColor: SwitchTheme.switchRed,
+                        foregroundColor: AppTheme.switchRed,
                         padding: EdgeInsets.zero,
                       ),
                       icon: const Icon(Icons.delete_outline, size: 16),

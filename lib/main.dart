@@ -18,7 +18,7 @@ class NspffApp extends StatelessWidget {
     return MaterialApp(
       title: 'NSPFF (NSP Fast Forward)',
       debugShowCheckedModeBanner: false,
-      theme: SwitchTheme.darkTheme,
+      theme: AppTheme.darkTheme,
       home: const MainNavigationScreen(),
     );
   }

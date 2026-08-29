@@ -86,7 +86,7 @@ class _GuideStep extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 14,
-            backgroundColor: SwitchTheme.switchCyan,
+            backgroundColor: AppTheme.switchCyan,
             child: Text(
               stepNumber,
               style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 12),
@@ -99,12 +99,12 @@ class _GuideStep extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(color: SwitchTheme.textPrimary, fontWeight: FontWeight.bold, fontSize: 14),
+                  style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold, fontSize: 14),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   description,
-                  style: const TextStyle(color: SwitchTheme.textSecondary, fontSize: 13),
+                  style: TextStyle(color: AppTheme.textSecondary, fontSize: 13),
                 ),
               ],
             ),
@@ -134,18 +134,18 @@ class _ParityRow extends StatelessWidget {
         children: [
           Expanded(
             flex: 4,
-            child: Text(feature, style: const TextStyle(color: SwitchTheme.textPrimary, fontSize: 12)),
+            child: Text(feature, style: TextStyle(color: AppTheme.textPrimary, fontSize: 12)),
           ),
           Expanded(
             flex: 2,
-            child: Text(web, style: const TextStyle(color: SwitchTheme.textMuted, fontSize: 11)),
+            child: Text(web, style: TextStyle(color: AppTheme.textMuted, fontSize: 11)),
           ),
           Expanded(
             flex: 3,
             child: Text(
               app,
               style: TextStyle(
-                color: app.contains('Exceeds') ? SwitchTheme.switchGreen : SwitchTheme.switchCyan,
+                color: app.contains('Exceeds') ? AppTheme.switchGreen : AppTheme.switchCyan,
                 fontWeight: FontWeight.bold,
                 fontSize: 11,
               ),

@@ -44,8 +44,8 @@ class SwitchTextField extends StatelessWidget {
       children: [
         Text(
           label,
-          style: const TextStyle(
-            color: SwitchTheme.textSecondary,
+          style: TextStyle(
+            color: AppTheme.textSecondary,
             fontSize: 13,
             fontWeight: FontWeight.w600,
           ),
@@ -67,21 +67,21 @@ class SwitchTextField extends StatelessWidget {
             }
             if (onChanged != null) onChanged!(val);
           },
-          style: const TextStyle(
-            color: SwitchTheme.textPrimary,
+          style: TextStyle(
+            color: AppTheme.textPrimary,
             fontSize: 14,
           ),
           decoration: InputDecoration(
             hintText: hint,
             errorText: errorText,
             helperText: helperText,
-            helperStyle: const TextStyle(color: SwitchTheme.textMuted, fontSize: 11),
+            helperStyle: TextStyle(color: AppTheme.textMuted, fontSize: 11),
             prefixIcon: prefixIcon != null
-                ? Icon(prefixIcon, color: SwitchTheme.switchCyan, size: 20)
+                ? Icon(prefixIcon, color: AppTheme.switchCyan, size: 20)
                 : null,
             suffixIcon: controller.text.isNotEmpty
                 ? IconButton(
-                    icon: const Icon(Icons.clear, size: 18, color: SwitchTheme.textMuted),
+                    icon: Icon(Icons.clear, size: 18, color: AppTheme.textMuted),
                     onPressed: () {
                       controller.clear();
                       if (onChanged != null) onChanged!('');

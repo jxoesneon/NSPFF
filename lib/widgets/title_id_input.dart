@@ -37,7 +37,7 @@ class TitleIdInput extends StatelessWidget {
             const Text(
               'Title ID (16-Hex)',
               style: TextStyle(
-                color: SwitchTheme.textSecondary,
+                color: AppTheme.textSecondary,
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
               ),
@@ -48,14 +48,14 @@ class TitleIdInput extends StatelessWidget {
                 controller.text = newId;
                 if (onChanged != null) onChanged!(newId);
               },
-              child: const Row(
+              child: Row(
                 children: [
-                  Icon(Icons.autorenew, size: 14, color: SwitchTheme.switchCyan),
+                  Icon(Icons.autorenew, size: 14, color: AppTheme.switchCyan),
                   SizedBox(width: 4),
                   Text(
                     'Randomize',
                     style: TextStyle(
-                      color: SwitchTheme.switchCyan,
+                      color: AppTheme.switchCyan,
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                     ),
@@ -79,8 +79,8 @@ class TitleIdInput extends StatelessWidget {
             if (onChanged != null) onChanged!(upper);
           },
           maxLength: 16,
-          style: SwitchTheme.monoStyle(
-            color: isValidHex ? SwitchTheme.textPrimary : SwitchTheme.switchRed,
+          style: AppTheme.monoStyle(
+            color: isValidHex ? AppTheme.textPrimary : AppTheme.switchRed,
             fontSize: 14,
             fontWeight: FontWeight.bold,
             letterSpacing: 1.2,
@@ -88,19 +88,19 @@ class TitleIdInput extends StatelessWidget {
           decoration: InputDecoration(
             counterText: '',
             hintText: '0500000000000001',
-            prefixIcon: const Icon(Icons.fingerprint, color: SwitchTheme.switchCyan),
+            prefixIcon: Icon(Icons.fingerprint, color: AppTheme.switchCyan),
             suffixIcon: Icon(
               isValidHex ? Icons.check_circle : Icons.warning_amber_rounded,
-              color: isValidHex ? SwitchTheme.switchGreen : SwitchTheme.switchRed,
+              color: isValidHex ? AppTheme.switchGreen : AppTheme.switchRed,
               size: 20,
             ),
           ),
         ),
         if (controller.text.toUpperCase().startsWith('0100')) ...[
           const SizedBox(height: 4),
-          const Text(
+          Text(
             '⚠️ Warning: 0100... Title IDs are reserved for official games. Use 05... for homebrew forwarders.',
-            style: TextStyle(color: SwitchTheme.switchYellow, fontSize: 11, fontWeight: FontWeight.w600),
+            style: TextStyle(color: AppTheme.switchYellow, fontSize: 11, fontWeight: FontWeight.w600),
           ),
         ],
         const SizedBox(height: 12),
