@@ -1,96 +1,120 @@
 # NSPFF (NSP Fast Forward)
 
+[![CI Status](https://github.com/jxoesneon/NSPFF/workflows/NSPFF%20(NSP%20Fast%20Forward)%20CI%20&%20APK%20Release%20Build/badge.svg)](https://github.com/jxoesneon/NSPFF/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Platform](https://img.shields.io/badge/Platform-Android%20%7C%20Flutter-brightgreen.svg)]()
-[![Parity](https://img.shields.io/badge/Parity-1%3A1%2B%20Exceeds-cyan.svg)]()
+[![Platform](https://img.shields.io/badge/Platform-Android%20%7C%20Flutter-333333.svg)]()
+[![Dart](https://img.shields.io/badge/Dart-3.0+-0175C2.svg)](https://dart.dev)
 
-**NSPFF (NSP Fast Forward)** is a high-performance Android application built with Flutter to generate Nintendo Switch NSP forwarders for standalone `.nro` homebrew applications and RetroArch ROM shortcuts.
+**NSPFF** (NSP Fast Forward) is a native Android application engineered in Flutter for constructing Nintendo Switch Package (`.nsp`) forwarders. The application generates valid home-screen shortcuts for standalone `.nro` executables and RetroArch emulator cores directly on Android hardware.
 
-It is based on [TooTallNate/switch-tools (nsp-forwarder)](https://github.com/TooTallNate/switch-tools/tree/main/apps/nsp-forwarder), delivering **1:1 parity and exceeding the original project in all core areas**.
+The implementation is derived from the specification established by [TooTallNate/switch-tools](https://github.com/TooTallNate/switch-tools), providing full parity while expanding capability with client-side binary construction, key validation, and automated multi-ROM batch packaging.
 
 ---
 
-## 🌟 Key Features & Parity Matrix
+## Technical Specifications & Binary Architecture
 
-| Feature | Original Web App (`nsp-forwarder`) | NSPFF (NSP Fast Forward) | Parity Level |
+NSPFF constructs compliant Nintendo Switch installation packages by assembling Partition File System 0 (PFS0) containers containing Control, Program, and Metadata NCAs.
+
+```
++-----------------------------------------------------------------------+
+|                         PFS0 NSP Container                            |
++-------------------+--------------------+------------------------------+
+| Control NCA       | Program NCA (ExeFS)| CNMT Meta NCA                |
+| - icon.dat        | - main.npdm        | - Application Metadata       |
+| - control.nacp    | - Target Path Stub | - Content Records            |
++-------------------+--------------------+------------------------------+
+```
+
+### 1. Control NACP Layout
+The Nintendo Application Control Property structure is initialized as a `0x4000` byte buffer adhering to Nintendo Horizon system specifications:
+* **Language Entries (`0x0000` - `0x2FFF`):** 16 language blocks, each `0x300` bytes (Title string max `0x1FE` bytes, Publisher max `0xFE` bytes).
+* **Title ID (`0x3038`):** 64-bit unsigned integer serialized in Little-Endian byte order.
+* **Version String (`0x3060`):** 16-byte UTF-8 string buffer.
+* **System Flags:**
+  * Startup User Account (`0x3025`)
+  * Screenshot Capture (`0x3034`)
+  * Video Capture (`0x3035`)
+  * SVC Debug Permission (`0x3036`)
+  * Logo Type (`0x30F0`)
+
+### 2. NRO Asset Parser
+Reads binary executables to extract embedded assets:
+* Verifies `NRO0` magic signature at offset `0x10`.
+* Locates the `ASET` section header at the executable boundary (`nroSize`).
+* Extracts NACP control metadata and 256x256 icon payloads without native process dependencies.
+
+---
+
+## Feature Comparison
+
+| Feature Capability | Web Baseline (`nsp-forwarder`) | NSPFF Engine | Status |
 |---|---|---|---|
-| **NRO Forwarder Mode** | ✅ Title, Author, NRO Path, ID, Version | ✅ Title, Author, NRO Path, ID, Version | 1:1 Parity |
-| **RetroArch Mode** | ✅ Core Selector, Core Path, ROM Path | ✅ Core Selector (35+ Cores), Core Path, ROM Path | 1:1 Parity |
-| **Advanced Options** | ✅ Startup User Account, Screenshots, Video Capture, SVC Debug, Logo Type | ✅ Startup User Account, Screenshots, Video Capture, SVC Debug, Logo Type | 1:1 Parity |
-| **Auto NACP Extractor** | ✅ Extract metadata from `.nro` | ✅ Extract NACP metadata & icons directly from `.nro` | 1:1 Parity |
-| **Custom Boxart & Icons** | ✅ 256x256 Image Upload & Crop | ✅ Live Switch Icon Frame Preview & Auto 256x256 JPEG Encoder | 1:1+ Exceeds |
-| **Title ID Generator** | ✅ Randomizer | ✅ Non-colliding Randomizer & Manual Override | 1:1+ Exceeds |
-| **`prod.keys` Manager** | ⚠️ Upload per build | ✅ Persistent Storage & Live Key Diagnostic Status Cards | 1:1+ Exceeds |
-| **Batch ROM Generator** | ❌ Not supported | ✅ Sequential Multi-ROM NSP Batch Generator | 1:1+ Exceeds |
-| **Saved Profile History** | ❌ Not supported | ✅ History log with profile re-export | 1:1+ Exceeds |
-| **Offline Privacy** | ❌ Server/Web dependent | ✅ 100% Client-side native generation on device | 1:1+ Exceeds |
+| Standalone NRO Forwarding | Supported | Supported | Full Parity |
+| RetroArch Core Forwarding | Supported | Supported (35+ Built-in Cores) | Full Parity |
+| Advanced Launch Flags | Supported | Supported | Full Parity |
+| Binary NACP Auto-Extraction | Supported | Supported | Full Parity |
+| 256x256 Icon Processing | Supported | Supported (Switch Icon Preview Frame) | Full Parity |
+| Persistent Key Diagnostics | Session-based | Persistent Storage & Health Checks | Expanded |
+| Multi-ROM Batch Packaging | Not Supported | Supported (Sequential Title ID Assignment) | Expanded |
+| Architecture | Web / WASM | Pure Dart Native (Client-Side) | Expanded |
 
 ---
 
-## 📱 App Screenshots & Switch Horizon UI
-
-The application features a sleek dark UI inspired by the **Nintendo Switch Horizon OS**:
-- **Switch Cyan (`#00C4EF`)** and **Joy-Con Red (`#FF3655`)** glowing accents.
-- Modern glassmorphic cards and rounded icon frame previews.
-- Instant diagnostics bar for `prod.keys` validation.
-
----
-
-## 🛠️ Project Structure
+## Repository Structure
 
 ```
 NSPFF/
-├── android/                   # Android native wrapper & permissions
+├── .github/
+│   └── workflows/          # GitHub Actions CI/CD automation
+├── android/                # Native Android application configuration
 ├── lib/
-│   ├── main.dart              # Application entry point
-│   ├── theme/
-│   │   └── switch_theme.dart  # Nintendo Switch Horizon design system
-│   ├── models/
-│   │   ├── forwarder_config.dart # NRO & RetroArch options model
-│   │   ├── retroarch_core.dart  # 35+ preconfigured RetroArch cores
-│   │   └── prod_keys.dart       # Cryptographic keys container & validator
-│   ├── services/
-│   │   ├── nacp_builder.dart  # NACP (0x4000 byte) control structure builder
-│   │   ├── nro_parser.dart    # NRO binary metadata & asset extractor
-│   │   ├── nsp_generator.dart # PFS0 container, NCAs, & NSP builder
-│   │   ├── keys_service.dart  # SharedPreferences key persistence
-│   │   └── preset_service.dart# Preset history manager
-│   ├── views/
-│   │   ├── main_navigation_screen.dart # Switch Horizon tab navigation
-│   │   ├── nro_forwarder_screen.dart   # NRO forwarder creator
-│   │   ├── retroarch_forwarder_screen.dart # RetroArch forwarder creator
-│   │   ├── batch_generator_screen.dart # Multi-ROM batch generator
-│   │   ├── keys_manager_screen.dart    # Key manager & status diagnostics
-│   │   ├── preset_history_screen.dart  # History & saved presets
-│   │   └── guide_screen.dart           # Atmosphere & sigpatch guide
-│   └── widgets/               # Switch UI controls, inputs, & previews
-├── test/                      # Unit test suite
-├── pubspec.yaml               # Flutter package manifest
-└── README.md
+│   ├── main.dart           # Application entry point
+│   ├── models/             # Data structures (ForwarderConfig, ProdKeys, RetroArchCore)
+│   ├── services/           # Binary packaging engines (NacpBuilder, NspGenerator, NroParser)
+│   ├── theme/              # Horizon OS design tokens & typography
+│   ├── views/              # Primary application screens
+│   └── widgets/            # Reusable UI components
+├── test/                   # Unit test suite
+├── CHANGELOG.md            # Version history
+├── CONTRIBUTING.md         # Contribution guidelines
+├── LICENSE                 # MIT License
+└── pubspec.yaml            # Dependencies and asset declarations
 ```
 
 ---
 
-## 🚀 Building & Running
+## Build Instructions
 
-### Requirements
-- Flutter SDK `>=3.0.0`
-- Android SDK 21+
+### Prerequisites
+* Flutter SDK `>= 3.0.0`
+* Android SDK (`minSdkVersion: 21`, `targetSdkVersion: 34`)
+* Java JDK 17
 
-### Build Android APK
-```bash
-flutter pub get
-flutter build apk --release
-```
+### Compilation
+1. Resolve dependencies:
+   ```bash
+   flutter pub get
+   ```
 
-The compiled APK will be located in `build/app/outputs/flutter-apk/app-release.apk`.
+2. Execute static analysis and unit tests:
+   ```bash
+   flutter analyze
+   flutter test
+   ```
+
+3. Build Android release APK:
+   ```bash
+   flutter build apk --release
+   ```
 
 ---
 
-## 🛡️ Console Ban Safety Notice
-Installing custom NSP forwarders modifies system ticket databases on the Nintendo Switch console. Always ensure you are operating on an **offline emuMMC** with **DNS MITM** or **Exosphere** enabled to prevent bans from Nintendo online services.
+## System Safety & Regulatory Notice
+
+Installing custom NSP forwarders alters system ticket registries on target consoles. Operates exclusively on custom firmware environments (Atmosphere) with appropriate sigpatches. Use dedicated offline emuMMC configurations with DNS MITM or Exosphere enabled to prevent unauthorized telemetry submission to console services.
 
 ---
 
-## 📄 License
-This project is open-source under the [MIT License](LICENSE).
+## License
+
+Distributed under the [MIT License](LICENSE).
