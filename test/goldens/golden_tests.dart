@@ -12,7 +12,7 @@ void main() {
     testWidgets('Renders MainNavigationScreen UI structure consistently', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          theme: SwitchTheme.darkTheme,
+          theme: AppTheme.darkTheme,
           home: const MainNavigationScreen(),
         ),
       );
@@ -24,7 +24,7 @@ void main() {
     testWidgets('Renders SwitchCard visual layout components', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          theme: SwitchTheme.darkTheme,
+          theme: AppTheme.darkTheme,
           home: const Scaffold(
             body: SwitchCard(
               title: 'Golden Card Header',

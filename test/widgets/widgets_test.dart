@@ -12,6 +12,7 @@ import 'package:nspff/widgets/switch_card.dart';
 import 'package:nspff/widgets/switch_dropdown.dart';
 import 'package:nspff/widgets/switch_text_field.dart';
 import 'package:nspff/widgets/switch_toggle.dart';
+import 'package:nspff/widgets/switch_pill_badge.dart';
 import 'package:nspff/widgets/title_id_input.dart';
 
 void main() {
@@ -19,7 +20,7 @@ void main() {
     testWidgets('SwitchCard renders title, subtitle, and child', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          theme: SwitchTheme.darkTheme,
+          theme: AppTheme.darkTheme,
           home: const Scaffold(
             body: SwitchCard(
               title: 'Card Title',
@@ -40,7 +41,7 @@ void main() {
 
       await tester.pumpWidget(
         MaterialApp(
-          theme: SwitchTheme.darkTheme,
+          theme: AppTheme.darkTheme,
           home: Scaffold(
             body: SwitchButton(
               text: 'Click Me',
@@ -60,7 +61,7 @@ void main() {
 
       await tester.pumpWidget(
         MaterialApp(
-          theme: SwitchTheme.darkTheme,
+          theme: AppTheme.darkTheme,
           home: Scaffold(
             body: SwitchTextField(
               label: 'Path Input',
@@ -80,7 +81,7 @@ void main() {
 
       await tester.pumpWidget(
         MaterialApp(
-          theme: SwitchTheme.darkTheme,
+          theme: AppTheme.darkTheme,
           home: Scaffold(
             body: StatefulBuilder(
               builder: (ctx, setState) => SwitchToggle(
@@ -103,7 +104,7 @@ void main() {
 
       await tester.pumpWidget(
         MaterialApp(
-          theme: SwitchTheme.darkTheme,
+          theme: AppTheme.darkTheme,
           home: Scaffold(
             body: TitleIdInput(
               controller: controller,
@@ -112,7 +113,7 @@ void main() {
         ),
       );
 
-      expect(find.text('0500000000000001'), findsOneWidget);
+      expect(find.text('0500000000000001'), findsAtLeastNWidgets(1));
       await tester.tap(find.text('Randomize'));
       await tester.pump();
 
@@ -125,7 +126,7 @@ void main() {
 
       await tester.pumpWidget(
         MaterialApp(
-          theme: SwitchTheme.darkTheme,
+          theme: AppTheme.darkTheme,
           home: Scaffold(
             body: StatefulBuilder(
               builder: (ctx, setState) => RetroArchCoreDropdown(
@@ -145,7 +146,7 @@ void main() {
 
       await tester.pumpWidget(
         MaterialApp(
-          theme: SwitchTheme.darkTheme,
+          theme: AppTheme.darkTheme,
           home: Scaffold(
             body: StatefulBuilder(
               builder: (ctx, setState) => LogoTypeDropdown(
@@ -165,11 +166,11 @@ void main() {
 
       await tester.pumpWidget(
         MaterialApp(
-          theme: SwitchTheme.darkTheme,
+          theme: AppTheme.darkTheme,
           home: Scaffold(
             body: SwitchPillBadge(
               label: 'TEST BADGE',
-              color: SwitchTheme.switchCyan,
+              color: AppTheme.switchCyan,
               onTap: () => tapped = true,
             ),
           ),

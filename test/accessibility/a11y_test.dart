@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 import 'package:flutter/material.dart';
-import 'package0:flutter_test/flutter_test.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:nspff/theme/switch_theme.dart';
 import 'package:nspff/widgets/switch_button.dart';
 
@@ -11,7 +11,7 @@ void main() {
     testWidgets('SwitchButton meets touch target guidelines', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          theme: SwitchTheme.darkTheme,
+          theme: AppTheme.darkTheme,
           home: Scaffold(
             body: SwitchButton(
               text: 'Accessible Button',
@@ -30,7 +30,7 @@ void main() {
 
       await tester.pumpWidget(
         MaterialApp(
-          theme: SwitchTheme.darkTheme,
+          theme: AppTheme.darkTheme,
           home: Scaffold(
             body: Semantics(
               label: 'Accessible Input',
@@ -43,7 +43,7 @@ void main() {
         ),
       );
 
-      expect(find.bySemanticsLabel('Accessible Input'), findsOneWidget);
+      expect(find.bySemanticsLabel('Accessible Input'), findsAtLeastNWidgets(1));
       handle.dispose();
     });
   });

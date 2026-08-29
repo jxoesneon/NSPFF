@@ -24,7 +24,7 @@ void main() {
     testWidgets('MainNavigationScreen renders tab bar and navigates tabs', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          theme: SwitchTheme.darkTheme,
+          theme: AppTheme.darkTheme,
           home: const MainNavigationScreen(),
         ),
       );
@@ -63,7 +63,7 @@ void main() {
     testWidgets('NroForwarderScreen renders form components', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          theme: SwitchTheme.darkTheme,
+          theme: AppTheme.darkTheme,
           home: const Scaffold(body: NroForwarderScreen()),
         ),
       );
@@ -77,7 +77,7 @@ void main() {
     testWidgets('RetroArchForwarderScreen renders core options', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          theme: SwitchTheme.darkTheme,
+          theme: AppTheme.darkTheme,
           home: const Scaffold(body: RetroArchForwarderScreen()),
         ),
       );
@@ -90,7 +90,7 @@ void main() {
     testWidgets('BatchGeneratorScreen renders batch form', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          theme: SwitchTheme.darkTheme,
+          theme: AppTheme.darkTheme,
           home: const Scaffold(body: BatchGeneratorScreen()),
         ),
       );
@@ -103,7 +103,7 @@ void main() {
     testWidgets('KeysManagerScreen renders diagnostics', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          theme: SwitchTheme.darkTheme,
+          theme: AppTheme.darkTheme,
           home: const Scaffold(body: KeysManagerScreen()),
         ),
       );
@@ -116,7 +116,7 @@ void main() {
     testWidgets('PresetHistoryScreen handles empty state', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          theme: SwitchTheme.darkTheme,
+          theme: AppTheme.darkTheme,
           home: const Scaffold(body: PresetHistoryScreen()),
         ),
       );
@@ -128,7 +128,7 @@ void main() {
     testWidgets('GuideScreen renders guide steps and parity matrix', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          theme: SwitchTheme.darkTheme,
+          theme: AppTheme.darkTheme,
           home: const Scaffold(body: GuideScreen()),
         ),
       );
