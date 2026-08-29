@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:nsp_forwarder/models/forwarder_config.dart';
-import 'package:nsp_forwarder/services/nacp_builder.dart';
+import 'package:nspff/models/forwarder_config.dart';
+import 'package:nspff/services/nacp_builder.dart';
 
 void main() {
   group('NacpBuilder Tests', () {

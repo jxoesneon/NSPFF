@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:nsp_forwarder/models/forwarder_config.dart';
-import 'package:nsp_forwarder/models/prod_keys.dart';
-import 'package:nsp_forwarder/services/nsp_generator.dart';
+import 'package:nspff/models/forwarder_config.dart';
+import 'package:nspff/models/prod_keys.dart';
+import 'package:nspff/services/nsp_generator.dart';
 
 void main() {
   group('NspGenerator Tests', () {

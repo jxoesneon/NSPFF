@@ -1,10 +1,10 @@
-# NSP Forwarder>> (Android Flutter Application)
+# NSPFF (NSP Fast Forward)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-Android%20%7C%20Flutter-brightgreen.svg)]()
 [![Parity](https://img.shields.io/badge/Parity-1%3A1%2B%20Exceeds-cyan.svg)]()
 
-**NSP Forwarder>>** is a high-performance Android application built with Flutter to generate Nintendo Switch NSP forwarders for standalone `.nro` homebrew applications and RetroArch ROM shortcuts.
+**NSPFF (NSP Fast Forward)** is a high-performance Android application built with Flutter to generate Nintendo Switch NSP forwarders for standalone `.nro` homebrew applications and RetroArch ROM shortcuts.
 
 It is based on [TooTallNate/switch-tools (nsp-forwarder)](https://github.com/TooTallNate/switch-tools/tree/main/apps/nsp-forwarder), delivering **1:1 parity and exceeding the original project in all core areas**.
 
@@ -12,7 +12,7 @@ It is based on [TooTallNate/switch-tools (nsp-forwarder)](https://github.com/Too
 
 ## 🌟 Key Features & Parity Matrix
 
-| Feature | Original Web App (`nsp-forwarder`) | NSP Forwarder>> (Android App) | Parity Level |
+| Feature | Original Web App (`nsp-forwarder`) | NSPFF (NSP Fast Forward) | Parity Level |
 |---|---|---|---|
 | **NRO Forwarder Mode** | ✅ Title, Author, NRO Path, ID, Version | ✅ Title, Author, NRO Path, ID, Version | 1:1 Parity |
 | **RetroArch Mode** | ✅ Core Selector, Core Path, ROM Path | ✅ Core Selector (35+ Cores), Core Path, ROM Path | 1:1 Parity |
@@ -39,7 +39,7 @@ The application features a sleek dark UI inspired by the **Nintendo Switch Horiz
 ## 🛠️ Project Structure
 
 ```
-NSP/
+NSPFF/
 ├── android/                   # Android native wrapper & permissions
 ├── lib/
 │   ├── main.dart              # Application entry point
@@ -64,6 +64,7 @@ NSP/
 │   │   ├── preset_history_screen.dart  # History & saved presets
 │   │   └── guide_screen.dart           # Atmosphere & sigpatch guide
 │   └── widgets/               # Switch UI controls, inputs, & previews
+├── test/                      # Unit test suite
 ├── pubspec.yaml               # Flutter package manifest
 └── README.md
 ```

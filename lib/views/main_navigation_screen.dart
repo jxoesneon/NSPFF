@@ -66,11 +66,11 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> with Single
             ),
             const SizedBox(width: 10),
             const Text(
-              'NSP FORWARDER',
+              'NSPFF',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 18,
-                letterSpacing: 1.0,
+                fontSize: 19,
+                letterSpacing: 1.2,
               ),
             ),
             const SizedBox(width: 6),
@@ -82,7 +82,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> with Single
                 border: Border.all(color: SwitchTheme.switchCyan, width: 0.8),
               ),
               child: const Text(
-                '>> 1:1+',
+                'FAST FORWARD',
                 style: TextStyle(
                   color: SwitchTheme.switchCyan,
                   fontSize: 10,

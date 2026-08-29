@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:nsp_forwarder/models/prod_keys.dart';
+import 'package:nspff/models/prod_keys.dart';
 
 void main() {
   group('ProdKeys Model Tests', () {

@@ -4,16 +4,16 @@ import 'views/main_navigation_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const NspForwarderApp());
+  runApp(const NspffApp());
 }
 
-class NspForwarderApp extends StatelessWidget {
-  const NspForwarderApp({Key? key}) : super(key: key);
+class NspffApp extends StatelessWidget {
+  const NspffApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'NSP Forwarder>>',
+      title: 'NSPFF (NSP Fast Forward)',
       debugShowCheckedModeBanner: false,
       theme: SwitchTheme.darkTheme,
       home: const MainNavigationScreen(),
