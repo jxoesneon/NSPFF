@@ -1,0 +1,47 @@
+import 'package:flutter_test/flutter_test.dart';
+import 'package:nsp_forwarder/models/forwarder_config.dart';
+import 'package:nsp_forwarder/services/nacp_builder.dart';
+
+void main() {
+  group('NacpBuilder Tests', () {
+    test('Builds valid 0x4000 byte NACP binary buffer', () {
+      final config = ForwarderConfig(
+        id: '0500000000000001',
+        title: 'Test App',
+        publisher: 'Test Publisher',
+        version: '1.2.3',
+        nroPath: '/switch/test.nro',
+        startupUserAccount: true,
+        screenshot: false,
+        videoCapture: true,
+        enableSvcDebug: true,
+        logoType: LogoType.licensedByNintendo,
+      );
+
+      final nacp = NacpBuilder.buildNacp(config);
+
+      expect(nacp.length, equals(0x4000));
+      expect(nacp[0x3025], equals(1)); // startupUserAccount
+      expect(nacp[0x3034], equals(1)); // screenshot disabled
+      expect(nacp[0x3035], equals(1)); // videoCapture enabled
+      expect(nacp[0x3036], equals(1)); // enableSvcDebug
+      expect(nacp[0x30F0], equals(1)); // LogoType licensedByNintendo
+    });
+
+    test('Handles Little-Endian 64-bit Title ID parsing safely', () {
+      final config = ForwarderConfig(
+        id: '050000000000ABCD',
+        title: 'Title ID Test',
+        publisher: 'Dev',
+        nroPath: '/switch/app.nro',
+      );
+
+      final nacp = NacpBuilder.buildNacp(config);
+
+      // Verify Little-Endian bytes at 0x3038: 0xCD, 0xAB, 0x00, 0x00, 0x00, 0x00, 0x00, 0x05
+      expect(nacp[0x3038], equals(0xCD));
+      expect(nacp[0x3039], equals(0xAB));
+      expect(nacp[0x303F], equals(0x05));
+    });
+  });
+}
