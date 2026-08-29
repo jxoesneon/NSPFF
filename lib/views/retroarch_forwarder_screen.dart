@@ -1,9 +1,11 @@
 import 'dart:typed_data';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' as p;
 import '../models/forwarder_config.dart';
 import '../models/retroarch_core.dart';
 import '../models/prod_keys.dart';
+import '../services/autodetect_inference_service.dart';
 import '../services/keys_service.dart';
 import '../services/nsp_generator.dart';
 import '../services/preset_service.dart';
@@ -71,14 +73,48 @@ class _RetroArchForwarderScreenState extends State<RetroArchForwarderScreen> {
     }
   }
 
+  void _runSmartAutodetect() {
+    final input = _romPathController.text.trim();
+    if (input.isEmpty) return;
+
+    final result = AutodetectInferenceService.inferRomDetails(input);
+    setState(() {
+      _titleController.text = result.title;
+      _publisherController.text = result.publisher;
+      if (result.core != null) {
+        _selectedCore = result.core;
+      }
+      _corePathController.text = result.corePath;
+      _romPathController.text = result.romSdPath;
+      _idController.text = result.titleId;
+    });
+
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('⚡ Auto-detected core, game title, and SD paths!'),
+          backgroundColor: SwitchTheme.switchGreen,
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+
+  Future<void> _pickRomFile() async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.any,
+      allowMultiple: false,
+    );
+
+    if (result != null && result.files.single.name.isNotEmpty) {
+      _romPathController.text = result.files.single.name;
+      _runSmartAutodetect();
+    }
+  }
+
   void _onRomPathChanged(String romPath) {
     if (romPath.trim().isNotEmpty) {
-      final filename = p.basenameWithoutExtension(romPath.trim());
-      if (filename.isNotEmpty) {
-        setState(() {
-          _titleController.text = filename;
-        });
-      }
+      _runSmartAutodetect();
     }
   }
 
@@ -194,6 +230,34 @@ class _RetroArchForwarderScreenState extends State<RetroArchForwarderScreen> {
             title: 'ROM & Target Paths',
             child: Column(
               children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton.icon(
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: SwitchTheme.switchCyan,
+                          side: const BorderSide(color: SwitchTheme.switchCyan),
+                        ),
+                        icon: const Icon(Icons.file_open, size: 16),
+                        label: const Text('Browse ROM File'),
+                        onPressed: _pickRomFile,
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: SwitchTheme.switchCyan,
+                          foregroundColor: Colors.black,
+                        ),
+                        icon: const Icon(Icons.bolt, size: 18),
+                        label: const Text('Smart Auto-Fill', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+                        onPressed: _runSmartAutodetect,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
                 SwitchTextField(
                   label: 'Target ROM Path on SD Card',
                   hint: '/roms/snes/Super Mario World.sfc',
