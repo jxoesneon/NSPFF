@@ -3,6 +3,7 @@ import 'package:path/path.dart' as p;
 import '../models/forwarder_config.dart';
 import '../models/retroarch_core.dart';
 import '../models/prod_keys.dart';
+import '../services/autodetect_inference_service.dart';
 import '../services/keys_service.dart';
 import '../services/nsp_generator.dart';
 import '../services/preset_service.dart';
@@ -28,6 +29,35 @@ class _BatchGeneratorScreenState extends State<BatchGeneratorScreen> {
   final _baseTitleIdController = TextEditingController(text: '0500000000000010');
 
   bool _isGenerating = false;
+
+  void _autoFormatBatchList() {
+    final lines = _romListController.text.split('\n');
+    final List<String> formatted = [];
+
+    for (var line in lines) {
+      final trimmed = line.trim();
+      if (trimmed.isNotEmpty) {
+        final result = AutodetectInferenceService.inferRomDetails(trimmed);
+        formatted.add(result.romSdPath);
+      }
+    }
+
+    if (formatted.isNotEmpty) {
+      setState(() {
+        _romListController.text = formatted.join('\n');
+      });
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('⚡ Auto-formatted batch ROM paths & cleaned titles!'),
+            backgroundColor: SwitchTheme.switchGreen,
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+    }
+  }
   int _generatedCount = 0;
   int _totalCount = 0;
 
@@ -145,6 +175,19 @@ class _BatchGeneratorScreenState extends State<BatchGeneratorScreen> {
                 RetroArchCoreDropdown(
                   selectedCore: _selectedCore,
                   onChanged: (core) => setState(() => _selectedCore = core),
+                ),
+                const SizedBox(height: 10),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: SwitchTheme.switchCyan,
+                      foregroundColor: Colors.black,
+                    ),
+                    icon: const Icon(Icons.bolt, size: 16),
+                    label: const Text('Smart Auto-Format List', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
+                    onPressed: _autoFormatBatchList,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 const Text(

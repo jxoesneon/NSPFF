@@ -69,6 +69,7 @@ void main() {
       );
 
       expect(find.text('NRO Forwarder Generator'), findsOneWidget);
+      expect(find.text('Smart Auto-Fill'), findsOneWidget);
       expect(find.text('Target NRO Path on SD Card'), findsOneWidget);
       expect(find.text('GENERATE NSP FORWARDER'), findsOneWidget);
     });
@@ -82,6 +83,7 @@ void main() {
       );
 
       expect(find.text('RetroArch ROM Forwarder'), findsOneWidget);
+      expect(find.text('Smart Auto-Fill'), findsOneWidget);
       expect(find.text('GENERATE RETROARCH NSP'), findsOneWidget);
     });
 
@@ -94,6 +96,7 @@ void main() {
       );
 
       expect(find.text('Batch ROM Forwarder Generator'), findsOneWidget);
+      expect(find.text('Smart Auto-Format List'), findsOneWidget);
       expect(find.text('RUN BATCH GENERATION'), findsOneWidget);
     });
 

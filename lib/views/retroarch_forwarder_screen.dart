@@ -6,6 +6,7 @@ import '../models/forwarder_config.dart';
 import '../models/retroarch_core.dart';
 import '../models/prod_keys.dart';
 import '../services/autodetect_inference_service.dart';
+import '../services/boxart_downloader_service.dart';
 import '../services/keys_service.dart';
 import '../services/nsp_generator.dart';
 import '../services/preset_service.dart';
@@ -73,7 +74,7 @@ class _RetroArchForwarderScreenState extends State<RetroArchForwarderScreen> {
     }
   }
 
-  void _runSmartAutodetect() {
+  Future<void> _runSmartAutodetect() async {
     final input = _romPathController.text.trim();
     if (input.isEmpty) return;
 
@@ -89,10 +90,20 @@ class _RetroArchForwarderScreenState extends State<RetroArchForwarderScreen> {
       _idController.text = result.titleId;
     });
 
+    // Auto-fetch Boxart if system matches
+    if (_selectedCore != null) {
+      final boxartBytes = await BoxartDownloaderService.fetchBoxartImage(_selectedCore!.systemName, result.title);
+      if (boxartBytes != null && mounted) {
+        setState(() {
+          _iconBytes = boxartBytes;
+        });
+      }
+    }
+
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('⚡ Auto-detected core, game title, and SD paths!'),
+          content: Text('⚡ Auto-detected core, title, paths & fetched HD boxart!'),
           backgroundColor: SwitchTheme.switchGreen,
           duration: Duration(seconds: 2),
         ),

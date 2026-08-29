@@ -3,6 +3,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import '../models/forwarder_config.dart';
 import '../models/prod_keys.dart';
+import '../services/autodetect_inference_service.dart';
 import '../services/keys_service.dart';
 import '../services/nsp_generator.dart';
 import '../services/nro_parser.dart';
@@ -50,6 +51,29 @@ class _NroForwarderScreenState extends State<NroForwarderScreen> {
     _versionController.dispose();
     _idController.dispose();
     super.dispose();
+  }
+
+  void _runSmartAutodetect() {
+    final input = _nroPathController.text.trim();
+    if (input.isEmpty) return;
+
+    final result = AutodetectInferenceService.inferNroDetails(input);
+    setState(() {
+      _titleController.text = result.title;
+      _publisherController.text = result.publisher;
+      _nroPathController.text = result.nroSdPath;
+      _idController.text = result.titleId;
+    });
+
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('⚡ Auto-detected app title and SD path!'),
+          backgroundColor: SwitchTheme.switchGreen,
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
   }
 
   Future<void> _extractNroMetadata() async {
@@ -181,16 +205,30 @@ class _NroForwarderScreenState extends State<NroForwarderScreen> {
           SwitchCard(
             title: 'NRO Forwarder Generator',
             subtitle: 'Create home-screen shortcuts for standalone Nintendo Switch .nro apps',
-            child: Column(
+            child: Row(
               children: [
-                OutlinedButton.icon(
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: SwitchTheme.switchCyan,
-                    side: const BorderSide(color: SwitchTheme.switchCyan),
+                Expanded(
+                  child: OutlinedButton.icon(
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: SwitchTheme.switchCyan,
+                      side: const BorderSide(color: SwitchTheme.switchCyan),
+                    ),
+                    icon: const Icon(Icons.auto_fix_high, size: 16),
+                    label: const Text('Extract .NRO'),
+                    onPressed: _extractNroMetadata,
                   ),
-                  icon: const Icon(Icons.auto_fix_high, size: 18),
-                  label: const Text('Auto-Extract from .NRO File'),
-                  onPressed: _extractNroMetadata,
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: SwitchTheme.switchCyan,
+                      foregroundColor: Colors.black,
+                    ),
+                    icon: const Icon(Icons.bolt, size: 18),
+                    label: const Text('Smart Auto-Fill', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+                    onPressed: _runSmartAutodetect,
+                  ),
                 ),
               ],
             ),
