@@ -159,5 +159,26 @@ void main() {
 
       expect(find.text('Nintendo'), findsOneWidget);
     });
+
+    testWidgets('SwitchPillBadge renders label and handles tap', (WidgetTester tester) async {
+      bool tapped = false;
+
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: SwitchTheme.darkTheme,
+          home: Scaffold(
+            body: SwitchPillBadge(
+              label: 'TEST BADGE',
+              color: SwitchTheme.switchCyan,
+              onTap: () => tapped = true,
+            ),
+          ),
+        ),
+      );
+
+      expect(find.text('TEST BADGE'), findsOneWidget);
+      await tester.tap(find.text('TEST BADGE'));
+      expect(tapped, isTrue);
+    });
   });
 }

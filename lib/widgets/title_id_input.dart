@@ -79,9 +79,9 @@ class TitleIdInput extends StatelessWidget {
             if (onChanged != null) onChanged!(upper);
           },
           maxLength: 16,
-          style: TextStyle(
+          style: SwitchTheme.monoStyle(
             color: isValidHex ? SwitchTheme.textPrimary : SwitchTheme.switchRed,
-            fontFamily: 'Monospace',
+            fontSize: 14,
             fontWeight: FontWeight.bold,
             letterSpacing: 1.2,
           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SwitchTheme {
   // Brand Colors
@@ -13,14 +14,30 @@ class SwitchTheme {
   // Neutral Tones
   static const Color textPrimary = Color(0xFFF3F4F6);
   static const Color textSecondary = Color(0xFF9CA3AF);
-  static const Color textMuted = Color(0xFF6B7280);
+  static const Color textMuted = Color(0xFF94A3B8); // Lightened to pass WCAG AA contrast (6.12:1)
   static const Color inputBackground = Color(0xFF161820);
   
+  /// Monospace font style helper for Title IDs, Hex strings, and paths
+  static TextStyle monoStyle({
+    Color color = textPrimary,
+    double fontSize = 13,
+    FontWeight fontWeight = FontWeight.normal,
+    double letterSpacing = 0.5,
+  }) {
+    return GoogleFonts.jetBrainsMono(
+      color: color,
+      fontSize: fontSize,
+      fontWeight: fontWeight,
+      letterSpacing: letterSpacing,
+    );
+  }
+
   static ThemeData get darkTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
       scaffoldBackgroundColor: darkBackground,
+      textTheme: GoogleFonts.outfitTextTheme(ThemeData.dark().textTheme),
       colorScheme: const ColorScheme.dark(
         primary: switchCyan,
         secondary: switchRed,

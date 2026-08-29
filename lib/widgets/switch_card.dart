@@ -43,7 +43,7 @@ class SwitchCard extends StatelessWidget {
         children: [
           if (title != null) ...[
             Padding(
-              padding: const EdgeInsets.fromLTRB(18, 16, 18, 8),
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -55,12 +55,12 @@ class SwitchCard extends StatelessWidget {
                           title!,
                           style: const TextStyle(
                             color: SwitchTheme.textPrimary,
-                            fontSize: 16,
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         if (subtitle != null) ...[
-                          const SizedBox(height: 2),
+                          const SizedBox(height: 4),
                           Text(
                             subtitle!,
                             style: const TextStyle(
@@ -79,7 +79,7 @@ class SwitchCard extends StatelessWidget {
             const Divider(color: SwitchTheme.cardBorder, height: 1),
           ],
           Padding(
-            padding: padding ?? const EdgeInsets.all(18.0),
+            padding: padding ?? const EdgeInsets.all(16.0),
             child: child,
           ),
         ],

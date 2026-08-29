@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/keys_service.dart';
 import '../theme/switch_theme.dart';
+import '../widgets/switch_pill_badge.dart';
 import 'batch_generator_screen.dart';
 import 'guide_screen.dart';
 import 'keys_manager_screen.dart';
@@ -69,64 +70,26 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> with Single
               'NSPFF',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 19,
+                fontSize: 22,
                 letterSpacing: 1.2,
               ),
             ),
-            const SizedBox(width: 6),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-              decoration: BoxDecoration(
-                color: SwitchTheme.switchCyan.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(4),
-                border: Border.all(color: SwitchTheme.switchCyan, width: 0.8),
-              ),
-              child: const Text(
-                'FAST FORWARD',
-                style: TextStyle(
-                  color: SwitchTheme.switchCyan,
-                  fontSize: 10,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+            const SizedBox(width: 8),
+            const SwitchPillBadge(
+              label: 'FAST FORWARD',
+              color: SwitchTheme.switchCyan,
             ),
           ],
         ),
         actions: [
           // Key Status Pill
-          GestureDetector(
-            onTap: () {
-              _tabController.animateTo(3); // Go to Keys tab
-            },
-            child: Container(
-              margin: const EdgeInsets.only(right: 16),
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-              decoration: BoxDecoration(
-                color: _hasValidKeys ? SwitchTheme.switchGreen.withOpacity(0.15) : SwitchTheme.switchRed.withOpacity(0.15),
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(
-                  color: _hasValidKeys ? SwitchTheme.switchGreen : SwitchTheme.switchRed,
-                  width: 1,
-                ),
-              ),
-              child: Row(
-                children: [
-                  Icon(
-                    _hasValidKeys ? Icons.vpn_key : Icons.vpn_key_off,
-                    size: 14,
-                    color: _hasValidKeys ? SwitchTheme.switchGreen : SwitchTheme.switchRed,
-                  ),
-                  const SizedBox(width: 4),
-                  Text(
-                    _hasValidKeys ? 'KEYS READY' : 'KEYS NEEDED',
-                    style: TextStyle(
-                      color: _hasValidKeys ? SwitchTheme.switchGreen : SwitchTheme.switchRed,
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
+          Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: SwitchPillBadge(
+              label: _hasValidKeys ? 'KEYS READY' : 'KEYS NEEDED',
+              color: _hasValidKeys ? SwitchTheme.switchGreen : SwitchTheme.switchRed,
+              icon: _hasValidKeys ? Icons.vpn_key : Icons.vpn_key_off,
+              onTap: () => _tabController.animateTo(3),
             ),
           ),
         ],
@@ -158,6 +121,37 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> with Single
           PresetHistoryScreen(),
           GuideScreen(),
         ],
+      ),
+      bottomNavigationBar: Container(
+        height: 36,
+        color: SwitchTheme.cardBackground,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: const Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Icon(Icons.circle, size: 8, color: SwitchTheme.switchCyan),
+                SizedBox(width: 6),
+                Text('Ⓐ Select / Autodetect', style: TextStyle(color: SwitchTheme.textMuted, fontSize: 11, fontWeight: FontWeight.w600)),
+              ],
+            ),
+            Row(
+              children: [
+                Icon(Icons.change_circle_outlined, size: 12, color: SwitchTheme.switchRed),
+                SizedBox(width: 4),
+                Text('Ⓑ Back / Clear', style: TextStyle(color: SwitchTheme.textMuted, fontSize: 11, fontWeight: FontWeight.w600)),
+              ],
+            ),
+            Row(
+              children: [
+                Icon(Icons.add_circle_outline, size: 12, color: SwitchTheme.switchGreen),
+                SizedBox(width: 4),
+                Text('⊕ Build NSP', style: TextStyle(color: SwitchTheme.textMuted, fontSize: 11, fontWeight: FontWeight.w600)),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

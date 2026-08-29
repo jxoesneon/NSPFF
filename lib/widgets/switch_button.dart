@@ -34,7 +34,7 @@ class SwitchButton extends StatelessWidget {
         break;
       case SwitchButtonVariant.secondary:
         bg = SwitchTheme.switchRed;
-        fg = Colors.white;
+        fg = Colors.black; // AAA Contrast (7.05:1) on Switch Red
         break;
       case SwitchButtonVariant.outline:
         bg = Colors.transparent;

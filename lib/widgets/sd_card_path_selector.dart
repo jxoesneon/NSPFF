@@ -46,10 +46,9 @@ class SdCardPathSelector extends StatelessWidget {
                   ),
                   label: Text(
                     path,
-                    style: TextStyle(
+                    style: SwitchTheme.monoStyle(
                       color: isSelected ? SwitchTheme.switchCyan : SwitchTheme.textSecondary,
                       fontSize: 11,
-                      fontFamily: 'Monospace',
                     ),
                   ),
                   onPressed: () {
