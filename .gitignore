@@ -20,6 +20,8 @@ migrate_working_dir/
 build/
 
 # Android
+android/.gradle/
+android/local.properties
 android/app/debug
 android/app/profile
 android/app/release
