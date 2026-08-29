@@ -23,9 +23,14 @@ class SwitchTextField extends StatelessWidget {
     this.errorText,
   }) : super(key: key);
 
+  static final RegExp _driveLetterRegex = RegExp(r'^[a-zA-Z]:');
+  static final RegExp _traversalRegex = RegExp(r'\.\.[/\\]?');
+  static final RegExp _multiSlashRegex = RegExp(r'/+');
+
   static String normalizePath(String input) {
     if (input.trim().isEmpty) return input;
-    String v = input.trim().replaceAll(RegExp(r'^[a-zA-Z]:'), '').replaceAll('\\', '/');
+    String v = input.trim().replaceAll(_driveLetterRegex, '').replaceAll('\\', '/');
+    v = v.replaceAll(_traversalRegex, '').replaceAll(_multiSlashRegex, '/');
     if (!v.startsWith('/')) {
       v = '/$v';
     }

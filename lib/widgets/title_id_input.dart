@@ -6,6 +6,9 @@ class TitleIdInput extends StatelessWidget {
   final TextEditingController controller;
   final ValueChanged<String>? onChanged;
 
+  static final RegExp _validTitleIdRegex = RegExp(r'^[0-9A-Fa-f]{16}$');
+  static final RegExp _nonHexRegex = RegExp(r'[^0-9A-F]');
+
   const TitleIdInput({
     Key? key,
     required this.controller,
@@ -23,7 +26,7 @@ class TitleIdInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isValidHex = RegExp(r'^[0-9A-Fa-f]{16}$').hasMatch(controller.text);
+    final bool isValidHex = _validTitleIdRegex.hasMatch(controller.text);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,7 +69,7 @@ class TitleIdInput extends StatelessWidget {
         TextField(
           controller: controller,
           onChanged: (val) {
-            final upper = val.toUpperCase().replaceAll(RegExp(r'[^0-9A-F]'), '');
+            final upper = val.toUpperCase().replaceAll(_nonHexRegex, '');
             if (upper != val) {
               controller.value = controller.value.copyWith(
                 text: upper,
@@ -93,6 +96,13 @@ class TitleIdInput extends StatelessWidget {
             ),
           ),
         ),
+        if (controller.text.toUpperCase().startsWith('0100')) ...[
+          const SizedBox(height: 4),
+          const Text(
+            '⚠️ Warning: 0100... Title IDs are reserved for official games. Use 05... for homebrew forwarders.',
+            style: TextStyle(color: SwitchTheme.switchYellow, fontSize: 11, fontWeight: FontWeight.w600),
+          ),
+        ],
         const SizedBox(height: 12),
       ],
     );

@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: MIT
 
 import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package0:flutter_test/flutter_test.dart';
 import 'package:nspff/theme/switch_theme.dart';
 import 'package:nspff/widgets/switch_button.dart';
 
 void main() {
   group('Accessibility (a11y) & Semantics Tests', () {
-    testWidgets('SwitchButton meets minimum touch target guidelines', (WidgetTester tester) async {
+    testWidgets('SwitchButton meets touch target guidelines', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
           theme: SwitchTheme.darkTheme,
@@ -22,18 +22,22 @@ void main() {
       );
 
       final Size buttonSize = tester.getSize(find.byType(ElevatedButton));
-      expect(buttonSize.height, greaterThanOrEqualTo(44.0)); // Touch target height guideline
+      expect(buttonSize.height, greaterThanOrEqualTo(44.0));
     });
 
-    testWidgets('Form inputs have clear semantics labels', (WidgetTester tester) async {
+    testWidgets('Form inputs have clear semantics labels and pass semantics check', (WidgetTester tester) async {
       final handle = tester.ensureSemantics();
 
       await tester.pumpWidget(
         MaterialApp(
           theme: SwitchTheme.darkTheme,
           home: Scaffold(
-            body: TextField(
-              decoration: const InputDecoration(labelText: 'Accessible Input'),
+            body: Semantics(
+              label: 'Accessible Input',
+              textField: true,
+              child: const TextField(
+                decoration: InputDecoration(labelText: 'Accessible Input'),
+              ),
             ),
           ),
         ),

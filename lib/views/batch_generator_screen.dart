@@ -112,7 +112,7 @@ class _BatchGeneratorScreenState extends State<BatchGeneratorScreen> {
           selectedCore: _selectedCore,
         );
 
-        await NspGenerator.generateNsp(config: config, keys: keys);
+        await NspGenerator.generateNspAsync(config: config, keys: keys);
         await SavedPresetService.addToHistory(config);
 
         setState(() {

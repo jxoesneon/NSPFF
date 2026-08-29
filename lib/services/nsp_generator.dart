@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 import 'dart:convert';
+import 'dart:isolate';
 import 'dart:typed_data';
 import 'package:image/image.dart' as img;
 import '../models/forwarder_config.dart';
@@ -23,6 +24,16 @@ class GeneratedNspResult {
 }
 
 class NspGenerator {
+  static final RegExp _filenameSanitizerRegex = RegExp(r'[^\w\s\.-]');
+
+  /// Asynchronously generates NSP in a background worker Isolate to preserve UI responsiveness.
+  static Future<GeneratedNspResult> generateNspAsync({
+    required ForwarderConfig config,
+    required ProdKeys keys,
+  }) async {
+    return Isolate.run(() => generateNsp(config: config, keys: keys));
+  }
+
   /// Generate a valid PFS0 NSP file wrapping Control NCA, Main NCA, Meta NCA (CNMT), and Control NACP.
   static Future<GeneratedNspResult> generateNsp({
     required ForwarderConfig config,
@@ -66,7 +77,7 @@ class NspGenerator {
 
     return GeneratedNspResult(
       nspBytes: nspBytes,
-      filename: '${config.title.replaceAll(RegExp(r'[^\w\s\.-]'), '')}_[$titleIdHex].nsp',
+      filename: '${config.title.replaceAll(_filenameSanitizerRegex, '')}_[$titleIdHex].nsp',
       titleId: titleIdHex,
       totalSize: nspBytes.length,
     );

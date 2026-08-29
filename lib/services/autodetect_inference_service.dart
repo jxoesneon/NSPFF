@@ -65,15 +65,18 @@ class AutodetectInferenceService {
     '.zip': {'system': 'Arcade (FBNeo)', 'coreId': 'fbneo', 'sdDir': '/roms/arcade/'},
   };
 
+  static final RegExp _parensTagRegex = RegExp(r'\s*\([^)]*\)');
+  static final RegExp _bracketTagRegex = RegExp(r'\s*\[[^\]]*\]');
+
   /// Clean ROM filename by stripping dump tags like (USA), [!], (v1.1), (Rev 1), etc.
   static String cleanTitle(String input) {
     String name = p.basenameWithoutExtension(input.trim());
-    
+
     // Regex stripping parentheses tags like (USA), (Europe), (Japan), (En,Fr,De)
-    name = name.replaceAll(RegExp(r'\s*\([^)]*\)'), '');
-    
+    name = name.replaceAll(_parensTagRegex, '');
+
     // Regex stripping bracket tags like [!], [b1], [t1], [h1]
-    name = name.replaceAll(RegExp(r'\s*\[[^\]]*\]'), '');
+    name = name.replaceAll(_bracketTagRegex, '');
 
     // Replace underscores with spaces
     name = name.replaceAll('_', ' ');

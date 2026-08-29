@@ -169,7 +169,7 @@ class _RetroArchForwarderScreenState extends State<RetroArchForwarderScreen> {
         logoType: _logoType,
       );
 
-      final result = await NspGenerator.generateNsp(config: config, keys: keys);
+      final result = await NspGenerator.generateNspAsync(config: config, keys: keys);
       await SavedPresetService.addToHistory(config);
 
       if (mounted) {

@@ -144,7 +144,7 @@ class _NroForwarderScreenState extends State<NroForwarderScreen> {
         logoType: _logoType,
       );
 
-      final result = await NspGenerator.generateNsp(config: config, keys: keys);
+      final result = await NspGenerator.generateNspAsync(config: config, keys: keys);
       await SavedPresetService.addToHistory(config);
 
       if (mounted) {
