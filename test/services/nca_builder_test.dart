@@ -256,8 +256,8 @@ void main() {
 
       // Program NCA section 0 (ExeFS) should use a 0x10000 hash block.
       final programBytes = programNca.bytes;
-      final programFsHeader =
-          ByteData.sublistView(Uint8List.fromList(programBytes.sublist(0x400, 0x600)));
+      final programFsHeader = ByteData.sublistView(
+          Uint8List.fromList(programBytes.sublist(0x400, 0x600)));
       expect(
         programFsHeader.getUint32(0x28, Endian.little),
         equals(NcaBuilder.pfs0ExefsHashBlockSize),
@@ -270,8 +270,8 @@ void main() {
 
       // Meta NCA section 0 (CNMT PFS0) should use a 0x1000 hash block.
       final metaBytes = metaNca.bytes;
-      final metaFsHeader =
-          ByteData.sublistView(Uint8List.fromList(metaBytes.sublist(0x400, 0x600)));
+      final metaFsHeader = ByteData.sublistView(
+          Uint8List.fromList(metaBytes.sublist(0x400, 0x600)));
       expect(
         metaFsHeader.getUint32(0x28, Endian.little),
         equals(NcaBuilder.pfs0MetaHashBlockSize),

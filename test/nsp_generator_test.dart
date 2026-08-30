@@ -92,7 +92,8 @@ void main() {
           image.setPixelRgb(x, y, r, g, b);
         }
       }
-      final jpg = img.encodeJpg(img.copyResize(image, width: 256, height: 256), quality: 95);
+      final jpg = img.encodeJpg(img.copyResize(image, width: 256, height: 256),
+          quality: 95);
 
       final config = ForwarderConfig(
         id: '0500000000000001',

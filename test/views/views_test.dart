@@ -172,7 +172,8 @@ void main() {
       expect(find.text('RUN BATCH GENERATION'), findsOneWidget);
     });
 
-    testWidgets('BatchGeneratorScreen wraps body in Actions for gamepad intents',
+    testWidgets(
+        'BatchGeneratorScreen wraps body in Actions for gamepad intents',
         (WidgetTester tester) async {
       await tester.pumpWidget(
         createTestWidget(const Scaffold(body: BatchGeneratorScreen())),
@@ -241,7 +242,8 @@ void main() {
       await tester.tap(find.byIcon(Icons.delete_sweep));
       await tester.pumpAndSettle();
 
-      expect(find.text('No generated forwarders in history yet.'), findsOneWidget);
+      expect(
+          find.text('No generated forwarders in history yet.'), findsOneWidget);
       expect(find.text('Test Homebrew'), findsNothing);
     });
 
@@ -273,7 +275,8 @@ void main() {
 
       // Expand advanced options and toggle a switch option.
       await toggleAdvancedOption(tester, 'Enable SVC Debug');
-      final toggleFinder = find.widgetWithText(SwitchToggle, 'Enable SVC Debug');
+      final toggleFinder =
+          find.widgetWithText(SwitchToggle, 'Enable SVC Debug');
       final switchFinder = find.descendant(
         of: toggleFinder,
         matching: find.byType(Switch),
@@ -286,12 +289,14 @@ void main() {
 
       // Clearing a required field disables the primary action.
       await enterSwitchText(tester, 'Application Title', '');
-      final disabledButton = primarySwitchButton(tester, 'GENERATE NSP FORWARDER');
+      final disabledButton =
+          primarySwitchButton(tester, 'GENERATE NSP FORWARDER');
       expect(disabledButton.onPressed, isNull);
 
       // Restoring the required field re-enables the primary action.
       await enterSwitchText(tester, 'Application Title', 'My Homebrew');
-      final enabledButton = primarySwitchButton(tester, 'GENERATE NSP FORWARDER');
+      final enabledButton =
+          primarySwitchButton(tester, 'GENERATE NSP FORWARDER');
       expect(enabledButton.onPressed, isNotNull);
     });
 
@@ -310,7 +315,8 @@ void main() {
 
       // Expand advanced options and toggle a switch option.
       await toggleAdvancedOption(tester, 'Enable SVC Debug');
-      final toggleFinder = find.widgetWithText(SwitchToggle, 'Enable SVC Debug');
+      final toggleFinder =
+          find.widgetWithText(SwitchToggle, 'Enable SVC Debug');
       final switchFinder = find.descendant(
         of: toggleFinder,
         matching: find.byType(Switch),
@@ -323,12 +329,14 @@ void main() {
 
       // Clearing a required field disables the primary action.
       await enterSwitchText(tester, 'Game Title', '');
-      final disabledButton = primarySwitchButton(tester, 'GENERATE RETROARCH NSP');
+      final disabledButton =
+          primarySwitchButton(tester, 'GENERATE RETROARCH NSP');
       expect(disabledButton.onPressed, isNull);
 
       // Restoring the required field re-enables the primary action.
       await enterSwitchText(tester, 'Game Title', 'Chrono Trigger');
-      final enabledButton = primarySwitchButton(tester, 'GENERATE RETROARCH NSP');
+      final enabledButton =
+          primarySwitchButton(tester, 'GENERATE RETROARCH NSP');
       expect(enabledButton.onPressed, isNotNull);
     });
 
@@ -408,7 +416,8 @@ void main() {
       );
       expect(tester.widget<EditableText>(listInput).controller.text, isEmpty);
 
-      final disabledButton = primarySwitchButton(tester, 'RUN BATCH GENERATION');
+      final disabledButton =
+          primarySwitchButton(tester, 'RUN BATCH GENERATION');
       expect(disabledButton.onPressed, isNull);
 
       // Add a new batch item and confirm the list and primary action update.
@@ -417,7 +426,8 @@ void main() {
 
       expect(tester.widget<EditableText>(listInput).controller.text,
           contains('Mega Man X'));
-      final reEnabledButton = primarySwitchButton(tester, 'RUN BATCH GENERATION');
+      final reEnabledButton =
+          primarySwitchButton(tester, 'RUN BATCH GENERATION');
       expect(reEnabledButton.onPressed, isNotNull);
     });
 
@@ -431,8 +441,7 @@ void main() {
       addTearDown(tester.view.reset);
 
       // Seed valid prod.keys so the batch can start.
-      const rawKeys =
-          'header_key = 11223344556677889900aabbccddeeff\n'
+      const rawKeys = 'header_key = 11223344556677889900aabbccddeeff\n'
           'sd_seed = aabbccddeeff00112233445566778899\n'
           'titlekdk_00 = 00112233445566778899aabbccddeeff';
       await KeysService.saveRawKeys(rawKeys);

@@ -494,7 +494,8 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(
-        find.text('Valid prod.keys required! Please import keys in Keys Manager.'),
+        find.text(
+            'Valid prod.keys required! Please import keys in Keys Manager.'),
         findsOneWidget,
       );
     });

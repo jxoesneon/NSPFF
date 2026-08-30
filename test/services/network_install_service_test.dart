@@ -110,13 +110,15 @@ void main() {
       await service.startServer(port: 0, overrideIp: '127.0.0.1');
 
       const filename = 'TokenTest.nsp';
-      service.registerNsp(filename, Uint8List.fromList([0x50, 0x46, 0x53, 0x30]));
+      service.registerNsp(
+          filename, Uint8List.fromList([0x50, 0x46, 0x53, 0x30]));
 
       final directUrl = service.getDirectInstallUrl(filename)!;
       final baseUri = Uri.parse(directUrl);
 
       // Missing token
-      final noToken = baseUri.replace(path: '/nsp/${Uri.encodeComponent(filename)}');
+      final noToken =
+          baseUri.replace(path: '/nsp/${Uri.encodeComponent(filename)}');
       final noTokenRes = await http.get(noToken);
       expect(noTokenRes.statusCode, equals(404));
 
@@ -130,17 +132,18 @@ void main() {
       // Correct token
       final correctRes = await http.get(baseUri);
       expect(correctRes.statusCode, equals(200));
-      expect(correctRes.bodyBytes, equals(Uint8List.fromList([0x50, 0x46, 0x53, 0x30])));
+      expect(correctRes.bodyBytes,
+          equals(Uint8List.fromList([0x50, 0x46, 0x53, 0x30])));
     });
 
-    test('Rejects requests with path traversal or unsafe filenames',
-        () async {
+    test('Rejects requests with path traversal or unsafe filenames', () async {
       await service.startServer(port: 0, overrideIp: '127.0.0.1');
 
       const filename = 'Safe.nsp';
       service.registerNsp(filename, Uint8List.fromList([1, 2, 3]));
 
-      final token = Uri.parse(service.getDirectInstallUrl(filename)!).pathSegments[1];
+      final token =
+          Uri.parse(service.getDirectInstallUrl(filename)!).pathSegments[1];
 
       // Path with encoded separators is decoded to a single segment containing
       // traversal: e.g. ../../etc/passwd. The basename differs, so it is
