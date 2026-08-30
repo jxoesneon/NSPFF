@@ -10,7 +10,9 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('End-to-End Application Integration Tests', () {
-    testWidgets('Full User Workflow: Launch -> Navigate -> Configure -> Key Status Check', (WidgetTester tester) async {
+    testWidgets(
+        'Full User Workflow: Launch -> Navigate -> Configure -> Key Status Check',
+        (WidgetTester tester) async {
       app.main();
       await tester.pumpAndSettle();
 

@@ -6,7 +6,8 @@ plugins {
 
 android {
     namespace "io.n8.nspff"
-    compileSdkVersion 34
+    compileSdk = 36
+    ndkVersion = "28.2.13676358"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
@@ -20,16 +21,31 @@ android {
     defaultConfig {
         applicationId "io.n8.nspff"
         minSdkVersion flutter.minSdkVersion
-        targetSdkVersion 34
+        targetSdkVersion 36
         versionCode 1
         versionName "1.0.0"
     }
 
+    signingConfigs {
+        release {
+            // Placeholder release signing configuration. Configure a real
+            // release keystore via environment variables before shipping:
+            //   NSPFF_KEYSTORE_FILE, NSPFF_KEYSTORE_PASSWORD,
+            //   NSPFF_KEY_ALIAS, NSPFF_KEY_PASSWORD
+            def keystoreFile = System.getenv("NSPFF_KEYSTORE_FILE")
+                ?: "${System.getProperty('user.home')}/.android/debug.keystore"
+            storeFile file(keystoreFile)
+            storePassword System.getenv("NSPFF_KEYSTORE_PASSWORD") ?: "android"
+            keyAlias System.getenv("NSPFF_KEY_ALIAS") ?: "androiddebugkey"
+            keyPassword System.getenv("NSPFF_KEY_PASSWORD") ?: "android"
+        }
+    }
+
     buildTypes {
         release {
-            signingConfig signingConfigs.debug
-            minifyEnabled false
-            shrinkResources false
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            shrinkResources true
         }
     }
 }
