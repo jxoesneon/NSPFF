@@ -24,9 +24,12 @@ ProdKeys _loadKeys() {
 
 void main() {
   test('Writes a Donut homebrew forwarder NSP', () async {
-    const nroPath = String.fromEnvironment('NRO_PATH', defaultValue: '/switch/Donut.nro');
-    const titleId = String.fromEnvironment('TITLE_ID', defaultValue: '0500000000000002');
-    const nspName = String.fromEnvironment('NSP_NAME', defaultValue: 'build/Donut.nsp');
+    const nroPath =
+        String.fromEnvironment('NRO_PATH', defaultValue: '/switch/Donut.nro');
+    const titleId =
+        String.fromEnvironment('TITLE_ID', defaultValue: '0500000000000002');
+    const nspName =
+        String.fromEnvironment('NSP_NAME', defaultValue: 'build/Donut.nsp');
 
     final outputFile = File(nspName);
     await outputFile.parent.create(recursive: true);
@@ -39,7 +42,8 @@ void main() {
       nroPath: nroPath,
     );
 
-    final result = await NspGenerator.generateNsp(config: config, keys: _loadKeys());
+    final result =
+        await NspGenerator.generateNsp(config: config, keys: _loadKeys());
     await outputFile.writeAsBytes(result.nspBytes);
 
     expect(outputFile.existsSync(), isTrue);

@@ -31,10 +31,8 @@ class ForwarderStubTemplate {
   static Uint8List getPatchedNpdm(String titleIdHex) {
     final Uint8List npdm = base64Decode(_rawNpdmBase64);
     final normalized = NcaBuilder.parseTitleId(titleIdHex);
-    final cleanHex = normalized
-        .toRadixString(16)
-        .toUpperCase()
-        .padLeft(16, '0');
+    final cleanHex =
+        normalized.toRadixString(16).toUpperCase().padLeft(16, '0');
 
     final BigInt val = BigInt.tryParse(cleanHex, radix: 16) ?? BigInt.zero;
     final ByteData view = ByteData.sublistView(npdm);

@@ -245,10 +245,8 @@ class NcaBuilder {
     required Uint8List cnmtBytes,
   }) {
     final titleIdVal = parseTitleId(config.id);
-    final titleIdHex = titleIdVal
-        .toRadixString(16)
-        .toUpperCase()
-        .padLeft(16, '0');
+    final titleIdHex =
+        titleIdVal.toRadixString(16).toUpperCase().padLeft(16, '0');
 
     // 1. Pack CNMT file into PFS0 container named 'Application_<TitleID>.cnmt'
     final String cnmtFileName = 'Application_$titleIdHex.cnmt';
