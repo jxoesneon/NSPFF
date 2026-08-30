@@ -8,7 +8,8 @@ import 'package:nspff/widgets/switch_button.dart';
 
 void main() {
   group('Accessibility (a11y) & Semantics Tests', () {
-    testWidgets('SwitchButton meets touch target guidelines', (WidgetTester tester) async {
+    testWidgets('SwitchButton meets touch target guidelines',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
           theme: AppTheme.darkTheme,
@@ -25,7 +26,9 @@ void main() {
       expect(buttonSize.height, greaterThanOrEqualTo(44.0));
     });
 
-    testWidgets('Form inputs have clear semantics labels and pass semantics check', (WidgetTester tester) async {
+    testWidgets(
+        'Form inputs have clear semantics labels and pass semantics check',
+        (WidgetTester tester) async {
       final handle = tester.ensureSemantics();
 
       await tester.pumpWidget(
@@ -43,7 +46,8 @@ void main() {
         ),
       );
 
-      expect(find.bySemanticsLabel('Accessible Input'), findsAtLeastNWidgets(1));
+      expect(
+          find.bySemanticsLabel('Accessible Input'), findsAtLeastNWidgets(1));
       handle.dispose();
     });
   });

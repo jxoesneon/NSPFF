@@ -6,7 +6,8 @@ import 'package:http/http.dart' as http;
 
 class BoxartDownloaderService {
   /// Base URL for Libretro Thumbnail CDN
-  static const String _baseLibretroCdn = 'https://raw.githubusercontent.com/libretro/libretro-thumbnails/master/';
+  static const String _baseLibretroCdn =
+      'https://raw.githubusercontent.com/libretro/libretro-thumbnails/master/';
 
   /// Map common system names to Libretro thumbnail repository system directory names
   static const Map<String, String> _systemToCdnDir = {
@@ -31,12 +32,14 @@ class BoxartDownloaderService {
   }
 
   /// Downloads boxart binary image data from CDN URL.
-  static Future<Uint8List?> fetchBoxartImage(String systemName, String romTitle) async {
+  static Future<Uint8List?> fetchBoxartImage(
+      String systemName, String romTitle) async {
     final url = getBoxartUrl(systemName, romTitle);
     if (url == null) return null;
 
     try {
-      final response = await http.get(Uri.parse(url)).timeout(const Duration(seconds: 5));
+      final response =
+          await http.get(Uri.parse(url)).timeout(const Duration(seconds: 5));
       if (response.statusCode == 200 && response.bodyBytes.isNotEmpty) {
         return response.bodyBytes;
       }

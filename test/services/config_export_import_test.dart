@@ -20,7 +20,8 @@ void main() {
       expect(jsonStr, contains('NSPFF'));
       expect(jsonStr, contains('Export Test Game'));
 
-      final importedList = ConfigExportImportService.importConfigsFromJson(jsonStr);
+      final importedList =
+          ConfigExportImportService.importConfigsFromJson(jsonStr);
 
       expect(importedList, hasLength(1));
       expect(importedList.first.id, equals('0500000000000001'));

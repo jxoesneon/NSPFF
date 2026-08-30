@@ -5,7 +5,7 @@ import '../theme/switch_theme.dart';
 import '../widgets/switch_card.dart';
 
 class PresetHistoryScreen extends StatefulWidget {
-  const PresetHistoryScreen({Key? key}) : super(key: key);
+  const PresetHistoryScreen({super.key});
 
   @override
   State<PresetHistoryScreen> createState() => _PresetHistoryScreenState();
@@ -38,7 +38,8 @@ class _PresetHistoryScreenState extends State<PresetHistoryScreen> {
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return const Center(child: CircularProgressIndicator(color: AppTheme.switchCyan));
+      return const Center(
+          child: CircularProgressIndicator(color: AppTheme.switchCyan));
     }
 
     return Scaffold(
@@ -51,7 +52,8 @@ class _PresetHistoryScreenState extends State<PresetHistoryScreen> {
               subtitle: '${_history.length} previously created NSP forwarders',
               trailing: _history.isNotEmpty
                   ? IconButton(
-                      icon: Icon(Icons.delete_sweep, color: AppTheme.switchRed),
+                      icon: const Icon(Icons.delete_sweep,
+                          color: AppTheme.switchRed),
                       onPressed: _clearHistory,
                       tooltip: 'Clear History',
                     )
@@ -70,35 +72,48 @@ class _PresetHistoryScreenState extends State<PresetHistoryScreen> {
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: _history.length,
-                      separatorBuilder: (_, __) => const Divider(color: AppTheme.cardBorder),
+                      separatorBuilder: (_, __) =>
+                          const Divider(color: AppTheme.cardBorder),
                       itemBuilder: (ctx, i) {
                         final item = _history[i];
                         return ListTile(
                           contentPadding: EdgeInsets.zero,
                           leading: CircleAvatar(
                             backgroundColor: item.isRetroArch
-                                ? AppTheme.switchCyan.withOpacity(0.2)
-                                : AppTheme.switchRed.withOpacity(0.2),
+                                ? AppTheme.switchCyan.withValues(alpha: 0.2)
+                                : AppTheme.switchRed.withValues(alpha: 0.2),
                             child: Icon(
-                              item.isRetroArch ? Icons.sports_esports : Icons.apps,
-                              color: item.isRetroArch ? AppTheme.switchCyan : AppTheme.switchRed,
+                              item.isRetroArch
+                                  ? Icons.sports_esports
+                                  : Icons.apps,
+                              color: item.isRetroArch
+                                  ? AppTheme.switchCyan
+                                  : AppTheme.switchRed,
                               size: 20,
                             ),
                           ),
                           title: Text(
                             item.title,
-                            style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold),
+                            style: const TextStyle(
+                                color: AppTheme.textPrimary,
+                                fontWeight: FontWeight.bold),
                           ),
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 'ID: ${item.id}',
-                                style: TextStyle(color: AppTheme.switchCyan, fontFamily: 'Monospace', fontSize: 11),
+                                style: const TextStyle(
+                                    color: AppTheme.switchCyan,
+                                    fontFamily: 'Monospace',
+                                    fontSize: 11),
                               ),
                               Text(
-                                item.isRetroArch ? 'ROM: ${item.romPath}' : 'NRO: ${item.nroPath}',
-                                style: TextStyle(color: AppTheme.textMuted, fontSize: 11),
+                                item.isRetroArch
+                                    ? 'ROM: ${item.romPath}'
+                                    : 'NRO: ${item.nroPath}',
+                                style: const TextStyle(
+                                    color: AppTheme.textMuted, fontSize: 11),
                               ),
                             ],
                           ),

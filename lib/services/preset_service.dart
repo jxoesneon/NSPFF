@@ -9,15 +9,15 @@ class SavedPresetService {
   static Future<void> addToHistory(ForwarderConfig config) async {
     final prefs = await SharedPreferences.getInstance();
     final List<String> current = prefs.getStringList(_historyKey) ?? [];
-    
+
     final jsonStr = jsonEncode(config.toJson());
     current.insert(0, jsonStr); // latest first
-    
+
     // Keep max 50 items
     if (current.length > 50) {
       current.removeLast();
     }
-    
+
     await prefs.setStringList(_historyKey, current);
   }
 

@@ -6,7 +6,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:nspff/models/forwarder_config.dart';
 import 'package:nspff/models/retroarch_core.dart';
 import 'package:nspff/theme/switch_theme.dart';
-import 'package:nspff/widgets/icon_preview_picker.dart';
 import 'package:nspff/widgets/switch_button.dart';
 import 'package:nspff/widgets/switch_card.dart';
 import 'package:nspff/widgets/switch_dropdown.dart';
@@ -17,7 +16,8 @@ import 'package:nspff/widgets/title_id_input.dart';
 
 void main() {
   group('Widget Component Tests', () {
-    testWidgets('SwitchCard renders title, subtitle, and child', (WidgetTester tester) async {
+    testWidgets('SwitchCard renders title, subtitle, and child',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
           theme: AppTheme.darkTheme,
@@ -36,7 +36,8 @@ void main() {
       expect(find.text('Card Content'), findsOneWidget);
     });
 
-    testWidgets('SwitchButton renders variants and triggers tap', (WidgetTester tester) async {
+    testWidgets('SwitchButton renders variants and triggers tap',
+        (WidgetTester tester) async {
       bool tapped = false;
 
       await tester.pumpWidget(
@@ -56,7 +57,8 @@ void main() {
       expect(tapped, isTrue);
     });
 
-    testWidgets('SwitchTextField normalizes path input correctly', (WidgetTester tester) async {
+    testWidgets('SwitchTextField normalizes path input correctly',
+        (WidgetTester tester) async {
       final controller = TextEditingController();
 
       await tester.pumpWidget(
@@ -76,7 +78,8 @@ void main() {
       expect(controller.text, equals('/switch/app.nro'));
     });
 
-    testWidgets('SwitchToggle triggers value change', (WidgetTester tester) async {
+    testWidgets('SwitchToggle triggers value change',
+        (WidgetTester tester) async {
       bool val = false;
 
       await tester.pumpWidget(
@@ -99,7 +102,8 @@ void main() {
       expect(val, isTrue);
     });
 
-    testWidgets('TitleIdInput validates 16-hex characters and randomizes', (WidgetTester tester) async {
+    testWidgets('TitleIdInput validates 16-hex characters and randomizes',
+        (WidgetTester tester) async {
       final controller = TextEditingController(text: '0500000000000001');
 
       await tester.pumpWidget(
@@ -121,7 +125,38 @@ void main() {
       expect(RegExp(r'^[0-9A-F]{16}$').hasMatch(controller.text), isTrue);
     });
 
-    testWidgets('RetroArchCoreDropdown renders and selects core', (WidgetTester tester) async {
+    testWidgets(
+        'TitleIdInput renders live badges for system, retail, and registered conflicts',
+        (WidgetTester tester) async {
+      final controller = TextEditingController(text: '0100000000000800');
+
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: AppTheme.darkTheme,
+          home: Scaffold(
+            body: TitleIdInput(
+              controller: controller,
+            ),
+          ),
+        ),
+      );
+
+      // System conflict badge
+      expect(find.text('CRITICAL SYSTEM CONFLICT'), findsOneWidget);
+
+      // Retail game conflict badge
+      controller.text = '01006F8002326000';
+      await tester.pump();
+      expect(find.text('RETAIL GAME CONFLICT'), findsOneWidget);
+
+      // Valid homebrew badge
+      controller.text = '0500000000000001';
+      await tester.pump();
+      expect(find.text('Valid Homebrew Forwarder ID (05...)'), findsOneWidget);
+    });
+
+    testWidgets('RetroArchCoreDropdown renders and selects core',
+        (WidgetTester tester) async {
       RetroArchCore? selected = RetroArchCore.builtInCores.first;
 
       await tester.pumpWidget(
@@ -141,7 +176,8 @@ void main() {
       expect(find.text(selected!.displayName), findsOneWidget);
     });
 
-    testWidgets('LogoTypeDropdown renders all logo types', (WidgetTester tester) async {
+    testWidgets('LogoTypeDropdown renders all logo types',
+        (WidgetTester tester) async {
       LogoType logo = LogoType.nintendo;
 
       await tester.pumpWidget(
@@ -161,7 +197,8 @@ void main() {
       expect(find.text('Nintendo'), findsOneWidget);
     });
 
-    testWidgets('SwitchPillBadge renders label and handles tap', (WidgetTester tester) async {
+    testWidgets('SwitchPillBadge renders label and handles tap',
+        (WidgetTester tester) async {
       bool tapped = false;
 
       await tester.pumpWidget(
@@ -180,6 +217,82 @@ void main() {
       expect(find.text('TEST BADGE'), findsOneWidget);
       await tester.tap(find.text('TEST BADGE'));
       expect(tapped, isTrue);
+    });
+
+    testWidgets(
+        'SwitchTextField renders tooltip info icon and displays tooltip',
+        (WidgetTester tester) async {
+      final controller = TextEditingController();
+
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: AppTheme.darkTheme,
+          home: Scaffold(
+            body: SwitchTextField(
+              label: 'Target NRO Path on SD Card',
+              controller: controller,
+              tooltip:
+                  'Exact path where the .nro executable resides on your SD card.',
+            ),
+          ),
+        ),
+      );
+
+      expect(find.text('Target NRO Path on SD Card'), findsOneWidget);
+      expect(find.byIcon(Icons.info_outline_rounded), findsOneWidget);
+      // Long-press info icon to reveal tooltip
+      await tester.longPress(find.byIcon(Icons.info_outline_rounded));
+      await tester.pumpAndSettle();
+      expect(
+        find.text(
+            'Exact path where the .nro executable resides on your SD card.'),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets(
+        'SwitchTextField automatically promotes long helperText to tooltip',
+        (WidgetTester tester) async {
+      final controller = TextEditingController();
+
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: AppTheme.darkTheme,
+          home: Scaffold(
+            body: SwitchTextField(
+              label: 'Auto Promoted Path',
+              controller: controller,
+              helperText:
+                  'This is a very long helper text exceeding 35 characters length threshold.',
+            ),
+          ),
+        ),
+      );
+
+      expect(find.text('Auto Promoted Path'), findsOneWidget);
+      expect(find.byIcon(Icons.info_outline_rounded), findsOneWidget);
+    });
+
+    testWidgets('TitleIdInput renders tooltip info icon and displays message',
+        (WidgetTester tester) async {
+      final controller = TextEditingController(text: '0500000000000001');
+
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: AppTheme.darkTheme,
+          home: Scaffold(
+            body: TitleIdInput(
+              controller: controller,
+              tooltip: 'Custom Title ID explanation.',
+            ),
+          ),
+        ),
+      );
+
+      expect(find.byIcon(Icons.info_outline_rounded), findsOneWidget);
+      await tester.longPress(find.byIcon(Icons.info_outline_rounded));
+      await tester.pumpAndSettle();
+      expect(find.text('Custom Title ID explanation.'), findsOneWidget);
     });
   });
 }

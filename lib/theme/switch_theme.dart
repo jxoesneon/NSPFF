@@ -17,13 +17,14 @@ class AppTheme {
   // Neutral Tones
   static const Color textPrimary = Color(0xFFF3F4F6);
   static const Color textSecondary = Color(0xFF9CA3AF);
-  static const Color textMuted = Color(0xFF94A3B8); // Lightened to pass WCAG AA contrast (6.12:1)
+  static const Color textMuted =
+      Color(0xFF94A3B8); // Lightened to pass WCAG AA contrast (6.12:1)
   static const Color inputBackground = Color(0xFF161820);
 
   /// Monospace font style helper for Title IDs, Hex strings, and paths
   static TextStyle monoStyle({
     Color color = textPrimary,
-    double fontSize = 13,
+    double fontSize = 14,
     FontWeight fontWeight = FontWeight.normal,
     double letterSpacing = 0.5,
   }) {
@@ -45,7 +46,6 @@ class AppTheme {
         primary: switchCyan,
         secondary: switchRed,
         surface: cardBackground,
-        background: darkBackground,
         error: switchRed,
       ),
       cardTheme: CardThemeData(
@@ -70,7 +70,8 @@ class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: inputBackground,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(color: cardBorder),
@@ -85,6 +86,7 @@ class AppTheme {
         ),
         hintStyle: const TextStyle(color: textMuted, fontSize: 14),
         labelStyle: const TextStyle(color: textSecondary, fontSize: 14),
+        helperStyle: const TextStyle(color: textMuted, fontSize: 12),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -113,6 +115,32 @@ class AppTheme {
             fontSize: 15,
             fontWeight: FontWeight.w600,
           ),
+        ),
+      ),
+      tooltipTheme: TooltipThemeData(
+        showDuration: const Duration(seconds: 5),
+        waitDuration: Duration.zero,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        margin: const EdgeInsets.symmetric(horizontal: 16),
+        decoration: BoxDecoration(
+          color: cardBackground,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: switchCyan.withValues(alpha: 0.6),
+            width: 1,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.5),
+              blurRadius: 8,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        textStyle: const TextStyle(
+          color: textPrimary,
+          fontSize: 12,
+          height: 1.35,
         ),
       ),
     );

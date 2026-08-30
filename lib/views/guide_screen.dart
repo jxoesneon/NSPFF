@@ -3,17 +3,52 @@ import '../theme/switch_theme.dart';
 import '../widgets/switch_card.dart';
 
 class GuideScreen extends StatelessWidget {
-  const GuideScreen({Key? key}) : super(key: key);
+  const GuideScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+    return const SingleChildScrollView(
+      padding: EdgeInsets.all(16),
       child: Column(
         children: [
-          const SwitchCard(
+          SwitchCard(
+            title: 'How to Dump prod.keys',
+            subtitle:
+                'You need keys from your own Nintendo Switch console to sign forwarders',
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _GuideStep(
+                  stepNumber: '1',
+                  title: 'Get Lockpick_RCM',
+                  description:
+                      'Download the latest Lockpick_RCM.bin payload from a trusted homebrew source.',
+                ),
+                _GuideStep(
+                  stepNumber: '2',
+                  title: 'Enter RCM Mode',
+                  description:
+                      'Put your Switch into RCM mode and inject the Lockpick_RCM payload using a PC or web injector.',
+                ),
+                _GuideStep(
+                  stepNumber: '3',
+                  title: 'Dump from SysNAND',
+                  description:
+                      'In the payload menu, select "Dump from SysNAND". This will scan your console for the required cryptographic keys.',
+                ),
+                _GuideStep(
+                  stepNumber: '4',
+                  title: 'Locate prod.keys',
+                  description:
+                      'Your keys will be saved to "/switch/prod.keys" on your SD card. Copy this file to your Android device.',
+                ),
+              ],
+            ),
+          ),
+          SwitchCard(
             title: 'Installation & Ban Safety Guide',
-            subtitle: 'Best practices for installing NSP forwarders safely on Nintendo Switch',
+            subtitle:
+                'Best practices for installing NSP forwarders safely on Nintendo Switch',
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -44,22 +79,46 @@ class GuideScreen extends StatelessWidget {
               ],
             ),
           ),
-          const SwitchCard(
+          SwitchCard(
             title: 'Parity & Feature Comparison',
             child: Column(
               children: [
-                _ParityRow(feature: 'NRO Forwarder Generation', web: 'Yes', app: 'Yes 1:1'),
-                _ParityRow(feature: 'RetroArch Core & ROM Forwarding', web: 'Yes', app: 'Yes 1:1'),
-                _ParityRow(feature: 'Advanced Startup & Capture Flags', web: 'Yes', app: 'Yes 1:1'),
-                _ParityRow(feature: 'Auto NACP Metadata Extraction', web: 'Yes', app: 'Yes 1:1'),
-                _ParityRow(feature: 'Custom Boxart & Icon 256x256 Crop', web: 'Yes', app: 'Yes 1:1+'),
-                _ParityRow(feature: 'Batch Multi-ROM Forwarders', web: 'No', app: 'Exceeds (+ Batch)'),
-                _ParityRow(feature: 'Saved Preset History & Key Manager', web: 'No', app: 'Exceeds (+ Saved)'),
-                _ParityRow(feature: 'Offline Android Client Generation', web: 'No', app: 'Exceeds (+ Native)'),
+                _ParityRow(
+                    feature: 'NRO Forwarder Generation',
+                    web: 'Yes',
+                    app: 'Yes 1:1'),
+                _ParityRow(
+                    feature: 'RetroArch Core & ROM Forwarding',
+                    web: 'Yes',
+                    app: 'Yes 1:1'),
+                _ParityRow(
+                    feature: 'Advanced Startup & Capture Flags',
+                    web: 'Yes',
+                    app: 'Yes 1:1'),
+                _ParityRow(
+                    feature: 'Auto NACP Metadata Extraction',
+                    web: 'Yes',
+                    app: 'Yes 1:1'),
+                _ParityRow(
+                    feature: 'Custom Boxart & Icon 256x256 Crop',
+                    web: 'Yes',
+                    app: 'Yes 1:1+'),
+                _ParityRow(
+                    feature: 'Batch Multi-ROM Forwarders',
+                    web: 'No',
+                    app: 'Exceeds (+ Batch)'),
+                _ParityRow(
+                    feature: 'Saved Preset History & Key Manager',
+                    web: 'No',
+                    app: 'Exceeds (+ Saved)'),
+                _ParityRow(
+                    feature: 'Offline Android Client Generation',
+                    web: 'No',
+                    app: 'Exceeds (+ Native)'),
               ],
             ),
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 24),
         ],
       ),
     );
@@ -89,7 +148,10 @@ class _GuideStep extends StatelessWidget {
             backgroundColor: AppTheme.switchCyan,
             child: Text(
               stepNumber,
-              style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 12),
+              style: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12),
             ),
           ),
           const SizedBox(width: 12),
@@ -99,12 +161,16 @@ class _GuideStep extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold, fontSize: 14),
+                  style: const TextStyle(
+                      color: AppTheme.textPrimary,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   description,
-                  style: TextStyle(color: AppTheme.textSecondary, fontSize: 13),
+                  style: const TextStyle(
+                      color: AppTheme.textSecondary, fontSize: 13),
                 ),
               ],
             ),
@@ -134,18 +200,24 @@ class _ParityRow extends StatelessWidget {
         children: [
           Expanded(
             flex: 4,
-            child: Text(feature, style: TextStyle(color: AppTheme.textPrimary, fontSize: 12)),
+            child: Text(feature,
+                style:
+                    const TextStyle(color: AppTheme.textPrimary, fontSize: 12)),
           ),
           Expanded(
             flex: 2,
-            child: Text(web, style: TextStyle(color: AppTheme.textMuted, fontSize: 11)),
+            child: Text(web,
+                style:
+                    const TextStyle(color: AppTheme.textMuted, fontSize: 11)),
           ),
           Expanded(
             flex: 3,
             child: Text(
               app,
               style: TextStyle(
-                color: app.contains('Exceeds') ? AppTheme.switchGreen : AppTheme.switchCyan,
+                color: app.contains('Exceeds')
+                    ? AppTheme.switchGreen
+                    : AppTheme.switchCyan,
                 fontWeight: FontWeight.bold,
                 fontSize: 11,
               ),

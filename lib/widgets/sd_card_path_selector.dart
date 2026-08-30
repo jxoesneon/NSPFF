@@ -11,12 +11,12 @@ class SdCardPathSelector extends StatelessWidget {
   final ValueChanged<String>? onChanged;
 
   const SdCardPathSelector({
-    Key? key,
+    super.key,
     required this.label,
     required this.controller,
     required this.presetPaths,
     this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +25,9 @@ class SdCardPathSelector extends StatelessWidget {
       children: [
         Text(
           label,
-          style: TextStyle(
+          style: const TextStyle(
             color: AppTheme.textSecondary,
-            fontSize: 13,
+            fontSize: 14,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -40,15 +40,20 @@ class SdCardPathSelector extends StatelessWidget {
               return Padding(
                 padding: const EdgeInsets.only(right: 8.0),
                 child: ActionChip(
-                  backgroundColor: isSelected ? AppTheme.switchCyan.withOpacity(0.25) : AppTheme.inputBackground,
+                  backgroundColor: isSelected
+                      ? AppTheme.switchCyan.withValues(alpha: 0.25)
+                      : AppTheme.inputBackground,
                   side: BorderSide(
-                    color: isSelected ? AppTheme.switchCyan : AppTheme.cardBorder,
+                    color:
+                        isSelected ? AppTheme.switchCyan : AppTheme.cardBorder,
                   ),
                   label: Text(
                     path,
                     style: AppTheme.monoStyle(
-                      color: isSelected ? AppTheme.switchCyan : AppTheme.textSecondary,
-                      fontSize: 11,
+                      color: isSelected
+                          ? AppTheme.switchCyan
+                          : AppTheme.textSecondary,
+                      fontSize: 12,
                     ),
                   ),
                   onPressed: () {
