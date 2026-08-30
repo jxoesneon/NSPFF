@@ -7,6 +7,10 @@ on:
     branches: [ main, develop ]
 
 env:
+  # Load real key material from repository-level GitHub Secrets.
+  # The IDE may show "Context access might be invalid" until these secrets are
+  # configured and the GitHub Actions extension is refreshed; the workflow is
+  # valid and will receive the values at runtime when the secrets exist.
   NSPFF_PROD_KEYS: ${{ secrets.NSPFF_PROD_KEYS }}
   NSPFF_TITLE_KEYS: ${{ secrets.NSPFF_TITLE_KEYS }}
 
