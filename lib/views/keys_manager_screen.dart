@@ -288,7 +288,7 @@ class _KeysManagerScreenState extends State<KeysManagerScreen> {
                                     fontSize: 13),
                               ),
                               Text(
-                                'Use Lockpick_RCM on your console to dump prod.keys. See the Guide tab for detailed steps.',
+                                'Use Lockpick_RCM on the console to dump prod.keys. See the Guide tab for detailed steps.',
                                 style: TextStyle(
                                     color: AppTheme.textSecondary,
                                     fontSize: 12),
@@ -307,7 +307,7 @@ class _KeysManagerScreenState extends State<KeysManagerScreen> {
           // Import & Edit Card
           SwitchCard(
             title: 'Import prod.keys',
-            subtitle: 'Select your prod.keys file or paste key content below',
+            subtitle: 'Select the prod.keys file or paste key content below',
             child: Column(
               children: [
                 OutlinedButton.icon(

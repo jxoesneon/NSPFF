@@ -584,7 +584,7 @@ class _NetworkInstallDialogState extends State<NetworkInstallDialog> {
                     ),
                     const SizedBox(height: 6),
                     const Text(
-                      'Select your Switch title manager for step-by-step instructions. Both devices must be connected to the same Wi-Fi network.',
+                      'Select the Switch title manager for step-by-step instructions. Both devices must be connected to the same Wi-Fi network.',
                       style: TextStyle(
                         color: AppTheme.textSecondary,
                         fontSize: 11,
@@ -607,7 +607,7 @@ class _NetworkInstallDialogState extends State<NetworkInstallDialog> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           _buildStepRow(
-                              '1', 'Open DBI on your Nintendo Switch.'),
+                              '1', 'Open DBI on the Nintendo Switch.'),
                           _buildStepRow('2',
                               'Select "Install title from DBI backend / URL".'),
                           _buildStepRow('3',
@@ -669,7 +669,7 @@ class _NetworkInstallDialogState extends State<NetworkInstallDialog> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           _buildStepRow('1',
-                              'Open Tinfoil on your Switch and select "File Browser".'),
+                              'Open Tinfoil on the Switch and select "File Browser".'),
                           _buildStepRow('2',
                               'Press - (Minus) to add a new location with these settings:'),
                           const SizedBox(height: 6),
@@ -710,7 +710,7 @@ class _NetworkInstallDialogState extends State<NetworkInstallDialog> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           _buildStepRow('1',
-                              'Open Awoo Installer or TinWoo on your Switch.'),
+                              'Open Awoo Installer or TinWoo on the Switch.'),
                           _buildStepRow('2',
                               'Select "Install over LAN or internet" -> "Install from URL".'),
                           _buildStepRow(
@@ -770,7 +770,7 @@ class _NetworkInstallDialogState extends State<NetworkInstallDialog> {
                           SizedBox(width: 8),
                           Expanded(
                             child: Text(
-                              'Network Note: Both devices must be on the same local Wi-Fi network. If connection fails, ensure "AP Isolation" is disabled on your router, or connect your Switch to your phone\'s Wi-Fi Hotspot.',
+                              'Network Note: Both devices must be on the same local Wi-Fi network. If connection fails, ensure "AP Isolation" is disabled on the local router, or connect the Switch to a phone Wi-Fi hotspot.',
                               style: TextStyle(
                                 color: AppTheme.textMuted,
                                 fontSize: 10.5,

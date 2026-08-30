@@ -74,7 +74,7 @@ void main() {
       expect(find.text('Tinfoil'), findsOneWidget);
       expect(find.text('Awoo / TinWoo'), findsOneWidget);
       expect(find.text('Web Browser & PC'), findsOneWidget);
-      expect(find.textContaining('Open DBI on your Nintendo Switch'),
+      expect(find.textContaining('Open DBI on the Nintendo Switch'),
           findsOneWidget);
       expect(find.text('DONE'), findsOneWidget);
       expect(find.text('COPY URL'), findsOneWidget);
@@ -86,8 +86,7 @@ void main() {
       await tester.ensureVisible(find.text('Tinfoil'));
       await tester.tap(find.text('Tinfoil'));
       await tester.pumpAndSettle();
-      expect(
-          find.textContaining('Open Tinfoil on your Switch'), findsOneWidget);
+      expect(find.textContaining('Open Tinfoil on the Switch'), findsOneWidget);
 
       // Tap Done to dismiss
       await tester.ensureVisible(find.text('DONE'));

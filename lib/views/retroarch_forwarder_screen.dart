@@ -428,7 +428,7 @@ class _RetroArchForwarderScreenState extends State<RetroArchForwarderScreen> {
                           _onRomPathChanged(v);
                         },
                         tooltip:
-                            'Exact path to your ROM file on the Nintendo Switch SD card.',
+                            'Exact path to the ROM file on the Nintendo Switch SD card.',
                       ),
                       SwitchTextField(
                         label: 'RetroArch Core NRO Path',

@@ -25,7 +25,7 @@ class TitleIdInput extends StatefulWidget {
     this.onChanged,
     this.label = 'Title ID (16-Hex)',
     this.tooltip =
-        '16-character hexadecimal unique identifier. Homebrew forwarders use 05XXXXXXXXXXXXXX to avoid collisions with official Nintendo titles.',
+        '16-character hexadecimal title ID. Homebrew forwarders typically use 05XXXXXXXXXXXXX0; the last nibble is the program index and should be 0 for the main program.',
     this.showBatchPreview = false,
     this.focusNode,
     this.autofocus = false,

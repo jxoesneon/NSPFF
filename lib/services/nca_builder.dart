@@ -623,9 +623,10 @@ class NcaBuilder {
   /// valid Switch application title ID.
   ///
   /// The low 4 bits are the program index; emulators and loaders search for the
-  /// main program NCA matching program index 0. We therefore clear the low
-  /// nibble. The caller (UI/validation layer) is responsible for keeping the
-  /// title ID inside the valid application range (0x0100... - 0x0F...).
+  /// main program NCA matching program index 0. The low nibble is cleared so
+  /// the title ID maps to program index 0. The caller (UI/validation layer) is
+  /// responsible for keeping the title ID inside the valid application range
+  /// (0x0100... - 0x0F...).
   static BigInt parseTitleId(String hexId) {
     final cleanHex = hexId
         .replaceAll(RegExp(r'[^0-9A-Fa-f]'), '')

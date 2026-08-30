@@ -8,7 +8,7 @@ import 'nca_builder.dart';
 import 'pfs0_builder.dart';
 import 'romfs_builder.dart';
 
-/// Audited compiled ARM64 Nintendo Switch Homebrew Forwarder Payload & NPDM Template.
+/// Compiled ARM64 Nintendo Switch Homebrew Forwarder Payload & NPDM Template.
 ///
 /// Wraps the standard ARM64 forwarder binary stub ('main' executable in NSO0 format)
 /// and Nintendo Process Descriptor Meta ('main.npdm') with ACID/ACI0 capabilities.

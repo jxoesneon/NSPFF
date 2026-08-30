@@ -14,7 +14,7 @@ class GuideScreen extends StatelessWidget {
           SwitchCard(
             title: 'How to Dump prod.keys',
             subtitle:
-                'You need keys from your own Nintendo Switch console to sign forwarders',
+                'Keys from a Nintendo Switch console are required to sign forwarders',
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -28,19 +28,19 @@ class GuideScreen extends StatelessWidget {
                   stepNumber: '2',
                   title: 'Enter RCM Mode',
                   description:
-                      'Put your Switch into RCM mode and inject the Lockpick_RCM payload using a PC or web injector.',
+                      'Place the Switch into RCM mode and inject the Lockpick_RCM payload using a PC or web injector.',
                 ),
                 _GuideStep(
                   stepNumber: '3',
                   title: 'Dump from SysNAND',
                   description:
-                      'In the payload menu, select "Dump from SysNAND". This will scan your console for the required cryptographic keys.',
+                      'In the payload menu, select "Dump from SysNAND". This scans the console for the required cryptographic keys.',
                 ),
                 _GuideStep(
                   stepNumber: '4',
                   title: 'Locate prod.keys',
                   description:
-                      'Your keys will be saved to "/switch/prod.keys" on your SD card. Copy this file to your Android device.',
+                      'Keys are saved to "/switch/prod.keys" on the SD card. Copy this file to the Android device.',
                 ),
               ],
             ),
@@ -56,19 +56,19 @@ class GuideScreen extends StatelessWidget {
                   stepNumber: '1',
                   title: 'Required Sigpatches',
                   description:
-                      'Ensure your modded Switch has up-to-date Atmosphere sigpatches (ES/FS patches) installed, otherwise custom NSPs will fail to launch with Error 2016-1263.',
+                      'Ensure the modded Switch has up-to-date Atmosphere sigpatches (ES/FS patches) installed, otherwise custom NSPs fail to launch with Error 2016-1263.',
                 ),
                 _GuideStep(
                   stepNumber: '2',
                   title: 'NRO & Core Paths Must Match Exactly',
                   description:
-                      'Forwarders act as shortcuts pointing to hardcoded SD card paths. Do not move or rename your target .nro or ROM files after generating the NSP.',
+                      'Forwarders act as shortcuts pointing to hardcoded SD card paths. Do not move or rename the target .nro or ROM files after generating the NSP.',
                 ),
                 _GuideStep(
                   stepNumber: '3',
                   title: 'Installation via DBI / Awoo',
                   description:
-                      'Copy the generated .nsp file to your SD card or install directly over USB/MTP using DBI Installer, Awoo, or Goldleaf.',
+                      'Copy the generated .nsp file to the SD card or install directly over USB/MTP using DBI Installer, Awoo, or Goldleaf.',
                 ),
                 _GuideStep(
                   stepNumber: '4',

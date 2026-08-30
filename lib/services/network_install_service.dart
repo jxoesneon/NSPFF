@@ -128,7 +128,7 @@ class _FileNspSource implements NspSource {
   }
 
   Stream<Uint8List> _fileStream(int start, int end, int chunkSize) async* {
-    // [File.openRead] treats [end] as exclusive, while our contract is
+    // [File.openRead] treats [end] as exclusive, while this contract is
     // inclusive, so pass end + 1.
     final stream = _file.openRead(start, end + 1);
     Uint8List? carry;
@@ -683,7 +683,7 @@ class NetworkInstallService extends ChangeNotifier {
     <div class="instructions">
       <h2>Install on Nintendo Switch via DBI:</h2>
       <ol>
-        <li>Open <strong>DBI</strong> on your Nintendo Switch.</li>
+        <li>Open <strong>DBI</strong> on the Nintendo Switch.</li>
         <li>Select <strong>Install title from DBI backend / URL</strong>.</li>
         <li>Enter server URL: <code>$currentServerUrl</code></li>
       </ol>

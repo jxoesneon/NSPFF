@@ -173,8 +173,8 @@ void main() {
         customFileSaver: (filename, bytes, {targetDir}) async {
           return p.join(tempDir.path, filename);
         },
-        // Bypass the real network service in this test; we are not writing
-        // real files to disk, only verifying concurrency.
+        // Bypass the real network service in this test; it does not write
+        // real files to disk, only verifies concurrency.
         networkRegistrar: (filename, filePath) {},
       );
 

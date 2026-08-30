@@ -315,7 +315,7 @@ class _NroForwarderScreenState extends State<NroForwarderScreen> {
                         isPath: true,
                         prefixIcon: Icons.folder,
                         tooltip:
-                            'Exact path where the .nro executable resides on your SD card.',
+                            'Exact path where the .nro executable resides on the SD card.',
                         onChanged: (v) => setState(() {}),
                       ),
                       SwitchTextField(

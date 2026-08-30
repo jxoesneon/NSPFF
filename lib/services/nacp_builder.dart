@@ -60,9 +60,9 @@ class NacpBuilder {
     // Video Capture: 0x3035 (0 = Disabled, 1 = Enabled, 2 = Automatic)
     buffer[0x3035] = config.videoCapture ? 0x01 : 0x00;
 
-    // Note: enableSvcDebug is an NPDM/ACID kernel capability, not an NACP
-    // field. NACP offset 0x3036 is DataLossConfirmation; we intentionally
-    // leave it at its default (0) to avoid misleading no-ops.
+    // enableSvcDebug is an NPDM/ACID kernel capability, not an NACP field.
+    // NACP offset 0x3036 is DataLossConfirmation; it is left at its default
+    // (0) to avoid misleading no-ops.
 
     // Logo Type: 0x30F0 (0 = Nintendo, 1 = Licensed by Nintendo, 2 = Distributed by Nintendo)
     buffer[0x30F0] = config.logoType.value & 0xFF;

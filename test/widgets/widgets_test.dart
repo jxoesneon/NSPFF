@@ -232,7 +232,7 @@ void main() {
               label: 'Target NRO Path on SD Card',
               controller: controller,
               tooltip:
-                  'Exact path where the .nro executable resides on your SD card.',
+                  'Exact path where the .nro executable resides on the SD card.',
             ),
           ),
         ),
@@ -245,7 +245,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(
         find.text(
-            'Exact path where the .nro executable resides on your SD card.'),
+            'Exact path where the .nro executable resides on the SD card.'),
         findsOneWidget,
       );
     });
