@@ -38,7 +38,8 @@ void main() {
       // ACID Title ID Range Min (offset 0x290) & Max (offset 0x298)
       final acidMin = view.getUint64(0x290, Endian.little);
       final acidMax = view.getUint64(0x298, Endian.little);
-      final expectedTid = BigInt.parse('0500000000000001', radix: 16).toInt();
+      // Low nibble (program index) is normalized to 0 by parseTitleId.
+      final expectedTid = BigInt.parse('0500000000000000', radix: 16).toInt();
 
       expect(acidMin, equals(expectedTid));
       expect(acidMax, equals(expectedTid));
@@ -199,8 +200,8 @@ void main() {
           equals(0xC0)); // 0x30 header + 2 * 0x38 records + 0x20 digest
       final cnmtView = ByteData.sublistView(cnmt);
 
-      // Title ID at 0x00
-      final expectedTid = BigInt.parse('0500000000000001', radix: 16).toInt();
+      // Title ID at 0x00 (low nibble / program index forced to 0)
+      final expectedTid = BigInt.parse('0500000000000000', radix: 16).toInt();
       expect(cnmtView.getUint64(0x00, Endian.little), equals(expectedTid));
 
       // ContentMetaType = 0x80 (Application)

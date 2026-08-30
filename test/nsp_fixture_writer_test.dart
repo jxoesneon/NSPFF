@@ -10,7 +10,7 @@ void main() {
     await outputFile.parent.create(recursive: true);
 
     final config = ForwarderConfig(
-      id: '0500000000000TEST',
+      id: '0500000000000001',
       title: 'NSPFF Smoke Test',
       publisher: 'Homebrew',
       version: '1.0.0',

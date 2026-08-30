@@ -46,7 +46,7 @@ void main() {
 
     test('Handles Little-Endian 64-bit Title ID parsing safely', () {
       final config = ForwarderConfig(
-        id: '050000000000ABCD',
+        id: '050000000000ABC0',
         title: 'Title ID Test',
         publisher: 'Dev',
         nroPath: '/switch/app.nro',
@@ -54,8 +54,8 @@ void main() {
 
       final nacp = NacpBuilder.buildNacp(config);
 
-      // Verify Little-Endian bytes at 0x3038: 0xCD, 0xAB, 0x00, 0x00, 0x00, 0x00, 0x00, 0x05
-      expect(nacp[0x3038], equals(0xCD));
+      // Verify Little-Endian bytes at 0x3038: 0xC0, 0xAB, 0x00, 0x00, 0x00, 0x00, 0x00, 0x05
+      expect(nacp[0x3038], equals(0xC0));
       expect(nacp[0x3039], equals(0xAB));
       expect(nacp[0x303F], equals(0x05));
     });

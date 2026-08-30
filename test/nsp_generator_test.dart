@@ -24,7 +24,7 @@ void main() {
 
       final result = await NspGenerator.generateNsp(config: config, keys: keys);
 
-      expect(result.titleId, equals('0500000000000001'));
+      expect(result.titleId, equals('0500000000000000'));
       expect(result.filename, contains('Super Mario World'));
       expect(result.nspBytes.length, greaterThan(0x800));
 
