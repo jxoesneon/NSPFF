@@ -37,6 +37,9 @@ jobs:
 
       - name: Execute Unit Test Suite
         run: flutter test --coverage
+        env:
+          NSPFF_PROD_KEYS: ${{ secrets.NSPFF_PROD_KEYS }}
+          NSPFF_TITLE_KEYS: ${{ secrets.NSPFF_TITLE_KEYS }}
 
       - name: Upload Test Coverage
         uses: actions/upload-artifact@v4
