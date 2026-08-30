@@ -12,6 +12,7 @@ import '../services/autodetect_inference_service.dart';
 import '../services/batch_processor_service.dart';
 import '../services/file_saver_service.dart';
 import '../services/keys_service.dart';
+import '../services/nca_builder.dart';
 import '../theme/switch_gamepad_navigation.dart';
 import '../theme/switch_theme.dart';
 import '../widgets/network_install_dialog.dart';
@@ -199,7 +200,7 @@ class _BatchGeneratorScreenState extends State<BatchGeneratorScreen> {
 
     BigInt baseId;
     try {
-      baseId = BigInt.parse(_baseTitleIdController.text.trim(), radix: 16);
+      baseId = NcaBuilder.parseTitleId(_baseTitleIdController.text.trim());
     } catch (_) {
       baseId = BigInt.parse('0500000000000010', radix: 16);
     }
@@ -208,7 +209,8 @@ class _BatchGeneratorScreenState extends State<BatchGeneratorScreen> {
     for (int i = 0; i < romPaths.length; i++) {
       final romPath = SwitchTextField.normalizePath(romPaths[i]);
       final gameTitle = p.basenameWithoutExtension(romPath);
-      final titleIdHex = (baseId + BigInt.from(i))
+      // Increment by 0x10 per batch entry to preserve the program-index nibble as 0.
+      final titleIdHex = (baseId + BigInt.from(i << 4))
           .toRadixString(16)
           .toUpperCase()
           .padLeft(16, '0');

@@ -4,6 +4,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import '../models/forwarder_config.dart';
+import 'nca_builder.dart';
 
 class NacpBuilder {
   static const int nacpSize = 0x4000;
@@ -43,7 +44,11 @@ class NacpBuilder {
     }
 
     // 3. Title ID at 0x3038 (8-byte unsigned integer)
-    _writeHexTitleId(buffer, 0x3038, config.id);
+    final normalizedId = NcaBuilder.parseTitleId(config.id)
+        .toRadixString(16)
+        .toUpperCase()
+        .padLeft(16, '0');
+    _writeHexTitleId(buffer, 0x3038, normalizedId);
 
     // 4. Flags & Control Properties
     // Startup User Account: 0x3025 (0 = None/Disabled, 1 = Required)

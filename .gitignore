@@ -34,6 +34,9 @@ android/key.jks
 # Ciel local domain
 .ciel/
 
+# Browser-playwright test fixtures (may contain prod.keys copies)
+.playwright-mcp/
+
 # Tooling / test artifacts
 .coverage/
 coverage/

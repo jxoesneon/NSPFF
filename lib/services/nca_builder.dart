@@ -245,8 +245,10 @@ class NcaBuilder {
     required Uint8List cnmtBytes,
   }) {
     final titleIdVal = parseTitleId(config.id);
-    final titleIdHex =
-        config.id.replaceAll('0x', '').toUpperCase().padLeft(16, '0');
+    final titleIdHex = titleIdVal
+        .toRadixString(16)
+        .toUpperCase()
+        .padLeft(16, '0');
 
     // 1. Pack CNMT file into PFS0 container named 'Application_<TitleID>.cnmt'
     final String cnmtFileName = 'Application_$titleIdHex.cnmt';
@@ -619,14 +621,25 @@ class NcaBuilder {
 
   // --- General Utilities ---
 
-  /// Parses 64-bit Title ID from hexadecimal string.
+  /// Parses 64-bit Title ID from hexadecimal string and normalizes it to a
+  /// valid Switch application title ID.
+  ///
+  /// The low 4 bits are the program index; emulators and loaders search for the
+  /// main program NCA matching program index 0. We therefore clear the low
+  /// nibble. The caller (UI/validation layer) is responsible for keeping the
+  /// title ID inside the valid application range (0x0100... - 0x0F...).
   static BigInt parseTitleId(String hexId) {
     final cleanHex = hexId
-        .replaceAll('0x', '')
-        .replaceAll(' ', '')
+        .replaceAll(RegExp(r'[^0-9A-Fa-f]'), '')
         .toUpperCase()
         .padLeft(16, '0');
-    return BigInt.tryParse(cleanHex, radix: 16) ?? BigInt.zero;
+    BigInt value = BigInt.tryParse(cleanHex, radix: 16) ?? BigInt.zero;
+
+    // Program index is encoded in the low 4 bits. Force it to 0.
+    const programIndexMask = 0xF;
+    value = value & ~BigInt.from(programIndexMask);
+
+    return value;
   }
 
   /// Parses version string ('1.0.0' -> 0x00010000).

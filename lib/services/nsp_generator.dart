@@ -40,9 +40,8 @@ class NspGenerator {
     required ForwarderConfig config,
     required ProdKeys keys,
   }) async {
-    final titleIdHex = config.id
-        .replaceAll('0x', '')
-        .replaceAll(' ', '')
+    final titleIdHex = NcaBuilder.parseTitleId(config.id)
+        .toRadixString(16)
         .toUpperCase()
         .padLeft(16, '0');
 

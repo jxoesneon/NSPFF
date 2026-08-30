@@ -4,6 +4,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import '../models/forwarder_config.dart';
+import 'nca_builder.dart';
 import 'pfs0_builder.dart';
 import 'romfs_builder.dart';
 
@@ -29,9 +30,9 @@ class ForwarderStubTemplate {
   /// Returns the process descriptor metadata (main.npdm) patched with [titleIdHex].
   static Uint8List getPatchedNpdm(String titleIdHex) {
     final Uint8List npdm = base64Decode(_rawNpdmBase64);
-    final cleanHex = titleIdHex
-        .replaceAll('0x', '')
-        .replaceAll(' ', '')
+    final normalized = NcaBuilder.parseTitleId(titleIdHex);
+    final cleanHex = normalized
+        .toRadixString(16)
         .toUpperCase()
         .padLeft(16, '0');
 
