@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ main, develop ]
 
+env:
+  NSPFF_PROD_KEYS: ${{ secrets.NSPFF_PROD_KEYS }}
+  NSPFF_TITLE_KEYS: ${{ secrets.NSPFF_TITLE_KEYS }}
+
 jobs:
   analyze-and-test:
     name: Static Analysis & Unit Tests
@@ -36,10 +40,7 @@ jobs:
         run: flutter analyze --no-fatal-infos
 
       - name: Execute Unit Test Suite
-        run: |
-          NSPFF_PROD_KEYS="${{ secrets.NSPFF_PROD_KEYS }}" \
-          NSPFF_TITLE_KEYS="${{ secrets.NSPFF_TITLE_KEYS }}" \
-            flutter test --coverage
+        run: flutter test --coverage
 
       - name: Upload Test Coverage
         uses: actions/upload-artifact@v4
