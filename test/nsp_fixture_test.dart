@@ -10,11 +10,19 @@ String _readKeyText(String keysDir, String name) {
 }
 
 ProdKeys _loadKeys() {
+  // Prefer full key material from environment variables (e.g. GitHub Secrets).
+  final prod = Platform.environment['NSPFF_PROD_KEYS'] ?? '';
+  final title = Platform.environment['NSPFF_TITLE_KEYS'] ?? '';
+  if (prod.isNotEmpty || title.isNotEmpty) {
+    return ProdKeys.parse('$prod\n$title'.trim());
+  }
+
+  // Next, read key files from a directory (local test setup).
   const keysDir = String.fromEnvironment('KEYS_DIR');
   if (keysDir.isNotEmpty) {
-    final prod = _readKeyText(keysDir, 'prod.keys');
-    final title = _readKeyText(keysDir, 'title.keys');
-    return ProdKeys.parse('$prod\n$title'.trim());
+    final prodFile = _readKeyText(keysDir, 'prod.keys');
+    final titleFile = _readKeyText(keysDir, 'title.keys');
+    return ProdKeys.parse('$prodFile\n$titleFile'.trim());
   }
 
   // Fallback test-only keys for offline unit testing.
@@ -23,21 +31,21 @@ ProdKeys _loadKeys() {
 }
 
 void main() {
-  test('Writes a Donut homebrew forwarder NSP', () async {
+  test('Writes a homebrew forwarder NSP fixture', () async {
     const nroPath =
-        String.fromEnvironment('NRO_PATH', defaultValue: '/switch/Donut.nro');
+        String.fromEnvironment('NRO_PATH', defaultValue: '/switch/test.nro');
     const titleId =
-        String.fromEnvironment('TITLE_ID', defaultValue: '0500000000000002');
+        String.fromEnvironment('TITLE_ID', defaultValue: '0500000000000000');
     const nspName =
-        String.fromEnvironment('NSP_NAME', defaultValue: 'build/Donut.nsp');
+        String.fromEnvironment('NSP_NAME', defaultValue: 'build/forwarder.nsp');
 
     final outputFile = File(nspName);
     await outputFile.parent.create(recursive: true);
 
     final config = ForwarderConfig(
       id: titleId,
-      title: 'Donut',
-      publisher: 'Ted Was Here',
+      title: 'Forwarder',
+      publisher: 'Homebrew',
       version: '1.0.0',
       nroPath: nroPath,
     );
