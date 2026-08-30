@@ -7,7 +7,7 @@ import 'package:nspff/models/retroarch_core.dart';
 void main() {
   group('RetroArchCore Unit Tests', () {
     test('Validates built-in cores list consistency', () {
-      final cores = RetroArchCore.builtInCores;
+      const cores = RetroArchCore.builtInCores;
 
       expect(cores, isNotEmpty);
       expect(cores.length, greaterThanOrEqualTo(25));
@@ -23,7 +23,8 @@ void main() {
     });
 
     test('Contains key console categories', () {
-      final categories = RetroArchCore.builtInCores.map((c) => c.category).toSet();
+      final categories =
+          RetroArchCore.builtInCores.map((c) => c.category).toSet();
 
       expect(categories, contains('Nintendo'));
       expect(categories, contains('Sony'));
