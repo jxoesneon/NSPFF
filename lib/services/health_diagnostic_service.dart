@@ -26,12 +26,19 @@ class HealthDiagnosticService {
     final ProdKeys? keys = await KeysService.loadKeys();
     final List<String> issues = [];
 
-    if (keys == null || !keys.isValid) {
+    if (keys == null) {
       issues.add('prod.keys file missing or invalid in app storage.');
     } else {
-      if (!keys.hasHeaderKey) issues.add('header_key is missing from prod.keys.');
+      if (!keys.hasHeaderKey) {
+        issues.add('header_key is missing from prod.keys.');
+      }
       if (!keys.hasSdSeed) issues.add('sd_seed is missing from prod.keys.');
-      if (!keys.hasTitleKdk) issues.add('titlekdk_00 is missing from prod.keys.');
+      if (!keys.hasTitleKdk) {
+        issues.add('titlekdk_00 is missing from prod.keys.');
+      }
+      if (!keys.isValid && issues.isEmpty) {
+        issues.add('prod.keys file missing or invalid in app storage.');
+      }
     }
 
     return DiagnosticReport(

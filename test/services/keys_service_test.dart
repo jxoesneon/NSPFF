@@ -11,23 +11,45 @@ void main() {
   group('KeysService Unit Tests', () {
     setUp(() {
       SharedPreferences.setMockInitialValues({});
+      KeysService.setForceFallback(true);
+      KeysService.clearTestFallback();
     });
 
-    test('Saves raw keys text and loads parsed ProdKeys', () async {
-      const rawKeys = 'header_key = 11223344556677889900aabbccddeeff\nsd_seed = aabbccddeeff';
-      
-      final saved = await KeysService.saveKeys(rawKeys);
+    tearDown(() {
+      KeysService.setForceFallback(false);
+      KeysService.clearTestFallback();
+    });
+
+    test(
+        'Saves raw keys text and loads parsed ProdKeys via static and instance',
+        () async {
+      const rawKeys = 'header_key = 11223344556677889900aabbccddeeff\n'
+          'sd_seed = aabbccddeeff00112233445566778899\n'
+          'titlekdk_00 = 00112233445566778899aabbccddeeff';
+
+      final saved = await KeysService.saveRawKeys(rawKeys);
       expect(saved, isTrue);
 
       final keys = await KeysService.loadKeys();
       expect(keys, isNotNull);
       expect(keys!.hasHeaderKey, isTrue);
       expect(keys.hasSdSeed, isTrue);
+      expect(keys.hasTitleKdk, isTrue);
+      expect(keys.isValid, isTrue);
+
+      final service = KeysService();
+      await service.init();
+      expect(service.hasValidKeys, isTrue);
+      expect(service.currentKeys?.hasHeaderKey, isTrue);
     });
 
     test('Clears keys cleanly', () async {
-      await KeysService.saveKeys('header_key = 1234');
-      await KeysService.clearKeys();
+      final service = KeysService();
+      await service.saveKeys('header_key = 1234');
+      expect(service.currentKeys, isNotNull);
+
+      await service.clearKeys();
+      expect(service.currentKeys, isNull);
 
       final keys = await KeysService.loadKeys();
       expect(keys, isNull);
