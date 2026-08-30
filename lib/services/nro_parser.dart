@@ -44,42 +44,53 @@ class NroParser {
     if (assetMagic != 'ASET') return null;
 
     // Extract Icon Section (Offset relative to ASET header)
-    final int iconOffset = view.getUint64(assetHeaderOffset + 0x08, Endian.little).toInt();
-    final int iconSize = view.getUint64(assetHeaderOffset + 0x10, Endian.little).toInt();
+    final int iconOffset =
+        view.getUint64(assetHeaderOffset + 0x08, Endian.little).toInt();
+    final int iconSize =
+        view.getUint64(assetHeaderOffset + 0x10, Endian.little).toInt();
 
     Uint8List? iconBytes;
-    if (iconSize > 0 && assetHeaderOffset + iconOffset + iconSize <= nroBytes.length) {
-      iconBytes = nroBytes.sublist(assetHeaderOffset + iconOffset, assetHeaderOffset + iconOffset + iconSize);
+    if (iconSize > 0 &&
+        assetHeaderOffset + iconOffset + iconSize <= nroBytes.length) {
+      iconBytes = nroBytes.sublist(assetHeaderOffset + iconOffset,
+          assetHeaderOffset + iconOffset + iconSize);
     }
 
     // Extract NACP Section
-    final int nacpOffset = view.getUint64(assetHeaderOffset + 0x18, Endian.little).toInt();
-    final int nacpSize = view.getUint64(assetHeaderOffset + 0x20, Endian.little).toInt();
+    final int nacpOffset =
+        view.getUint64(assetHeaderOffset + 0x18, Endian.little).toInt();
+    final int nacpSize =
+        view.getUint64(assetHeaderOffset + 0x20, Endian.little).toInt();
 
     String title = '';
     String author = '';
     String version = '1.0.0';
 
-    if (nacpSize >= 0x4000 && assetHeaderOffset + nacpOffset + nacpSize <= nroBytes.length) {
+    if (nacpSize >= 0x4000 &&
+        assetHeaderOffset + nacpOffset + nacpSize <= nroBytes.length) {
       final int nacpStart = assetHeaderOffset + nacpOffset;
 
       // Extract Title (Language 0 - American English)
       final titleSub = nroBytes.sublist(nacpStart, nacpStart + 0x200);
       final int nullIdxTitle = titleSub.indexOf(0);
-      final titleRaw = nullIdxTitle != -1 ? titleSub.sublist(0, nullIdxTitle) : titleSub;
+      final titleRaw =
+          nullIdxTitle != -1 ? titleSub.sublist(0, nullIdxTitle) : titleSub;
       title = const Utf8Decoder(allowMalformed: true).convert(titleRaw).trim();
 
       // Extract Author (Language 0)
       final authorSub = nroBytes.sublist(nacpStart + 0x200, nacpStart + 0x300);
       final int nullIdxAuthor = authorSub.indexOf(0);
-      final authorRaw = nullIdxAuthor != -1 ? authorSub.sublist(0, nullIdxAuthor) : authorSub;
-      author = const Utf8Decoder(allowMalformed: true).convert(authorRaw).trim();
+      final authorRaw =
+          nullIdxAuthor != -1 ? authorSub.sublist(0, nullIdxAuthor) : authorSub;
+      author =
+          const Utf8Decoder(allowMalformed: true).convert(authorRaw).trim();
 
       // Extract Version
       final verSub = nroBytes.sublist(nacpStart + 0x3060, nacpStart + 0x3070);
       final int nullIdxVer = verSub.indexOf(0);
       final verRaw = nullIdxVer != -1 ? verSub.sublist(0, nullIdxVer) : verSub;
-      final parsedVer = const Utf8Decoder(allowMalformed: true).convert(verRaw).trim();
+      final parsedVer =
+          const Utf8Decoder(allowMalformed: true).convert(verRaw).trim();
       if (parsedVer.isNotEmpty) {
         version = parsedVer;
       }

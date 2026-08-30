@@ -39,7 +39,7 @@ void main() {
       const int iconSize = 0x40;
       const int nacpSize = 0x4000;
 
-      final int totalSize = nroHeaderSize + 0x38 + iconSize + nacpSize;
+      const int totalSize = nroHeaderSize + 0x38 + iconSize + nacpSize;
       final bytes = Uint8List(totalSize);
       final view = ByteData.sublistView(bytes);
 
@@ -61,20 +61,23 @@ void main() {
       view.setUint64(0x90, iconSize, Endian.little);
 
       // NACP offset & size (offset relative to ASET header = 0x38 + iconSize)
-      final int nacpRelOffset = 0x38 + iconSize;
+      const int nacpRelOffset = 0x38 + iconSize;
       view.setUint64(0x98, nacpRelOffset, Endian.little);
       view.setUint64(0xA0, nacpSize, Endian.little);
 
       // Populate NACP data (Language 0 title & author, version at 0x3060)
-      final int nacpAbsStart = 0x80 + nacpRelOffset;
+      const int nacpAbsStart = 0x80 + nacpRelOffset;
 
       final titleBytes = const Utf8Encoder().convert('Custom NRO App');
       final authorBytes = const Utf8Encoder().convert('Custom NRO Dev');
       final verBytes = const Utf8Encoder().convert('1.5.0');
 
-      bytes.setRange(nacpAbsStart, nacpAbsStart + titleBytes.length, titleBytes);
-      bytes.setRange(nacpAbsStart + 0x200, nacpAbsStart + 0x200 + authorBytes.length, authorBytes);
-      bytes.setRange(nacpAbsStart + 0x3060, nacpAbsStart + 0x3060 + verBytes.length, verBytes);
+      bytes.setRange(
+          nacpAbsStart, nacpAbsStart + titleBytes.length, titleBytes);
+      bytes.setRange(nacpAbsStart + 0x200,
+          nacpAbsStart + 0x200 + authorBytes.length, authorBytes);
+      bytes.setRange(nacpAbsStart + 0x3060,
+          nacpAbsStart + 0x3060 + verBytes.length, verBytes);
 
       final meta = NroParser.parseNro(bytes);
 
