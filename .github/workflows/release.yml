@@ -194,7 +194,7 @@ jobs:
         shell: bash
 
       - name: Create MSIX
-        run: dart run msix:create --force
+        run: dart run msix:create
         shell: bash
 
       - name: Stage MSIX
