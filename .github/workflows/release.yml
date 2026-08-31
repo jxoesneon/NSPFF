@@ -238,10 +238,13 @@ jobs:
         run: |
           sudo apt-get update -y
           sudo apt-get install -y ninja-build libgtk-3-dev liblzma-dev libsecret-1-dev libjsoncpp-dev
-          # AppImage tooling
+          # AppImage tooling — extract since FUSE is unavailable in CI containers
           sudo apt-get install -y libfuse2 wget
-          wget -q "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage" -O /usr/local/bin/appimagetool
-          chmod +x /usr/local/bin/appimagetool
+          wget -q "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage" -O /tmp/appimagetool
+          chmod +x /tmp/appimagetool
+          cd /tmp && ./appimagetool --appimage-extract
+          sudo mv /tmp/squashfs-root /opt/appimagetool
+          sudo ln -s /opt/appimagetool/AppRun /usr/local/bin/appimagetool
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
@@ -281,12 +284,13 @@ jobs:
           Icon=nspff
           Terminal=false
           Type=Application
-          Categories=Utility;Game;
+          Categories=Utility;
           DESKTOP
 
-          # Copy icon
+          # Copy icon — both in hicolor and AppDir root for appimagetool discovery
           if [ -f "assets/images/icon.png" ]; then
             cp "assets/images/icon.png" "$APPDIR/usr/share/icons/hicolor/256x256/apps/nspff.png"
+            cp "assets/images/icon.png" "$APPDIR/nspff.png"
           fi
 
           # AppRun
@@ -297,8 +301,8 @@ jobs:
           RUN
           chmod +x "$APPDIR/AppRun"
 
-          # Build AppImage
-          ARCH=x86_64 appimagetool "$APPDIR" "$GITHUB_WORKSPACE/nspff-linux.AppImage" || true
+          # Build AppImage (extracted appimagetool runs without FUSE)
+          ARCH=x86_64 appimagetool "$APPDIR" "$GITHUB_WORKSPACE/nspff-linux.AppImage"
 
       - name: Create DEB package
         run: |
@@ -329,7 +333,7 @@ jobs:
           Icon=nspff
           Terminal=false
           Type=Application
-          Categories=Utility;Game;
+          Categories=Utility;
           DESKTOP
 
           # Icon
@@ -403,55 +407,71 @@ jobs:
           echo "nspff-linux.AppImage + .sha256"
           echo "nspff-linux.deb + .sha256"
 
+      - name: Write Release Notes
+        run: |
+          cat > release-notes.md <<'EOF'
+          ## NSPFF ${{ github.ref_name }}
+
+          NSP Fast Forward — a Flutter application for generating Nintendo Switch NSP forwarder packages for standalone NRO applications and RetroArch ROMs.
+
+          ### Downloads
+
+          | Platform | Artifact | Type |
+          |----------|---------|------|
+          | Android | `nspff-android.apk` | APK (sideload) |
+          | Android | `nspff-android.aab` | App Bundle (Play Store) |
+          | macOS | `nspff-macos.dmg` | Disk Image |
+          | Windows | `nspff-windows.msix` | MSIX Installer |
+          | Windows | `nspff-windows-portable.zip` | Portable ZIP |
+          | Linux | `nspff-linux.AppImage` | AppImage |
+          | Linux | `nspff-linux.deb` | Debian/Ubuntu Package |
+          | Web | `nspff-web.zip` | Web Bundle |
+
+          Each artifact includes a `.sha256` checksum file for integrity verification.
+
+          ### Installation
+
+          **Android:** Enable "Install unknown apps" and open the APK. The AAB is for Play Store distribution.
+
+          **macOS:** Open the DMG, drag NSPFF to Applications. On first launch, right-click and select Open to bypass Gatekeeper.
+
+          **Windows:** Double-click the MSIX to install (requires sideloading enabled). Alternatively, extract the portable ZIP and run `nspff.exe`.
+
+          **Linux:** Make the AppImage executable (`chmod +x nspff-linux.AppImage`) and run. For Debian/Ubuntu, install with `sudo dpkg -i nspff-linux.deb`.
+
+          **Web:** Extract the ZIP and serve the contents from any static web server.
+
+          ### Prerequisites
+
+          NSPFF requires a valid `prod.keys` file to sign NSP packages. Use [Lockpick_RCM](https://github.com/shchmue/Lockpick_RCM) on your Switch to dump keys, then import them via the Keys Manager tab. See the Guide tab in-app for detailed instructions.
+
+          ### Security
+
+          User-supplied cryptographic keys are stored locally using platform secure storage and are never transmitted, committed, or bundled into release artifacts. Users are responsible for obtaining their own key material in compliance with applicable laws.
+
+          ---
+          This is a pre-release. Report issues on the [issue tracker](https://github.com/jxoesneon/NSPFF/issues).
+          EOF
+
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: |
-            artifacts/*
-            artifacts/*.sha256
-          draft: false
-          prerelease: true
-          generate_release_notes: false
-          fail_on_unmatched_files: false
-          body: |
-            ## NSPFF ${{ github.ref_name }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ github.ref_name }}" \
+            --title "NSPFF ${{ github.ref_name }}" \
+            --prerelease \
+            --generate-notes \
+            --notes-body-file release-notes.md \
+            --target main
 
-            NSP Fast Forward — a Flutter application for generating Nintendo Switch NSP forwarder packages for standalone NRO applications and RetroArch ROMs.
-
-            ### Downloads
-
-            | Platform | Artifact | Type |
-            |----------|---------|------|
-            | Android | `nspff-android.apk` | APK (sideload) |
-            | Android | `nspff-android.aab` | App Bundle (Play Store) |
-            | macOS | `nspff-macos.dmg` | Disk Image |
-            | Windows | `nspff-windows.msix` | MSIX Installer |
-            | Windows | `nspff-windows-portable.zip` | Portable ZIP |
-            | Linux | `nspff-linux.AppImage` | AppImage |
-            | Linux | `nspff-linux.deb` | Debian/Ubuntu Package |
-            | Web | `nspff-web.zip` | Web Bundle |
-
-            Each artifact includes a `.sha256` checksum file for integrity verification.
-
-            ### Installation
-
-            **Android:** Enable "Install unknown apps" and open the APK. The AAB is for Play Store distribution.
-
-            **macOS:** Open the DMG, drag NSPFF to Applications. On first launch, right-click and select Open to bypass Gatekeeper.
-
-            **Windows:** Double-click the MSIX to install (requires sideloading enabled). Alternatively, extract the portable ZIP and run `nspff.exe`.
-
-            **Linux:** Make the AppImage executable (`chmod +x nspff-linux.AppImage`) and run. For Debian/Ubuntu, install with `sudo dpkg -i nspff-linux.deb`.
-
-            **Web:** Extract the ZIP and serve the contents from any static web server.
-
-            ### Prerequisites
-
-            NSPFF requires a valid `prod.keys` file to sign NSP packages. Use [Lockpick_RCM](https://github.com/shchmue/Lockpick_RCM) on your Switch to dump keys, then import them via the Keys Manager tab. See the Guide tab in-app for detailed instructions.
-
-            ### Security
-
-            User-supplied cryptographic keys are stored locally using platform secure storage and are never transmitted, committed, or bundled into release artifacts. Users are responsible for obtaining their own key material in compliance with applicable laws.
-
-            ---
-            This is a pre-release. Report issues on the [issue tracker](https://github.com/jxoesneon/NSPFF/issues).
+      - name: Upload Release Assets
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd artifacts
+          for file in *; do
+            if [ -f "$file" ]; then
+              echo "Uploading $file..."
+              gh release upload "${{ github.ref_name }}" "$file" --clobber
+            fi
+          done
