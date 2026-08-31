@@ -184,11 +184,12 @@ jobs:
           ls -la artifacts/*.sha256 2>/dev/null || echo "No checksum files found"
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v3
+        uses: softprops/action-gh-release@v2
         with:
           files: |
             artifacts/*
             artifacts/*.sha256
           draft: false
-          prerelease: false
+          prerelease: true
           generate_release_notes: true
+          fail_on_unmatched_files: true
