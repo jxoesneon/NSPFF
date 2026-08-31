@@ -1,6 +1,5 @@
 plugins {
     id "com.android.application"
-    id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
 }
 
@@ -14,10 +13,6 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-
     defaultConfig {
         applicationId "io.n8.nspff"
         minSdkVersion flutter.minSdkVersion
@@ -28,22 +23,31 @@ android {
 
     signingConfigs {
         release {
-            // Placeholder release signing configuration. Configure a real
-            // release keystore via environment variables before shipping:
+            // Release signing configuration. Provide a real keystore via
+            // environment variables for production releases:
             //   NSPFF_KEYSTORE_FILE, NSPFF_KEYSTORE_PASSWORD,
             //   NSPFF_KEY_ALIAS, NSPFF_KEY_PASSWORD
             def keystoreFile = System.getenv("NSPFF_KEYSTORE_FILE")
-                ?: "${System.getProperty('user.home')}/.android/debug.keystore"
-            storeFile file(keystoreFile)
-            storePassword System.getenv("NSPFF_KEYSTORE_PASSWORD") ?: "android"
-            keyAlias System.getenv("NSPFF_KEY_ALIAS") ?: "androiddebugkey"
-            keyPassword System.getenv("NSPFF_KEY_PASSWORD") ?: "android"
+            if (keystoreFile != null && file(keystoreFile).exists()) {
+                storeFile file(keystoreFile)
+                storePassword System.getenv("NSPFF_KEYSTORE_PASSWORD") ?: ""
+                keyAlias System.getenv("NSPFF_KEY_ALIAS") ?: ""
+                keyPassword System.getenv("NSPFF_KEY_PASSWORD") ?: ""
+            }
         }
     }
 
     buildTypes {
         release {
-            signingConfig signingConfigs.release
+            // Use the release signing config only when a keystore is
+            // configured; otherwise fall back to debug signing so CI
+            // can produce builds without a release keystore.
+            def keystoreFile = System.getenv("NSPFF_KEYSTORE_FILE")
+            if (keystoreFile != null && file(keystoreFile).exists()) {
+                signingConfig signingConfigs.release
+            } else {
+                signingConfig signingConfigs.debug
+            }
             minifyEnabled true
             shrinkResources true
         }
