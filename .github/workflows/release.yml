@@ -209,10 +209,10 @@ jobs:
 
       - name: Generate SHA-256 Checksums
         run: |
-          shasum -a 256 nspff-windows-portable.zip | awk '{print $1}' > nspff-windows-portable.zip.sha256
+          powershell -Command "(Get-FileHash -Algorithm SHA256 'nspff-windows-portable.zip').Hash" > nspff-windows-portable.zip.sha256
           if [ -f staging/nspff-windows.msix ]; then
             cd staging
-            shasum -a 256 nspff-windows.msix | awk '{print $1}' > nspff-windows.msix.sha256
+            powershell -Command "(Get-FileHash -Algorithm SHA256 'nspff-windows.msix').Hash" > nspff-windows.msix.sha256
           fi
         shell: bash
 
