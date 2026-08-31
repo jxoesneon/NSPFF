@@ -1,6 +1,6 @@
 # NSPFF (NSP Fast Forward)
 
-[![CI Status](https://github.com/jxoesneon/NSPFF/workflows/NSPFF%20(NSP%20Fast%20Forward)%20CI%20&%20APK%20Release%20Build/badge.svg)](https://github.com/jxoesneon/NSPFF/actions)
+[![CI Status](https://github.com/jxoesneon/NSPFF/actions/workflows/ci.yml/badge.svg)](https://github.com/jxoesneon/NSPFF/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-Android%20%7C%20Flutter-333333.svg)]()
 [![Dart](https://img.shields.io/badge/Dart-3.0+-0175C2.svg)](https://dart.dev)
@@ -67,6 +67,7 @@ NSPFF/
 ├── .github/
 │   └── workflows/          # GitHub Actions CI/CD automation
 ├── android/                # Native Android application configuration
+├── integration_test/       # End-to-end integration tests
 ├── lib/
 │   ├── main.dart           # Application entry point
 │   ├── models/             # Data structures (ForwarderConfig, ProdKeys, RetroArchCore)
@@ -75,9 +76,15 @@ NSPFF/
 │   ├── views/              # Primary application screens
 │   └── widgets/            # Reusable UI components
 ├── test/                   # Unit test suite
+├── ARCHITECTURE.md         # System architecture specification
 ├── CHANGELOG.md            # Version history
+├── CODE_OF_CONDUCT.md      # Community standards
 ├── CONTRIBUTING.md         # Contribution guidelines
+├── DEPENDENCIES.md         # Software bill of materials
 ├── LICENSE                 # MIT License
+├── README.md               # Project overview
+├── SECURITY.md             # Vulnerability reporting policy
+├── THREAT_MODEL.md         # STRIDE threat model
 └── pubspec.yaml            # Dependencies and asset declarations
 ```
 
