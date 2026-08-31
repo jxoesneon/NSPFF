@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Upgraded to `flutter_secure_storage` 11.x.
 - All GitHub Actions upgraded to latest major versions.
 - SHA-256 checksums generated for all release artifacts.
+- Release artifacts now use native package formats: DMG (macOS), MSIX + portable ZIP (Windows), AppImage + DEB (Linux).
 
 ### Security
 - User-supplied cryptographic keys stored in `flutter_secure_storage`; never committed or bundled.
