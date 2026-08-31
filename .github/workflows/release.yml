@@ -199,19 +199,16 @@ jobs:
 
       - name: Stage MSIX
         run: |
-          mkdir -p staging
-          cp build/windows/x64/runner/Release/nspff.msix staging/nspff-windows.msix || true
-          # msix package may output to different locations; find it
-          if [ ! -f staging/nspff-windows.msix ]; then
-            find build -name "*.msix" -exec cp {} staging/nspff-windows.msix \;
+          cp build/windows/x64/runner/Release/nspff.msix "$GITHUB_WORKSPACE/nspff-windows.msix" || true
+          if [ ! -f "$GITHUB_WORKSPACE/nspff-windows.msix" ]; then
+            find build -name "*.msix" -exec cp {} "$GITHUB_WORKSPACE/nspff-windows.msix" \;
           fi
         shell: bash
 
       - name: Generate SHA-256 Checksums
         run: |
           powershell -Command "(Get-FileHash -Algorithm SHA256 'nspff-windows-portable.zip').Hash" > nspff-windows-portable.zip.sha256
-          if [ -f staging/nspff-windows.msix ]; then
-            cd staging
+          if [ -f nspff-windows.msix ]; then
             powershell -Command "(Get-FileHash -Algorithm SHA256 'nspff-windows.msix').Hash" > nspff-windows.msix.sha256
           fi
         shell: bash
@@ -223,8 +220,8 @@ jobs:
           path: |
             nspff-windows-portable.zip
             nspff-windows-portable.zip.sha256
-            staging/nspff-windows.msix
-            staging/nspff-windows.msix.sha256
+            nspff-windows.msix
+            nspff-windows.msix.sha256
 
   build-linux:
     name: Build Linux
