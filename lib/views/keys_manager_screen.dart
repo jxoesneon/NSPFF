@@ -43,43 +43,34 @@ class _KeysManagerScreenState extends State<KeysManagerScreen> {
   }
 
   Future<void> _pickKeysFile() async {
-    final result = await FilePicker.platform.pickFiles(
+    final file = await FilePicker.pickFile(
       type: FileType.any,
-      allowMultiple: false,
     );
 
-    if (result != null) {
-      final file = result.files.single;
+    if (file != null) {
       String? text;
       try {
-        if (file.bytes != null) {
-          text = String.fromCharCodes(file.bytes!);
-        } else if (file.path != null) {
-          text = await File(file.path!).readAsString();
+        final bytes = await file.readAsBytes();
+        text = String.fromCharCodes(bytes);
+      } catch (_) {
+        final path = file.path;
+        if (path != null) {
+          text = await File(path).readAsString();
         }
+      }
 
-        final keysText = text;
-        if (keysText != null && keysText.isNotEmpty) {
-          if (!mounted) return;
-          setState(() {
-            _keysTextController.text = keysText;
-          });
-          await context.read<KeysService>().saveKeys(keysText);
-          if (mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('prod.keys file imported successfully!'),
-                backgroundColor: AppTheme.switchGreen,
-              ),
-            );
-          }
-        }
-      } catch (e) {
+      final keysText = text;
+      if (keysText != null && keysText.isNotEmpty) {
+        if (!mounted) return;
+        setState(() {
+          _keysTextController.text = keysText;
+        });
+        await context.read<KeysService>().saveKeys(keysText);
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Failed to read keys file: $e'),
-              backgroundColor: AppTheme.switchRed,
+            const SnackBar(
+              content: Text('prod.keys file imported successfully!'),
+              backgroundColor: AppTheme.switchGreen,
             ),
           );
         }

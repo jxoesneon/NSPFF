@@ -1,7 +1,7 @@
 // Copyright (c) 2026 NSPFF Project Contributors.
 // SPDX-License-Identifier: MIT
 
-import 'package:file_picker/file_picker.dart';
+import 'package:file_picker_platform_interface/file_picker_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -18,30 +18,7 @@ import 'package:nspff/widgets/title_id_input.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// Deterministic file picker that returns a fixed list of [PlatformFile]s.
-class _MockFilePicker extends FilePickerIO {
-  final List<PlatformFile> _files;
-
-  _MockFilePicker(this._files);
-
-  @override
-  Future<FilePickerResult?> pickFiles({
-    FileType type = FileType.any,
-    List<String>? allowedExtensions,
-    String? dialogTitle,
-    String? initialDirectory,
-    void Function(FilePickerStatus)? onFileLoading,
-    bool? allowCompression = true,
-    bool allowMultiple = false,
-    bool? withData = false,
-    int compressionQuality = 30,
-    bool? withReadStream = false,
-    bool lockParentWindow = false,
-    bool readSequential = false,
-  }) async {
-    return FilePickerResult(_files);
-  }
-}
+import '../helpers/mock_file_picker.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -519,14 +496,15 @@ void main() {
     testWidgets('gameButtonY triggers multi-ROM picker browse',
         (WidgetTester tester) async {
       // Replace file_picker with a deterministic mock for the test.
-      FilePicker.platform = _MockFilePicker([
-        PlatformFile(
+      final originalInstance = FilePickerPlatform.instance;
+      FilePickerPlatform.instance = MockFilePickerPlatform([
+        FakePlatformFile(
           name: 'Mega Man X.sfc',
+          bytes: Uint8List(1024),
           path: '/fake/Mega Man X.sfc',
-          size: 1024,
         ),
       ]);
-      addTearDown(FilePickerIO.registerWith);
+      addTearDown(() => FilePickerPlatform.instance = originalInstance);
 
       await tester.pumpWidget(
         buildTestApp(const Scaffold(body: BatchGeneratorScreen())),

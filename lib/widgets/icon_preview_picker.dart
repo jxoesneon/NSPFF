@@ -61,13 +61,13 @@ class IconPreviewPicker extends StatelessWidget {
   });
 
   Future<void> _pickImage() async {
-    final result = await FilePicker.platform.pickFiles(
+    final file = await FilePicker.pickFile(
       type: FileType.image,
-      allowMultiple: false,
     );
 
-    if (result != null && result.files.single.bytes != null) {
-      final resized = await resizeIconBytes(result.files.single.bytes!);
+    if (file != null) {
+      final bytes = await file.readAsBytes();
+      final resized = await resizeIconBytes(bytes);
       onImageSelected(resized);
     }
   }

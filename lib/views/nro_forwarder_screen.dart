@@ -86,13 +86,13 @@ class _NroForwarderScreenState extends State<NroForwarderScreen> {
   }
 
   Future<void> _extractNroMetadata() async {
-    final result = await FilePicker.platform.pickFiles(
+    final file = await FilePicker.pickFile(
       type: FileType.any,
-      allowMultiple: false,
     );
 
-    if (result != null && result.files.single.bytes != null) {
-      final meta = NroParser.parseNro(result.files.single.bytes!);
+    if (file != null) {
+      final bytes = await file.readAsBytes();
+      final meta = NroParser.parseNro(bytes);
       if (meta != null) {
         setState(() {
           _titleController.text = meta.title;

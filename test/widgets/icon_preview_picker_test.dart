@@ -3,36 +3,14 @@
 
 import 'dart:typed_data';
 
-import 'package:file_picker/file_picker.dart';
+import 'package:file_picker_platform_interface/file_picker_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image/image.dart' as img;
 import 'package:nspff/theme/switch_theme.dart';
 import 'package:nspff/widgets/icon_preview_picker.dart';
 
-class _MockImageFilePicker extends FilePickerIO {
-  final List<PlatformFile> _files;
-
-  _MockImageFilePicker(this._files);
-
-  @override
-  Future<FilePickerResult?> pickFiles({
-    FileType type = FileType.any,
-    List<String>? allowedExtensions,
-    String? dialogTitle,
-    String? initialDirectory,
-    void Function(FilePickerStatus)? onFileLoading,
-    bool? allowCompression = true,
-    bool allowMultiple = false,
-    bool? withData = false,
-    int compressionQuality = 30,
-    bool? withReadStream = false,
-    bool lockParentWindow = false,
-    bool readSequential = false,
-  }) async {
-    return FilePickerResult(_files);
-  }
-}
+import '../helpers/mock_file_picker.dart';
 
 void main() {
   group('IconPreviewPicker', () {
@@ -101,14 +79,14 @@ void main() {
     testWidgets('select button picks and resizes an image',
         (WidgetTester tester) async {
       final pngBytes = makePng();
-      FilePicker.platform = _MockImageFilePicker([
-        PlatformFile(
+      final originalInstance = FilePickerPlatform.instance;
+      FilePickerPlatform.instance = MockFilePickerPlatform([
+        FakePlatformFile(
           name: 'icon.png',
           bytes: pngBytes,
-          size: pngBytes.length,
         ),
       ]);
-      addTearDown(FilePickerIO.registerWith);
+      addTearDown(() => FilePickerPlatform.instance = originalInstance);
 
       Uint8List? selected;
       await tester.pumpWidget(

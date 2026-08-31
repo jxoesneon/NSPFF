@@ -11,7 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// Modern Android Storage Access Framework (SAF) & Scoped Storage compliant file saver.
 ///
 /// Features:
-/// - Allows custom folder selection via [FilePicker.platform.getDirectoryPath].
+/// - Allows custom folder selection via [FilePicker.getDirectoryPath].
 /// - Persists target folder preference in [SharedPreferences].
 /// - Implements graceful fallback resolution (Public Downloads -> App External -> Documents -> Temp).
 /// - Modern Scoped Storage compliant for Android 11+ (API 30-36).
@@ -53,12 +53,12 @@ class FileSaverService {
   }
 
   /// Launches the native Storage Access Framework (SAF) folder picker
-  /// using [FilePicker.platform.getDirectoryPath].
+  /// using [FilePicker.getDirectoryPath].
   ///
   /// If a directory is selected, saves it to [SharedPreferences] and returns it.
   static Future<String?> pickTargetFolder() async {
     try {
-      final selectedPath = await FilePicker.platform.getDirectoryPath(
+      final selectedPath = await FilePicker.getDirectoryPath(
         dialogTitle: 'Select NSP Export Directory',
       );
       if (selectedPath != null && selectedPath.trim().isNotEmpty) {

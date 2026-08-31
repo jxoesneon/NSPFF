@@ -124,17 +124,17 @@ class _BatchGeneratorScreenState extends State<BatchGeneratorScreen> {
   }
 
   Future<void> _pickMultiRoms() async {
-    final result = await FilePicker.platform.pickFiles(
-      allowMultiple: true,
+    final files = await FilePicker.pickFiles(
       type: FileType.any,
     );
 
-    if (result != null && result.files.isNotEmpty) {
+    if (files.isNotEmpty) {
       final List<String> newPaths = [];
-      for (var file in result.files) {
-        if (file.path != null) {
+      for (var file in files) {
+        final path = file.path;
+        if (path != null) {
           // Attempt to infer a logical SD path if the picked path is local
-          final fileName = p.basename(file.path!);
+          final fileName = p.basename(path);
           final inferred = AutodetectInferenceService.inferRomDetails(fileName);
           newPaths.add(inferred.romSdPath);
         }

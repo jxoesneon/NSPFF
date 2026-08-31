@@ -5,16 +5,20 @@ on:
     tags:
       - 'v*'
 
+env:
+  NSPFF_PROD_KEYS: ${{ secrets.NSPFF_PROD_KEYS }}
+  NSPFF_TITLE_KEYS: ${{ secrets.NSPFF_TITLE_KEYS }}
+
 jobs:
   test:
     name: Test Suite
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
       - name: Set up Java JDK
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6
         with:
           distribution: 'temurin'
           java-version: '17'
@@ -61,19 +65,19 @@ jobs:
             build_cmd: flutter build web --release
             artifact_path: build/web
             artifact_name: nspff-web.zip
-            checksum: false
+            checksum: true
           - target: macos
             os: macos-latest
             build_cmd: flutter build macos --release
             artifact_path: build/macos/Build/Products/Release/nspff.app
             artifact_name: nspff-macos.zip
-            checksum: false
+            checksum: true
           - target: windows
             os: windows-latest
             build_cmd: flutter build windows --release
             artifact_path: build/windows/x64/runner/Release
             artifact_name: nspff-windows.zip
-            checksum: false
+            checksum: true
           - target: linux
             os: ubuntu-latest
             build_cmd: |
@@ -87,11 +91,11 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
       - name: Set up Java JDK
         if: startsWith(matrix.target, 'android')
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6
         with:
           distribution: 'temurin'
           java-version: '17'
@@ -108,14 +112,26 @@ jobs:
       - name: Build ${{ matrix.target }}
         run: ${{ matrix.build_cmd }}
 
-      - name: Archive Build (zip)
-        if: matrix.target == 'web' || matrix.target == 'macos' || matrix.target == 'windows'
+      - name: Archive Build (macos zip)
+        if: matrix.target == 'macos'
+        run: |
+          cd "$(dirname "${{ matrix.artifact_path }}")"
+          ditto -c -k --sequesterRsrc --keepParent "$(basename "${{ matrix.artifact_path }}")" "$GITHUB_WORKSPACE/${{ matrix.artifact_name }}"
+
+      - name: Archive Build (windows zip)
+        if: matrix.target == 'windows'
         run: |
           cd "$(dirname "${{ matrix.artifact_path }}")"
           7z a -tzip "$GITHUB_WORKSPACE/${{ matrix.artifact_name }}" "$(basename "${{ matrix.artifact_path }}")"
         shell: bash
 
-      - name: Archive Build (tar.gz)
+      - name: Archive Build (web zip)
+        if: matrix.target == 'web'
+        run: |
+          cd "$(dirname "${{ matrix.artifact_path }}")"
+          7z a -tzip "$GITHUB_WORKSPACE/${{ matrix.artifact_name }}" "$(basename "${{ matrix.artifact_path }}")"
+
+      - name: Archive Build (linux tar.gz)
         if: matrix.target == 'linux'
         run: |
           cd "$(dirname "${{ matrix.artifact_path }}")"
@@ -131,7 +147,7 @@ jobs:
           if [ "${{ runner.os }}" = "Windows" ]; then
             certutil -hashfile "${{ matrix.artifact_name }}" SHA256 | sed -n 2p | tr -d ' ' > "${{ matrix.artifact_name }}.sha256"
           else
-            sha256sum "${{ matrix.artifact_name }}" | awk '{print $1}' > "${{ matrix.artifact_name }}.sha256"
+            shasum -a 256 "${{ matrix.artifact_name }}" | awk '{print $1}' > "${{ matrix.artifact_name }}.sha256"
           fi
         shell: bash
 
@@ -151,16 +167,24 @@ jobs:
       contents: write
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
       - name: Download All Artifacts
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v8
         with:
           path: artifacts
           merge-multiple: true
 
+      - name: Verify Artifacts
+        run: |
+          echo "Downloaded artifacts:"
+          ls -la artifacts/
+          echo "---"
+          echo "Checksum files:"
+          ls -la artifacts/*.sha256 2>/dev/null || echo "No checksum files found"
+
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           files: |
             artifacts/*

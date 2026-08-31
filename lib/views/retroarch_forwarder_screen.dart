@@ -133,13 +133,12 @@ class _RetroArchForwarderScreenState extends State<RetroArchForwarderScreen> {
   }
 
   Future<void> _pickRomFile() async {
-    final result = await FilePicker.platform.pickFiles(
+    final file = await FilePicker.pickFile(
       type: FileType.any,
-      allowMultiple: false,
     );
 
-    if (result != null && result.files.single.name.isNotEmpty) {
-      _romPathController.text = result.files.single.name;
+    if (file != null && file.name.isNotEmpty) {
+      _romPathController.text = file.name;
       await _runSmartAutodetect();
     }
   }
