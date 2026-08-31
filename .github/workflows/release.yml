@@ -6,8 +6,8 @@ on:
       - 'v*'
 
 jobs:
-  release:
-    name: Build & Publish Release
+  test:
+    name: Test Suite
     runs-on: ubuntu-latest
 
     steps:
@@ -28,23 +28,143 @@ jobs:
       - name: Install Dependencies
         run: flutter pub get
 
+      - name: Verify Code Formatting
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: Static Code Analysis
+        run: flutter analyze --no-fatal-infos
+
       - name: Run Test Suite
         run: flutter test
 
-      - name: Build Android Release APK
-        run: flutter build apk --release
+  build:
+    name: Build (${{ matrix.target }})
+    needs: test
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: android-apk
+            os: ubuntu-latest
+            build_cmd: flutter build apk --release
+            artifact_path: build/app/outputs/flutter-apk/app-release.apk
+            artifact_name: nspff-android-apk.apk
+            checksum: true
+          - target: android-aab
+            os: ubuntu-latest
+            build_cmd: flutter build appbundle --release
+            artifact_path: build/app/outputs/bundle/release/app-release.aab
+            artifact_name: nspff-android-aab.aab
+            checksum: true
+          - target: web
+            os: ubuntu-latest
+            build_cmd: flutter build web --release
+            artifact_path: build/web
+            artifact_name: nspff-web.zip
+            checksum: false
+          - target: macos
+            os: macos-latest
+            build_cmd: flutter build macos --release
+            artifact_path: build/macos/Build/Products/Release/nspff.app
+            artifact_name: nspff-macos.zip
+            checksum: false
+          - target: windows
+            os: windows-latest
+            build_cmd: flutter build windows --release
+            artifact_path: build/windows/x64/runner/Release
+            artifact_name: nspff-windows.zip
+            checksum: false
+          - target: linux
+            os: ubuntu-latest
+            build_cmd: |
+              sudo apt-get update -y
+              sudo apt-get install -y ninja-build libgtk-3-dev liblzma-dev
+              flutter build linux --release
+            artifact_path: build/linux/x64/release/bundle
+            artifact_name: nspff-linux.tar.gz
+            checksum: true
 
-      - name: Generate SHA-256 Manifest
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java JDK
+        if: startsWith(matrix.target, 'android')
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Build ${{ matrix.target }}
+        run: ${{ matrix.build_cmd }}
+
+      - name: Archive Build (zip)
+        if: matrix.target == 'web' || matrix.target == 'macos' || matrix.target == 'windows'
         run: |
-          cd build/app/outputs/flutter-apk
-          sha256sum app-release.apk > app-release.apk.sha256
+          cd "$(dirname "${{ matrix.artifact_path }}")"
+          7z a -tzip "$GITHUB_WORKSPACE/${{ matrix.artifact_name }}" "$(basename "${{ matrix.artifact_path }}")"
+        shell: bash
+
+      - name: Archive Build (tar.gz)
+        if: matrix.target == 'linux'
+        run: |
+          cd "$(dirname "${{ matrix.artifact_path }}")"
+          tar czf "$GITHUB_WORKSPACE/${{ matrix.artifact_name }}" "$(basename "${{ matrix.artifact_path }}")"
+
+      - name: Copy Android artifact
+        if: startsWith(matrix.target, 'android')
+        run: cp "${{ matrix.artifact_path }}" "${{ matrix.artifact_name }}"
+
+      - name: Generate SHA-256 Checksum
+        if: matrix.checksum
+        run: |
+          if [ "${{ runner.os }}" = "Windows" ]; then
+            certutil -hashfile "${{ matrix.artifact_name }}" SHA256 | sed -n 2p | tr -d ' ' > "${{ matrix.artifact_name }}.sha256"
+          else
+            sha256sum "${{ matrix.artifact_name }}" | awk '{print $1}' > "${{ matrix.artifact_name }}.sha256"
+          fi
+        shell: bash
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.target }}-build
+          path: |
+            ${{ matrix.artifact_name }}
+            ${{ matrix.artifact_name }}.sha256
+
+  release:
+    name: Publish GitHub Release
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download All Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            build/app/outputs/flutter-apk/app-release.apk
-            build/app/outputs/flutter-apk/app-release.apk.sha256
+            artifacts/*
+            artifacts/*.sha256
           draft: false
           prerelease: false
           generate_release_notes: true

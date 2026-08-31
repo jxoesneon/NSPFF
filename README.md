@@ -2,10 +2,10 @@
 
 [![CI Status](https://github.com/jxoesneon/NSPFF/actions/workflows/ci.yml/badge.svg)](https://github.com/jxoesneon/NSPFF/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Platform](https://img.shields.io/badge/Platform-Android%20%7C%20Flutter-333333.svg)]()
+[![Platform](https://img.shields.io/badge/Platform-Android%20%7C%20macOS%20%7C%20Windows%20%7C%20Linux%20%7C%20Web-333333.svg)]()
 [![Dart](https://img.shields.io/badge/Dart-3.0+-0175C2.svg)](https://dart.dev)
 
-**NSPFF** (NSP Fast Forward) is a native Android application engineered in Flutter for constructing Nintendo Switch Package (`.nsp`) forwarders. The application generates valid home-screen shortcuts for standalone `.nro` executables and RetroArch emulator cores directly on Android hardware.
+**NSPFF** (NSP Fast Forward) is a Flutter application for constructing Nintendo Switch Package (`.nsp`) forwarders. The application generates valid home-screen shortcuts for standalone `.nro` executables and RetroArch emulator cores, running natively on Android, macOS, Windows, Linux, and the web.
 
 The implementation is derived from the specification established by [TooTallNate/switch-tools](https://github.com/TooTallNate/switch-tools), providing full parity while expanding capability with client-side binary construction, key validation, and automated multi-ROM batch packaging.
 
@@ -56,7 +56,7 @@ Reads binary executables to extract embedded assets:
 | 256x256 Icon Processing | Supported | Supported (Switch Icon Preview Frame) | Full Parity |
 | Persistent Key Diagnostics | Session-based | Persistent Storage & Health Checks | Expanded |
 | Multi-ROM Batch Packaging | Not Supported | Supported (Sequential Title ID Assignment) | Expanded |
-| Architecture | Web / WASM | Pure Dart Native (Client-Side) | Expanded |
+| Architecture | Web / WASM | Pure Dart Native (Client-Side, Multi-Platform) | Expanded |
 
 ---
 
@@ -66,7 +66,7 @@ Reads binary executables to extract embedded assets:
 NSPFF/
 ├── .github/
 │   └── workflows/          # GitHub Actions CI/CD automation
-├── android/                # Native Android application configuration
+├── android/                # Android platform configuration
 ├── integration_test/       # End-to-end integration tests
 ├── lib/
 │   ├── main.dart           # Application entry point
@@ -75,7 +75,11 @@ NSPFF/
 │   ├── theme/              # Horizon OS design tokens & typography
 │   ├── views/              # Primary application screens
 │   └── widgets/            # Reusable UI components
+├── linux/                  # Linux platform configuration
+├── macos/                  # macOS platform configuration
 ├── test/                   # Unit test suite
+├── web/                    # Web platform configuration
+├── windows/                # Windows platform configuration
 ├── ARCHITECTURE.md         # System architecture specification
 ├── CHANGELOG.md            # Version history
 ├── CODE_OF_CONDUCT.md      # Community standards
@@ -94,8 +98,10 @@ NSPFF/
 
 ### Prerequisites
 * Flutter SDK `>= 3.0.0`
-* Android SDK (`minSdkVersion: 21`, `targetSdkVersion: 34`)
-* Java JDK 17
+* Android SDK (`minSdkVersion: 21`, `targetSdkVersion: 34`) — for Android builds
+* Java JDK 17 — for Android builds
+* CMake + Ninja — for Linux and Windows desktop builds
+* Xcode — for macOS builds
 
 ### Compilation
 1. Resolve dependencies:
@@ -109,9 +115,14 @@ NSPFF/
    flutter test
    ```
 
-3. Build Android release APK:
+3. Build for a target platform:
    ```bash
-   flutter build apk --release
+   flutter build apk --release        # Android APK
+   flutter build appbundle --release  # Android App Bundle (AAB)
+   flutter build web --release        # Web
+   flutter build macos --release      # macOS
+   flutter build windows --release    # Windows
+   flutter build linux --release      # Linux
    ```
 
 ---

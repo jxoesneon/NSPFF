@@ -5,9 +5,11 @@
 *.swp
 .DS_Store
 .atom/
+.build/
 .buildlog/
 .history
 .svn/
+.swiftpm/
 migrate_working_dir/
 
 # Flutter/Dart/Pub
@@ -43,3 +45,5 @@ coverage/
 .idea/
 .fastembed_cache/
 
+nspff.iml
+*.iml

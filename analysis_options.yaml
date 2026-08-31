@@ -38,6 +38,10 @@ analyzer:
   exclude:
     - build/**
     - android/**
+    - web/**
+    - windows/**
+    - macos/**
+    - linux/**
   language:
     strict-casts: true
     strict-inference: true
