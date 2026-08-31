@@ -1,7 +1,7 @@
 name: nspff
 description: "NSPFF (NSP Fast Forward) - A Flutter application for forwarding Nintendo Switch NRO apps and RetroArch ROMs across Android, macOS, Windows, Linux, and web."
 publish_to: 'none'
-version: 1.0.0+1
+version: 0.9.0+1
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
