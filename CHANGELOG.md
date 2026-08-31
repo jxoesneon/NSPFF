@@ -5,6 +5,22 @@ All notable changes to the **NSPFF (NSP Fast Forward)** project will be document
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.1] - 2026-08-31
+
+### Changed
+- Release artifacts now use native package formats instead of raw ZIP archives.
+- macOS: DMG disk image with Applications symlink for drag-to-install.
+- Windows: MSIX installer package plus a portable ZIP for systems without sideloading enabled.
+- Linux: AppImage portable executable and DEB package for Debian/Ubuntu distributions.
+- Android: native APK and AAB (unchanged).
+- Web: ZIP archive of the built web bundle (unchanged).
+- SHA-256 checksums provided for every artifact.
+
+### Fixed
+- Release workflow no longer leaves drafts when asset metadata update encounters transient API errors.
+
+---
+
 ## [0.9.0] - 2026-08-31
 
 ### Added

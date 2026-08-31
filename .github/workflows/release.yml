@@ -341,7 +341,7 @@ jobs:
           SIZE=$(du -sk "$DEBROOT" | cut -f1)
           cat > "$DEBROOT/DEBIAN/control" <<CONTROL
           Package: nspff
-          Version: 0.9.0
+          Version: 0.9.1
           Architecture: amd64
           Maintainer: NSPFF Project Contributors
           Description: NSP Fast Forward - Nintendo Switch NSP Forwarder
@@ -411,5 +411,47 @@ jobs:
             artifacts/*.sha256
           draft: false
           prerelease: true
-          generate_release_notes: true
+          generate_release_notes: false
           fail_on_unmatched_files: false
+          body: |
+            ## NSPFF ${{ github.ref_name }}
+
+            NSP Fast Forward — a Flutter application for generating Nintendo Switch NSP forwarder packages for standalone NRO applications and RetroArch ROMs.
+
+            ### Downloads
+
+            | Platform | Artifact | Type |
+            |----------|---------|------|
+            | Android | `nspff-android.apk` | APK (sideload) |
+            | Android | `nspff-android.aab` | App Bundle (Play Store) |
+            | macOS | `nspff-macos.dmg` | Disk Image |
+            | Windows | `nspff-windows.msix` | MSIX Installer |
+            | Windows | `nspff-windows-portable.zip` | Portable ZIP |
+            | Linux | `nspff-linux.AppImage` | AppImage |
+            | Linux | `nspff-linux.deb` | Debian/Ubuntu Package |
+            | Web | `nspff-web.zip` | Web Bundle |
+
+            Each artifact includes a `.sha256` checksum file for integrity verification.
+
+            ### Installation
+
+            **Android:** Enable "Install unknown apps" and open the APK. The AAB is for Play Store distribution.
+
+            **macOS:** Open the DMG, drag NSPFF to Applications. On first launch, right-click and select Open to bypass Gatekeeper.
+
+            **Windows:** Double-click the MSIX to install (requires sideloading enabled). Alternatively, extract the portable ZIP and run `nspff.exe`.
+
+            **Linux:** Make the AppImage executable (`chmod +x nspff-linux.AppImage`) and run. For Debian/Ubuntu, install with `sudo dpkg -i nspff-linux.deb`.
+
+            **Web:** Extract the ZIP and serve the contents from any static web server.
+
+            ### Prerequisites
+
+            NSPFF requires a valid `prod.keys` file to sign NSP packages. Use [Lockpick_RCM](https://github.com/shchmue/Lockpick_RCM) on your Switch to dump keys, then import them via the Keys Manager tab. See the Guide tab in-app for detailed instructions.
+
+            ### Security
+
+            User-supplied cryptographic keys are stored locally using platform secure storage and are never transmitted, committed, or bundled into release artifacts. Users are responsible for obtaining their own key material in compliance with applicable laws.
+
+            ---
+            This is a pre-release. Report issues on the [issue tracker](https://github.com/jxoesneon/NSPFF/issues).
